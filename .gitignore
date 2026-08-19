@@ -1,0 +1,19 @@
+# Fichiers générés par les systèmes d'exploitation
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Logs et divers
+*.log
+node_modules/
+
+# Fichiers temporaires laissés par les transferts de fichiers
+*.tmp
+
+# Scripts d'aide locaux : ils ne font pas partie du site
+_git-*.bat

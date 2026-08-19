@@ -1,0 +1,199 @@
+/* Vectorium — feuille de style unique.
+   Les couleurs sont déclarées une seule fois ici en variables CSS pour que
+   les notions et le moteur ne codent jamais une couleur en dur. */
+
+:root {
+  --fond:          #0f1117;
+  --fond-panneau:  #171a23;
+  --trait:         #262b38;
+  --texte:         #e6e8ee;
+  --texte-doux:    #9aa3b2;
+  --accent:        #60a5fa;
+
+  /* Couleurs lues par le moteur de canvas (voir js/moteur/repere.js) */
+  --grille:        #232833;
+  --axe:           #3b4254;
+
+  --rayon: 10px;
+  --largeur-max: 60rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 2rem 1.25rem 4rem;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+.entete, main, .pied {
+  max-width: var(--largeur-max);
+  margin-inline: auto;
+}
+
+.entete h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: -0.02em;
+}
+
+.accroche {
+  margin: 0.5rem 0 2.5rem;
+  color: var(--texte-doux);
+  max-width: 38rem;
+}
+
+.liste-notions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.liste-notions li {
+  background: var(--fond-panneau);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.liste-notions a {
+  color: var(--texte);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.liste-notions li:has(a):hover { border-color: var(--accent); }
+.liste-notions a:hover { color: var(--accent); }
+
+.notion-a-venir {
+  color: var(--texte-doux);
+}
+
+.notion-a-venir span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texte-doux);
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+/* --- Page d'une notion --------------------------------------------------- */
+
+.fil {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+}
+
+.fil a {
+  color: var(--texte-doux);
+  text-decoration: none;
+}
+
+.fil a:hover { color: var(--accent); }
+
+.module {
+  max-width: var(--largeur-max);
+  margin-inline: auto;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+/* Le panneau de valeurs passe à côté du canvas seulement s'il y a la place. */
+@media (min-width: 48rem) {
+  .module { grid-template-columns: minmax(0, 1fr) 16rem; }
+}
+
+.scene {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--fond-panneau);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  overflow: hidden;
+}
+
+/* touch-action: none est indispensable. Sans lui, le navigateur mobile
+   interprète le glissement du doigt comme un défilement de page et le canvas
+   ne reçoit jamais les événements pointermove. */
+.scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.panneau {
+  background: var(--fond-panneau);
+  border: 1px solid var(--trait);
+  border-radius: var(--rayon);
+  padding: 1rem 1.25rem;
+}
+
+.panneau {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.valeur {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  border-bottom: 1px solid var(--trait);
+  padding-bottom: 0.4rem;
+}
+
+.valeur:last-of-type { border-bottom: none; }
+
+.valeur-label {
+  color: var(--texte-doux);
+  font-size: 0.85rem;
+}
+
+/* Les chiffres changent en continu pendant le glissement. Une police à
+   chasse fixe et tabular-nums évitent que la ligne sautille à chaque
+   changement de largeur de chiffre. */
+.valeur-nombre {
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.bouton {
+  margin-top: auto;
+  background: transparent;
+  color: var(--texte-doux);
+  border: 1px solid var(--trait);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  min-height: 44px;      /* cible tactile confortable */
+}
+
+.bouton:hover { color: var(--texte); border-color: var(--texte-doux); }
+
+.pied {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--trait);
+  color: var(--texte-doux);
+  font-size: 0.9rem;
+}

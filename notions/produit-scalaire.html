@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produit scalaire — Vectorium</title>
+  <meta name="description" content="Comprendre le produit scalaire en déplaçant deux vecteurs à la souris ou au doigt.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+  <header class="entete">
+    <p class="fil"><a href="../index.html">← Vectorium</a></p>
+    <h1>Produit scalaire</h1>
+    <p class="accroche">
+      Attrape la pointe des deux flèches et déplace-les. Le trait épais est la
+      projection de <b>A</b> sur <b>B</b> : le produit scalaire, c'est sa
+      longueur multipliée par celle de <b>B</b>. Il devient nul quand les
+      vecteurs sont perpendiculaires, et négatif quand ils s'opposent.
+    </p>
+  </header>
+
+  <main class="module" id="module">
+    <div class="scene">
+      <canvas></canvas>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <script type="module">
+    import { monterModule } from '../js/moteur/module.js'
+    import { produitScalaire } from '../js/notions/produit-scalaire.js'
+
+    monterModule(produitScalaire, document.getElementById('module'))
+  </script>
+
+</body>
+</html>
