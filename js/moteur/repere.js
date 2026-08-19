@@ -29,12 +29,12 @@ export function creerRepere(canvas, options = {}) {
   // Les couleurs sont lues dans les variables CSS : le moteur n'en code aucune
   // en dur, changer le thème ne demande pas de toucher au JavaScript.
   // Le second argument est une valeur de secours si la variable n'existe pas.
-  const style = getComputedStyle(canvas)
+  const style = getComputedStyle(document.documentElement)
   const lireCouleur = (nom, defaut) => style.getPropertyValue(nom).trim() || defaut
   const couleurs = {
-    grille: lireCouleur('--grille', '#262b38'),
-    axe:    lireCouleur('--axe',    '#3b4254'),
-    texte:  lireCouleur('--texte-doux', '#9aa3b2'),
+    grille: lireCouleur('--grid-line', '#1c2432'),
+    axe:    lireCouleur('--axis',      '#3a4658'),
+    texte:  lireCouleur('--text-low',  '#566072'),
   }
 
   /* ---------------------------------------------------------------------------

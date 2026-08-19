@@ -2,17 +2,31 @@
    Les couleurs sont déclarées une seule fois ici en variables CSS pour que
    les notions et le moteur ne codent jamais une couleur en dur. */
 
-:root {
-  --fond:          #0f1117;
-  --fond-panneau:  #171a23;
-  --trait:         #262b38;
-  --texte:         #e6e8ee;
-  --texte-doux:    #9aa3b2;
-  --accent:        #60a5fa;
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-  /* Couleurs lues par le moteur de canvas (voir js/moteur/repere.js) */
-  --grille:        #232833;
-  --axe:           #3b4254;
+:root {
+  --bg:            #0c1016;
+  --bg-panel:      #121722;
+  --grid-line:     #1c2432;
+  --axis:          #3a4658;
+  --text-hi:       #eef1f6;
+  --text-mid:      #8b94a7;
+  --text-low:      #566072;
+  --vec-a:         #4fd1c5;
+  --vec-a-glow:    rgba(79, 209, 197, 0.35);
+  --vec-b:         #ff6b9d;
+  --vec-b-glow:    rgba(255, 107, 157, 0.35);
+  --pos:           #59d97a;
+  --neg:           #ff5c5c;
+  --neutral:       #d8dee8;
+
+  /* Anciens noms compatibilité */
+  --fond:          var(--bg);
+  --fond-panneau:  var(--bg-panel);
+  --trait:         var(--grid-line);
+  --texte:         var(--text-hi);
+  --texte-doux:    var(--text-mid);
+  --grille:        var(--grid-line);
 
   --rayon: 10px;
   --largeur-max: 60rem;
@@ -23,10 +37,11 @@
 body {
   margin: 0;
   padding: 2rem 1.25rem 4rem;
-  background: var(--fond);
-  color: var(--texte);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text-hi);
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -38,13 +53,16 @@ body {
 .entete h1 {
   margin: 0;
   font-size: clamp(2rem, 6vw, 3rem);
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .accroche {
   margin: 0.5rem 0 2.5rem;
-  color: var(--texte-doux);
+  color: var(--text-mid);
   max-width: 38rem;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .liste-notions {
@@ -56,8 +74,8 @@ body {
 }
 
 .liste-notions li {
-  background: var(--fond-panneau);
-  border: 1px solid var(--trait);
+  background: var(--bg-panel);
+  border: 1px solid var(--grid-line);
   border-radius: var(--rayon);
   padding: 1rem 1.25rem;
   display: flex;
@@ -67,24 +85,24 @@ body {
 }
 
 .liste-notions a {
-  color: var(--texte);
+  color: var(--text-hi);
   text-decoration: none;
   font-weight: 600;
 }
 
-.liste-notions li:has(a):hover { border-color: var(--accent); }
-.liste-notions a:hover { color: var(--accent); }
+.liste-notions li:has(a):hover { border-color: var(--vec-a); }
+.liste-notions a:hover { color: var(--vec-a); }
 
 .notion-a-venir {
-  color: var(--texte-doux);
+  color: var(--text-mid);
 }
 
 .notion-a-venir span {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--texte-doux);
-  border: 1px solid var(--trait);
+  color: var(--text-mid);
+  border: 1px solid var(--grid-line);
   border-radius: 999px;
   padding: 0.15rem 0.6rem;
   white-space: nowrap;
@@ -92,36 +110,45 @@ body {
 
 /* --- Page d'une notion --------------------------------------------------- */
 
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-low);
+  margin: 0 0 8px 0;
+}
+
 .fil {
   margin: 0 0 0.25rem;
   font-size: 0.85rem;
 }
 
 .fil a {
-  color: var(--texte-doux);
+  color: var(--text-mid);
   text-decoration: none;
 }
 
-.fil a:hover { color: var(--accent); }
+.fil a:hover { color: var(--vec-a); }
 
 .module {
   max-width: var(--largeur-max);
   margin-inline: auto;
   display: grid;
-  gap: 1rem;
+  gap: 20px;
   grid-template-columns: 1fr;
 }
 
 /* Le panneau de valeurs passe à côté du canvas seulement s'il y a la place. */
 @media (min-width: 48rem) {
-  .module { grid-template-columns: minmax(0, 1fr) 16rem; }
+  .module { grid-template-columns: 1.3fr 1fr; }
 }
 
 .scene {
   position: relative;
   aspect-ratio: 4 / 3;
-  background: var(--fond-panneau);
-  border: 1px solid var(--trait);
+  background: var(--bg-panel);
+  border: 1px solid var(--grid-line);
   border-radius: var(--rayon);
   overflow: hidden;
 }
@@ -134,43 +161,114 @@ body {
   width: 100%;
   height: 100%;
   touch-action: none;
+  cursor: grab;
+}
+
+.scene canvas.dragging {
+  cursor: grabbing;
+}
+
+.hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-low);
+  margin-top: 10px;
+  letter-spacing: 0.02em;
 }
 
 .panneau {
-  background: var(--fond-panneau);
-  border: 1px solid var(--trait);
+  background: var(--bg-panel);
+  border: 1px solid var(--grid-line);
   border-radius: var(--rayon);
-  padding: 1rem 1.25rem;
-}
-
-.panneau {
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 14px;
 }
 
+/* Résultat principal (A · B = ...) */
+.result-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-low);
+  margin-bottom: 4px;
+}
+
+.result-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+/* Formule détaillée */
+.formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-mid);
+  padding: 14px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--grid-line);
+}
+
+.formula .va {
+  color: var(--vec-a);
+  font-weight: 700;
+}
+
+.formula .vb {
+  color: var(--vec-b);
+  font-weight: 700;
+}
+
+/* Interprétation / verdict */
+.verdict {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.5;
+  min-height: 42px;
+}
+
+/* Ligne angle */
+.angle-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-low);
+  border-top: 1px solid var(--grid-line);
+  padding-top: 12px;
+}
+
+.angle-row b {
+  color: var(--text-mid);
+  font-weight: 500;
+}
+
+/* Ancien format (compatibilité) */
 .valeur {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 1rem;
-  border-bottom: 1px solid var(--trait);
+  border-bottom: 1px solid var(--grid-line);
   padding-bottom: 0.4rem;
 }
 
 .valeur:last-of-type { border-bottom: none; }
 
 .valeur-label {
-  color: var(--texte-doux);
+  color: var(--text-mid);
   font-size: 0.85rem;
 }
 
-/* Les chiffres changent en continu pendant le glissement. Une police à
-   chasse fixe et tabular-nums évitent que la ligne sautille à chaque
-   changement de largeur de chiffre. */
 .valeur-nombre {
   font-variant-numeric: tabular-nums;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
   text-align: right;
 }
@@ -178,22 +276,34 @@ body {
 .bouton {
   margin-top: auto;
   background: transparent;
-  color: var(--texte-doux);
-  border: 1px solid var(--trait);
+  color: var(--text-mid);
+  border: 1px solid var(--grid-line);
   border-radius: 8px;
   padding: 0.5rem 0.9rem;
   font: inherit;
   font-size: 0.85rem;
   cursor: pointer;
-  min-height: 44px;      /* cible tactile confortable */
+  min-height: 44px;
 }
 
-.bouton:hover { color: var(--texte); border-color: var(--texte-doux); }
+.bouton:hover {
+  color: var(--text-hi);
+  border-color: var(--text-mid);
+}
+
+.foot {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--grid-line);
+  color: var(--text-low);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
 
 .pied {
   margin-top: 3rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--trait);
-  color: var(--texte-doux);
+  border-top: 1px solid var(--grid-line);
+  color: var(--text-mid);
   font-size: 0.9rem;
 }

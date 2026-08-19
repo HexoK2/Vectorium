@@ -14,10 +14,14 @@
    rouge quand ils s'opposent, gris à la perpendiculaire.
    ========================================================================== */
 
-// Couleurs d'identité des deux vecteurs : elles ne changent jamais, c'est ce
-// qui permet de les distinguer. Seules les couleurs du RÉSULTAT varient.
-const COULEUR_A = '#60a5fa'
-const COULEUR_B = '#f472b6'
+// Couleurs d'identité des deux vecteurs : elles sont lues depuis les variables CSS
+function getCouleur(varName, defaut) {
+  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || defaut
+}
+const COULEUR_A = getCouleur('--vec-a', '#4fd1c5')
+const COULEUR_B = getCouleur('--vec-b', '#ff6b9d')
+const GLOW_A = getCouleur('--vec-a-glow', 'rgba(79, 209, 197, 0.35)')
+const GLOW_B = getCouleur('--vec-b-glow', 'rgba(255, 107, 157, 0.35)')
 
 // cos vaut -1 (opposés) à +1 (alignés). On le transforme en teinte HSL :
 // 0 = rouge, 120 = vert. La saturation tombe près de la perpendiculaire pour
@@ -33,7 +37,7 @@ export const produitScalaire = {
   id: 'produit-scalaire',
   titre: 'Produit scalaire',
 
-  repere: { echelle: 46 },
+  repere: { echelle: 42 },
 
   points: [
     { id: 'a', x: 3.2, y: 1.4, couleur: COULEUR_A, label: 'A' },
@@ -72,6 +76,7 @@ export const produitScalaire = {
       projection: { x: b.x * t, y: b.y * t },
       couleur: couleurSelonCos(cos),
       couleurBande: couleurSelonCos(cos, 0.5),
+      a, b,                                // les points pour la formule
     }
   },
 
@@ -97,26 +102,38 @@ export const produitScalaire = {
       d.arc(origine, rayonPx, angleB, angleB + v.angle, { couleur: v.couleur, epaisseur: 2 })
     }
 
-    d.fleche(origine, a, { couleur: COULEUR_A })
-    d.fleche(origine, b, { couleur: COULEUR_B })
+    d.fleche(origine, a, { couleur: COULEUR_A, glow: GLOW_A })
+    d.fleche(origine, b, { couleur: COULEUR_B, glow: GLOW_B })
   },
 
-  /* --- 3) Les valeurs affichées à côté du canvas. -------------------------- */
-  lecture(v) {
-    let interpretation
-    if (v.cos > 0.97) interpretation = 'quasiment la même direction'
-    else if (v.cos > 0.08) interpretation = 'même direction générale'
-    else if (v.cos > -0.08) interpretation = 'perpendiculaires'
-    else if (v.cos > -0.97) interpretation = 'directions opposées'
-    else interpretation = 'exactement opposés'
+  /* --- 3) Les valeurs affichées à côté du canvas. --- cette version retourne le
+     format readout avec résultat, formule détaillée, verdict et angle. -------- */
+  lecture(v, points) {
+    let verdict
+    if (v.cos > 0.6) verdict = 'Positif : les deux vecteurs pointent globalement dans la même direction.'
+    else if (v.cos < -0.6) verdict = 'Négatif : les deux vecteurs pointent globalement en sens opposés.'
+    else verdict = 'Les vecteurs sont à peu près perpendiculaires — l\'un n\'avance ni dans le sens ni contre l\'autre.'
 
-    return [
-      { label: 'A · B', valeur: v.dot.toFixed(2), couleur: v.couleur },
-      { label: 'angle', valeur: `${Math.abs(v.angleDeg).toFixed(0)}°` },
-      { label: 'cos', valeur: v.cos.toFixed(2) },
-      { label: '‖A‖', valeur: v.normeA.toFixed(2) },
-      { label: '‖B‖', valeur: v.normeB.toFixed(2) },
-      { label: '', valeur: interpretation, couleur: v.couleur },
-    ]
+    // Détermine la couleur du résultat
+    let resultColor = 'var(--neutral)'
+    if (v.cos > 0.6) resultColor = 'var(--pos)'
+    else if (v.cos < -0.6) resultColor = 'var(--neg)'
+
+    const dotStr = v.dot.toFixed(1)
+
+    // Nouveau format readout
+    return {
+      result: {
+        label: 'A · B =',
+        value: dotStr,
+        color: resultColor,
+      },
+      formula: `A · B = (<span class="va">${v.a.x.toFixed(1)}</span> × <span class="vb">${v.b.x.toFixed(1)}</span>) + (<span class="va">${v.a.y.toFixed(1)}</span> × <span class="vb">${v.b.y.toFixed(1)}</span>) = <b style="color:${resultColor}">${dotStr}</b>`,
+      verdict: verdict,
+      angle: {
+        label: 'angle entre A et B',
+        value: `${Math.abs(v.angleDeg).toFixed(0)}°`,
+      },
+    }
   },
 }

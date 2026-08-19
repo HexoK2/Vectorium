@@ -22,8 +22,11 @@ export function creerDessin(repere) {
      l'extrémité arrondie du trait dépasse et bave hors du triangle.
      Le vecteur unitaire (ux, uy) donne la direction ; (-uy, ux) est sa
      perpendiculaire, ce qui suffit à placer les deux ailes de la pointe.
+
+     Le paramètre glow ajoute une ombre floue autour de la flèche pour une
+     meilleure visibilité sur les fonds sombres.
   --------------------------------------------------------------------------- */
-  function fleche(depuis, vers, { couleur = '#fff', epaisseur = 3, tete = 12 } = {}) {
+  function fleche(depuis, vers, { couleur = '#fff', epaisseur = 3, tete = 12, glow = null } = {}) {
     const a = repere.versEcran(depuis)
     const b = repere.versEcran(vers)
     const dx = b.x - a.x
@@ -37,6 +40,12 @@ export function creerDessin(repere) {
     const ux = dx / longueur
     const uy = dy / longueur
     const t = Math.min(tete, longueur * 0.5)   // pointe jamais plus longue que le vecteur
+
+    ctx.save()
+    if (glow) {
+      ctx.shadowColor = glow
+      ctx.shadowBlur = 14
+    }
 
     ctx.strokeStyle = couleur
     ctx.lineWidth = epaisseur
@@ -55,6 +64,15 @@ export function creerDessin(repere) {
     ctx.lineTo(b.x - ux * t - px * t * 0.45, b.y - uy * t - py * t * 0.45)
     ctx.closePath()
     ctx.fill()
+
+    // Petit point à la pointe de la flèche avec glow
+    if (glow) {
+      ctx.beginPath()
+      ctx.arc(b.x, b.y, 8, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    ctx.restore()
   }
 
   /* --- Segment (droit ou pointillé) ---------------------------------------- */
