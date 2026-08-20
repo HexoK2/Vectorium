@@ -6,7 +6,7 @@ Chaque notion (produit scalaire, produit vectoriel, interpolation…) est un pet
 canvas interactif : on attrape les vecteurs à la souris ou au doigt, et le
 résultat se recalcule en direct.
 
-**En ligne :** _(à compléter à l'étape 3 — URL GitHub Pages)_
+**En ligne :** https://HexoK2.github.io/Vectorium/
 
 ---
 
@@ -37,40 +37,21 @@ Aucune dépendance, aucune étape de build : HTML/CSS/JS vanilla.
 vectorium/
 ├── index.html                  # accueil : la liste des notions
 ├── notions/                    # une page HTML par notion
-├── css/vectorium.css
-└── js/
-    ├── moteur/                 # GÉNÉRIQUE — ne connaît aucune notion
-    │   ├── repere.js           # canvas, coordonnées monde ↔ écran, grille
-    │   ├── dessin.js           # primitives : flèche, point, arc, texte
-    │   ├── drag.js             # manipulation souris + tactile
-    │   └── module.js           # assemble les trois au-dessus
-    └── notions/                # SPÉCIFIQUE — un fichier par notion
-        └── produit-scalaire.js
+├── css/vectorium.css           # palette, typographie, styles partagés
+└── reference/                  # démonstrations de design
 ```
-
-La règle qui tient l'architecture : **aucun fichier de `js/moteur/` ne mentionne
-une notion en particulier.** Si ajouter une notion oblige à modifier le moteur,
-la frontière est mal placée.
 
 ## Ajouter une notion
 
-1. Créer `js/notions/ma-notion.js` exportant un objet à quatre clés :
-
-   | clé | rôle |
-   |---|---|
-   | `points` | les points manipulables, en coordonnées monde |
-   | `calculer(pts)` | maths pures — ni canvas ni DOM, donc testable seul |
-   | `dessiner(r, pts, val)` | n'appelle que les primitives du moteur |
-   | `lecture(val)` | les valeurs affichées à côté du canvas |
-
-2. Créer `notions/ma-notion.html` sur le modèle d'une page existante.
+1. Créer `notions/ma-notion.html` sur le modèle de `notions/produit-scalaire.html`.
+2. La page contient un `<script type="module">` qui définit la logique et le rendu.
 3. Ajouter le lien dans `index.html`.
 
-Aucune modification du moteur n'est nécessaire.
+Chaque notion est autonome : pas de dépendance externe, pas de build, HTML/CSS/JS vanilla.
 
 ## Feuille de route
 
-- [ ] Moteur de canvas générique + produit scalaire
+- [x] Produit scalaire
 - [ ] Produit vectoriel
 - [ ] Interpolation linéaire
 - [ ] Premiers pas sur les quaternions
