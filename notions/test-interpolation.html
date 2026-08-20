@@ -22,8 +22,7 @@
     --interp: #ffc107;
     --interp-glow: rgba(255, 193, 7, 0.35);
     --pos: #59d97a;
-    --neg: #ff5c5c;
-    --neutral: #d8dee8;
+    --text-mono: #d8dee8;
   }
   *{ box-sizing: border-box; }
   html, body{
@@ -61,14 +60,49 @@
   .sub{
     color: var(--text-mid);
     font-size: 14px;
-    margin: 0 0 24px 0;
-    max-width: 60ch;
-    line-height: 1.5;
+    margin: 0 0 32px 0;
+    max-width: 70ch;
+    line-height: 1.6;
   }
+
+  /* Bloc cours en haut */
+  .cours-intro{
+    background: var(--bg-panel);
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  .cours-titre{
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--interp);
+    margin: 0 0 12px 0;
+  }
+  .cours-texte{
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-mid);
+    margin: 0 0 12px 0;
+  }
+  .cours-texte:last-child{ margin-bottom: 0; }
+
+  .code-inline{
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--interp);
+  }
+
+  /* Canvas + slider + readout */
   .layout{
     display:grid;
     grid-template-columns: 1.3fr 1fr;
     gap: 20px;
+    margin-bottom: 32px;
   }
   @media (max-width: 720px){
     .layout{ grid-template-columns: 1fr; }
@@ -149,6 +183,20 @@
     flex-direction: column;
     gap: 14px;
   }
+  .result-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-low);
+    margin-bottom: 4px;
+  }
+  .result-value{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--interp);
+  }
   .formula{
     font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
@@ -163,20 +211,6 @@
   .formula .vb{ color: var(--vec-b); font-weight: 700; }
   .formula .t{ color: var(--interp); font-weight: 700; }
   .formula .p{ color: var(--interp); font-weight: 700; }
-  .result-value{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--interp);
-  }
-  .result-label{
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-low);
-    margin-bottom: 4px;
-  }
   .usecases{
     background: var(--bg);
     border: 1px solid var(--grid-line);
@@ -187,77 +221,74 @@
     color: var(--text-mid);
   }
   .usecases strong{ color: var(--text-hi); }
-  .footer-text{
-    font-size: 12px;
-    color: var(--text-low);
-  }
 
-  /* Nouveau : bloc cours */
-  .cours-section{
+  /* Comparaison formule vs code */
+  .comparaison{
     margin-top: 32px;
+    background: var(--bg-panel);
+    border: 1px solid var(--grid-line);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  .comparaison-titre{
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--pos);
+    margin: 0 0 16px 0;
+  }
+  .comparaison-row{
     display:grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
   @media (max-width: 720px){
-    .cours-section{ grid-template-columns: 1fr; }
+    .comparaison-row{ grid-template-columns: 1fr; }
   }
-  .cours-bloc{
-    background: var(--bg-panel);
-    border: 1px solid var(--grid-line);
-    border-radius: 10px;
-    padding: 20px;
-  }
-  .cours-titre{
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--interp);
-    margin: 0 0 12px 0;
-  }
-  .cours-texte{
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text-mid);
-    margin: 0;
-  }
-  .cours-code{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+  .formula-box, .code-box{
     background: var(--bg);
     border: 1px solid var(--grid-line);
-    border-radius: 6px;
-    padding: 12px;
-    margin-top: 12px;
-    overflow-x: auto;
-    line-height: 1.5;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-mono);
+  }
+  .formula-box{
+    border-left: 3px solid var(--interp);
+  }
+  .code-box{
+    border-left: 3px solid var(--pos);
+  }
+  .box-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--text-low);
+    margin-bottom: 8px;
   }
-  .cours-code .keyword{ color: var(--pos); }
-  .cours-code .string{ color: var(--vec-a); }
-  .cours-code .comment{ color: var(--text-low); }
 
+  /* Défis */
   .defis-section{
-    margin-top: 32px;
-  }
-  .defis-bloc{
     background: var(--bg-panel);
     border: 1px solid var(--grid-line);
     border-radius: 10px;
     padding: 20px;
   }
   .defis-titre{
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--pos);
-    margin: 0 0 12px 0;
+    margin: 0 0 16px 0;
   }
   .defi-item{
-    margin-bottom: 14px;
-    padding-bottom: 14px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
     border-bottom: 1px solid var(--grid-line);
   }
   .defi-item:last-child{
@@ -289,24 +320,40 @@
 </head>
 <body>
 <div class="stage">
-  <p class="eyebrow">Test — 03 / interpolation linéaire (avec cours)</p>
+  <p class="eyebrow">Test — 03 / interpolation linéaire (redesign pédago)</p>
   <h1>Mélange deux points.</h1>
-  <p class="sub">L'interpolation linéaire — ou lerp — crée un point qui « glisse » entre deux autres selon un paramètre t. C'est ce qui fait suivre une caméra en douceur, ou animer un objet d'une position à l'autre. Déplace A ou B, puis joue avec le curseur t.</p>
+  <p class="sub">L'interpolation linéaire — ou lerp — c'est comment on fait bouger quelque chose d'un point A à un point B en douceur. Tu vas voir ça 1000 fois en game dev : caméra qui suit le joueur, objet qui se déplace, transition d'une couleur à l'autre.</p>
 
+  <!-- BLOC COURS EN HAUT -->
+  <div class="cours-intro">
+    <h3 class="cours-titre">Pourquoi ça existe</h3>
+    <p class="cours-texte">
+      <strong>Sans lerp :</strong> tu dis « va de A à B » et c'est instantané. Pas naturel.
+    </p>
+    <p class="cours-texte">
+      <strong>Avec lerp :</strong> tu dis « glisse de A à B au fur et à mesure ». L'objet se déplace vraiment, ça a l'air vivant.
+    </p>
+    <p class="cours-texte">
+      Le paramètre <span class="code-inline">t</span> contrôle la progression : <span class="code-inline">t = 0</span> = tu es à A, <span class="code-inline">t = 1</span> = tu es à B, <span class="code-inline">t = 0.5</span> = tu es au milieu.
+    </p>
+  </div>
+
+  <!-- CANVAS + SLIDER + READOUT -->
   <div class="layout">
     <div class="panel">
       <canvas id="stageCanvas" width="600" height="440"></canvas>
-      <p class="hint">glisse A ou B, puis ajuste t avec le curseur</p>
+      <p class="hint">glisse A (cyan) ou B (rose) avec la souris</p>
       <div class="slider-container">
         <span class="slider-label">t</span>
         <input type="range" id="sliderT" min="0" max="100" value="50" step="1">
         <span class="slider-value" id="tValue">0.50</span>
       </div>
+      <p class="hint">le curseur t contrôle où tu es entre A et B</p>
     </div>
 
     <div class="panel readout">
       <div>
-        <div class="result-label">P (point interpolé)</div>
+        <div class="result-label">Position finale (P)</div>
         <div class="result-value" id="resultPoint">(0.00, 0.00)</div>
       </div>
 
@@ -315,70 +362,67 @@
       </div>
 
       <div class="usecases">
-        <strong>Où on l'utilise :</strong><br>
-        • Suivre une caméra en douceur<br>
-        • Animer un objet d'une position à l'autre<br>
-        • Adoucir une transition de couleur
-      </div>
-
-      <div class="footer-text">
-        En Unity, c'est <code>Vector3.Lerp(A, B, t)</code> — et tu le fais 100 fois par jour sans le savoir.
+        <strong>Cas réels :</strong><br>
+        • Caméra qui suit le joueur<br>
+        • Objet qui se déplace en douceur<br>
+        • Transition de couleur progressive
       </div>
     </div>
   </div>
 
-  <!-- BLOC COURS -->
-  <div class="cours-section">
-    <div class="cours-bloc">
-      <h3 class="cours-titre">Pourquoi ça existe</h3>
-      <p class="cours-texte">
-        En game dev, tu dois souvent faire bouger un objet d'un point A à un point B. Sans lerp, il teletransiterait instantanément — pas naturel. Avec lerp, tu contrôles la vitesse du déplacement et ça donne l'impression que l'objet se déplace vraiment.
-      </p>
-      <p class="cours-texte">
-        Par exemple, si tu veux que la caméra suive le joueur sans « saccades », tu utilises lerp pour que la caméra se rapproche progressivement de la position du joueur plutôt que de la suivre directement.
-      </p>
-    </div>
-
-    <div class="cours-bloc">
-      <h3 class="cours-titre">Exemple en Unity</h3>
-      <div class="cours-code">
-<span class="comment">// Faire suivre la caméra au joueur en douceur</span>
-<span class="keyword">transform</span>.position = <span class="keyword">Vector3</span>.Lerp(
-    <span class="keyword">transform</span>.position,
-    playerPos,
-    Time.deltaTime * <span class="string">5f</span>
-);
-
-<span class="comment">// Interpoler une couleur au fil du temps</span>
-<span class="keyword">GetComponent</span>&lt;<span class="keyword">Image</span>&gt;().color = <span class="keyword">Color</span>.Lerp(
-    startColor,
-    endColor,
-    timeElapsed / totalTime
-);
+  <!-- COMPARAISON FORMULE VS CODE -->
+  <div class="comparaison">
+    <h3 class="comparaison-titre">La formule et le code, c'est la même chose</h3>
+    <div class="comparaison-row">
+      <div class="formula-box">
+        <div class="box-label">Formule math</div>
+        P = A + (B − A) × t<br>
+        <br>
+        <span style="color: var(--text-low);">C'est quoi ?</span><br>
+        Part de A, va vers (B − A), puis avance de t × cette distance.
+      </div>
+      <div class="code-box">
+        <div class="box-label">Code Unity</div>
+        Vector3.Lerp(A, B, t)<br>
+        <br>
+        <span style="color: var(--text-low);">C'est quoi ?</span><br>
+        Même calcul, juste en code. Lerp = linear interpolation.
       </div>
     </div>
   </div>
 
-  <!-- BLOC DÉFIS -->
+  <!-- COMMENT ÇA MARCHE EN VRAI -->
+  <div class="cours-intro">
+    <h3 class="cours-titre">En vrai, comment on l'utilise ?</h3>
+    <p class="cours-texte">
+      Dans le canvas ci-dessus, tu déplaces le curseur <span class="code-inline">t</span> manuellement de 0 à 1. En game dev, tu ne le fais pas manuellement — tu laisses le temps le faire pour toi.
+    </p>
+    <p class="cours-texte" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--bg); padding: 12px; border-radius: 6px; border-left: 3px solid var(--pos);">
+      <span style="color: var(--pos);">// Chaque frame, avance t</span><br>
+      t += Time.deltaTime * speed;<br>
+      <br>
+      <span style="color: var(--pos);">// Puis calcule la position</span><br>
+      position = Vector3.Lerp(start, end, t);
+    </p>
+    <p class="cours-texte">
+      Si <span class="code-inline">speed = 1</span>, t passe de 0 à 1 en 1 seconde, et l'objet glisse de start à end en 1 seconde.
+    </p>
+  </div>
+
+  <!-- DÉFIS -->
   <div class="defis-section">
-    <div class="defis-bloc">
-      <h3 class="defis-titre">Défis</h3>
-      <div class="defi-item">
-        <div class="defi-name">📍 Le point du milieu</div>
-        <div class="defi-desc">Mets le curseur t à 0.5 — le point jaune doit arriver au milieu du segment. Essaie avec différentes positions de A et B.</div>
-      </div>
-      <div class="defi-item">
-        <div class="defi-name">⚡ Course d'obstacles</div>
-        <div class="defi-desc"><em>[À décider avec Cowork]</em> — Par exemple : « place le point P exactement sur une cible » ou « fait un trajet spécifique en changeant A, B et t ».</div>
-      </div>
-      <div class="defi-item">
-        <div class="defi-name">💻 Écris le code</div>
-        <div class="defi-desc"><em>[À décider avec Cowork]</em> — Par exemple : « écris une fonction qui interpole deux vecteurs », ou « calcule le temps pour que P arrive à une position donnée ».</div>
-      </div>
+    <h3 class="defis-titre">Défis</h3>
+    <div class="defi-item">
+      <div class="defi-name">📍 Le point du milieu</div>
+      <div class="defi-desc">Mets t à 0.5 (curseur au milieu). Le point jaune doit être exactement au milieu du segment AB. Essaie avec différentes positions de A et B — ça doit toujours marcher.</div>
+    </div>
+    <div class="defi-item">
+      <div class="defi-name">⚡ Programmation</div>
+      <div class="defi-desc"><em>[À décider avec Cowork]</em> Par exemple : « écris une fonction qui retourne P sachant A, B et t » ou « calcule le temps pour que P atteigne une position donnée ».</div>
     </div>
   </div>
 
-  <p class="foot">Idée : chaque notion de maths utile en dev de jeu (produit vectoriel, interpolation, quaternions…) suivrait ce même principe — un canvas où on manipule au lieu de lire une formule, plus un bloc cours qui montre pourquoi c'est utile en vrai.</p>
+  <p class="foot">Idée : avant de manipuler le canvas, on comprend POURQUOI c'est utile et COMMENT ça marche. Le canvas c'est pour sentir, pas pour apprendre.</p>
 </div>
 
 <script>
