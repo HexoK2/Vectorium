@@ -3,6 +3,40 @@
 Ce fichier est lu automatiquement par Claude Code au démarrage d'une session
 dans ce dossier. Il fixe les règles du projet.
 
+## Par où commencer
+
+La liste de travail est dans **`TODO.md`**. Prends la première case non cochée,
+une seule à la fois, et respecte les instructions en tête de ce fichier.
+
+## Design — le rendu de référence
+
+Le rendu visuel du projet est celui du prototype d'origine, et **toutes les
+notions suivantes doivent lui ressembler exactement** :
+
+- fond très sombre, Space Grotesk pour le texte, JetBrains Mono pour les
+  chiffres et les formules ;
+- en-tête : sur-titre en petites capitales monospace (`NOTION 0X / NOM`), titre
+  court à l'impératif, puis deux ou trois phrases d'accroche ;
+- à gauche, un canvas **épuré** : grille nue sans graduations, vecteurs
+  colorés avec halo, et une légende monospace en dessous ;
+- à droite, un panneau : le résultat en très gros, la formule décomposée avec
+  les valeurs colorées aux couleurs des vecteurs, une phrase d'interprétation
+  en français, puis les valeurs secondaires ;
+- en bas, une note qui rappelle le principe du site.
+
+Règles qui vont avec :
+
+- **Tout le style vit dans `css/vectorium.css`.** Aucune balise `<style>` dans
+  une page de notion, aucun CSS recopié d'une notion à l'autre. Si une notion
+  a besoin d'un style nouveau, ajoute-le à la feuille commune.
+- Le gabarit à copier est `notions/produit-scalaire.html` — une cinquantaine
+  de lignes, dont un `<script type="module">` de trois lignes.
+- **Pas d'aide au dessin secondaire par défaut** (arc d'angle, projections,
+  graduations) : le prototype n'en avait pas. Dans `produit-scalaire.js` elles
+  existent derrière les drapeaux `MONTRER_PROJECTION` et `MONTRER_ARC`, tous
+  deux à `false`. Ce qui *est* la notion elle-même reste dessiné : pour le
+  produit vectoriel, le parallélogramme n'est pas une aide, c'est le sujet.
+
 ## Contexte
 
 Site interactif qui enseigne les maths du développement de jeu (vecteurs,

@@ -307,3 +307,26 @@ body {
   color: var(--text-mid);
   font-size: 0.9rem;
 }
+
+/* --- En-tete d'une page de notion ----------------------------------------
+   Plus compact que celui de l'accueil : sur une page de notion, la vedette
+   revient au canvas, pas au titre. */
+.entete-notion h1 {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.entete-notion .accroche {
+  margin-bottom: 1.75rem;
+  max-width: 46rem;
+}
+
+/* La colonne de gauche empile le canvas et sa legende. La legende est en
+   dehors de .scene, qui a un ratio fixe et masque ce qui depasse. */
+.colonne-scene {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
