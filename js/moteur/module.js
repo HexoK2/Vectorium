@@ -140,7 +140,7 @@ export function monterModule(notion, racine) {
     const estReadout = donnees && typeof donnees === 'object' && !Array.isArray(donnees)
 
     if (estReadout) {
-      // Nouveau format readout pour produit scalaire
+      // Nouveau format readout, commun aux trois notions actuelles
       afficherReadout(donnees)
     } else {
       // Ancien format : tableau de lignes

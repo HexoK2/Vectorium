@@ -135,8 +135,9 @@ export function creerDessin(repere) {
   }
 
   /* --- Parallélogramme --------------------------------------------------------
-     Dessine le parallélogramme défini par l'origine et deux vecteurs A et B.
-     Utile pour visualiser le produit vectoriel (l'aire du parallélogramme).
+     Dessine le quadrilatère défini par l'origine et deux vecteurs A et B.
+     Primitive générique : utile chaque fois qu'une notion doit visualiser une
+     aire orientée entre deux vecteurs.
   --------------------------------------------------------------------------- */
   function parallelogramme(origine, a, c, b, { couleur = '#fff', epaisseur = 1 } = {}) {
     const o = repere.versEcran(origine)
