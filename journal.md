@@ -12,3 +12,9 @@
 ## Ticket 02 — Produit vectoriel
 
 À remplir…
+
+## Portage vers l'architecture moteur/notion (retour arrière assumé)
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Restaurer le moteur, porter les 3 notions, ajouter les curseurs, nettoyer les fichiers obsolètes | — | ~1 journée | Retour à l'architecture `js/moteur/` + `js/notions/` après le passage éclair par des pages autonomes ; ajout du contrat `curseurs` (générique, pas propre à l'interpolation) |
