@@ -1,328 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produit vectoriel — comprendre en bougeant</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #0c1016;
-    --bg-panel: #121722;
-    --grid-line: #1c2432;
-    --axis: #3a4658;
-    --text-hi: #eef1f6;
-    --text-mid: #8b94a7;
-    --text-low: #566072;
-    --vec-a: #4fd1c5;
-    --vec-a-glow: rgba(79, 209, 197, 0.35);
-    --vec-b: #ff6b9d;
-    --vec-b-glow: rgba(255, 107, 157, 0.35);
-    --parallelogram: rgba(100, 150, 200, 0.2);
-    --pos: #59d97a;
-    --neg: #ff5c5c;
-    --neutral: #d8dee8;
-  }
-  *{ box-sizing: border-box; }
-  html, body{
-    margin:0; padding:0;
-    background: var(--bg);
-    color: var(--text-hi);
-    font-family: 'Space Grotesk', sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  body{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding: 32px 16px;
-  }
-  .stage{
-    width:100%;
-    max-width: 880px;
-  }
-  .eyebrow{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-low);
-    margin: 0 0 8px 0;
-  }
-  h1{
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 700;
-    margin: 0 0 6px 0;
-    letter-spacing: -0.01em;
-  }
-  .sub{
-    color: var(--text-mid);
-    font-size: 14px;
-    margin: 0 0 24px 0;
-    max-width: 60ch;
-    line-height: 1.5;
-  }
-  .layout{
-    display:grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 20px;
-  }
-  @media (max-width: 720px){
-    .layout{ grid-template-columns: 1fr; }
-  }
-  .panel{
-    background: var(--bg-panel);
-    border: 1px solid var(--grid-line);
-    border-radius: 10px;
-    padding: 16px;
-  }
-  canvas{
-    display:block;
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
-    touch-action: none;
-    cursor: grab;
-  }
-  canvas.dragging{ cursor: grabbing; }
-  .hint{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-low);
-    margin-top: 10px;
-    letter-spacing: 0.02em;
-  }
-  .readout{
-    display:flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .formula{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-mid);
-    padding: 14px;
-    background: var(--bg);
-    border-radius: 8px;
-    border: 1px solid var(--grid-line);
-  }
-  .formula .va{ color: var(--vec-a); font-weight: 700; }
-  .formula .vb{ color: var(--vec-b); font-weight: 700; }
-  .result-value{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 1;
-    transition: color 0.15s ease;
-  }
-  .result-label{
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-low);
-    margin-bottom: 4px;
-  }
-  .verdict{
-    font-size: 14px;
-    color: var(--text-mid);
-    line-height: 1.5;
-    min-height: 42px;
-  }
-  .foot{
-    margin-top: 22px;
-    font-size: 12px;
-    color: var(--text-low);
-    line-height: 1.6;
-    border-top: 1px solid var(--grid-line);
-    padding-top: 14px;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produit vectoriel — Vectorium</title>
+  <meta name="description" content="Comprendre le produit vectoriel en deplacant deux vecteurs a la souris ou au doigt.">
+  <link rel="stylesheet" href="../css/vectorium.css">
 </head>
 <body>
+
 <div class="stage">
-  <p class="eyebrow">Prototype — 02 / produit vectoriel</p>
+
+  <p class="eyebrow">Notion 02 / produit vectoriel</p>
   <h1>Fais glisser les flèches.</h1>
-  <p class="sub">Le produit vectoriel (en 2D, le scalaire a×b) mesure la surface du parallélogramme formé par deux vecteurs, et son signe indique l'orientation. Déplace A ou B et vois le parallélogramme changer.</p>
+  <p class="sub">
+    Le produit vectoriel (en 2D), c'est comment on mesure « combien de surface »
+    deux vecteurs créent ensemble, et dans quel sens ils tournent l'un par
+    rapport à l'autre. On l'utilise pour les rotations, les déplacements
+    perpendiculaires, et savoir si quelque chose tourne horaire ou antihoraire.
+  </p>
 
-  <div class="layout">
-    <div class="panel">
-      <canvas id="stageCanvas" width="600" height="440"></canvas>
-      <p class="hint">glisse la pointe de A ou de B — tactile aussi</p>
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Pourquoi ça existe</h2>
+    <p class="cours-texte"><strong>La question :</strong> « Combien de surface deux vecteurs créent-ils ensemble, et dans quel sens ? »</p>
+    <p class="cours-texte">Le produit scalaire te dit s'ils pointent dans la même direction. Mais il ne te dit pas « combien de rotation » il y a entre eux. C'est là qu'intervient le produit vectoriel.</p>
+    <p class="cours-texte"><strong>Résultat positif :</strong> B est à gauche de A (rotation antihoraire). <strong>Résultat négatif :</strong> B est à droite de A (rotation horaire). <strong>Zéro :</strong> ils sont colinéaires (pas de rotation du tout).</p>
+    <p class="cours-texte">En 3D, c'est un vecteur perpendiculaire. En 2D (ce que tu vois ici), c'est juste le composant z de ce vecteur 3D.</p>
+  </section>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">glisse A ou B — le parallélogramme montre la surface</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <section class="comparaison">
+    <h2 class="bloc-titre">La formule et le code, c'est la même chose</h2>
+    <div class="comparaison-row">
+      <div class="formula-box">
+        <div class="box-label">Formule math (2D)</div>
+        A × B = (ax × by) − (ay × bx)<br><br>
+        <span class="box-note">Croise-multiplie et soustrait.</span>
+      </div>
+      <div class="code-box">
+        <div class="box-label">Code Unity (3D)</div>
+        Vector3.Cross(A, B);<br><br>
+        <span class="box-note">En 3D, tu obtiens un vecteur. En 2D, c'est juste le .z.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="use-cases">
+    <h2 class="bloc-titre">Où on l'utilise (et les pièges)</h2>
+
+    <div class="use-case-item">
+      <div class="use-case-name">🔄 Rotation : dans quel sens tourne-t-on ?</div>
+      <div class="use-case-desc">Si <span class="code-inline">Cross(forward, targetDirection)</span> est positif, tu tournes à gauche. Négatif = tu tournes à droite. Zéro = pas besoin de tourner.</div>
     </div>
 
-    <div class="panel readout">
-      <div>
-        <div class="result-label">A × B =</div>
-        <div class="result-value" id="resultValue">0.0</div>
-      </div>
-
-      <div class="formula" id="formulaText">
-        A × B = (<span class="va">ax</span> × <span class="vb">by</span>) − (<span class="va">ay</span> × <span class="vb">bx</span>)
-      </div>
-
-      <div class="verdict" id="verdictText"></div>
+    <div class="use-case-item">
+      <div class="use-case-name">📐 Perpendiculaire : trouver un vecteur perpendiculaire</div>
+      <div class="use-case-desc">Le résultat du cross product (en 3D) est perpendiculaire aux deux vecteurs d'entrée. C'est super utile pour les rotations et l'orientation.</div>
     </div>
-  </div>
 
-  <p class="foot">Comparaison : le produit scalaire (A · B) mesure la « projection » d'un vecteur sur l'autre. Le produit vectoriel (A × B) mesure la surface du parallélogramme — zéro quand ils sont colinéaires, maximal quand ils sont perpendiculaires. En 3D, c'est un vecteur; en 2D, c'est son composante z.</p>
+    <div class="use-case-item">
+      <div class="use-case-name">🚨 Piège : l'ordre compte</div>
+      <div class="use-case-desc"><span class="code-inline">Cross(A, B)</span> ≠ <span class="code-inline">Cross(B, A)</span>. Le résultat a le signe opposé. L'ordre compte ! C'est pas commutatif comme le dot product.</div>
+    </div>
+  </section>
+
+  <p class="foot">Le produit vectoriel et le scalaire se complètent : l'un te dit la direction, l'autre te dit la rotation.</p>
+
 </div>
 
-<script>
-const canvas = document.getElementById('stageCanvas');
-const ctx = canvas.getContext('2d');
-const W = canvas.width, H = canvas.height;
-const originX = W / 2, originY = H / 2;
-const SCALE = 42;
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { produitVectoriel } from '../js/notions/produit-vectoriel.js'
 
-let vecA = { x: 2.4, y: -1.6 };
-let vecB = { x: -1.2, y: -2.0 };
-let dragging = null;
-
-function toScreen(v){ return { x: originX + v.x * SCALE, y: originY - v.y * SCALE }; }
-function toWorld(px, py){ return { x: (px - originX) / SCALE, y: -(py - originY) / SCALE }; }
-
-function drawGrid(){
-  ctx.fillStyle = getCSS('--bg-panel');
-  ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle = getCSS('--grid-line');
-  ctx.lineWidth = 1;
-  for(let x = originX % SCALE; x < W; x += SCALE){
-    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke();
-  }
-  for(let y = originY % SCALE; y < H; y += SCALE){
-    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
-  }
-  ctx.strokeStyle = getCSS('--axis');
-  ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(W, originY); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, H); ctx.stroke();
-}
-
-function drawParallelogram(){
-  const pa = toScreen(vecA);
-  const pb = toScreen(vecB);
-  const pc = { x: pa.x + pb.x - originX, y: pa.y + pb.y - originY };
-
-  ctx.fillStyle = getCSS('--parallelogram');
-  ctx.beginPath();
-  ctx.moveTo(originX, originY);
-  ctx.lineTo(pa.x, pa.y);
-  ctx.lineTo(pc.x, pc.y);
-  ctx.lineTo(pb.x, pb.y);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.strokeStyle = getCSS('--parallelogram');
-  ctx.lineWidth = 1;
-  ctx.stroke();
-}
-
-function drawArrow(vec, color, glow){
-  const p = toScreen(vec);
-  ctx.save();
-  ctx.shadowColor = glow;
-  ctx.shadowBlur = 14;
-  ctx.strokeStyle = color;
-  ctx.fillStyle = color;
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(originX, originY);
-  ctx.lineTo(p.x, p.y);
-  ctx.stroke();
-
-  const angle = Math.atan2(p.y - originY, p.x - originX);
-  const headLen = 12;
-  ctx.beginPath();
-  ctx.moveTo(p.x, p.y);
-  ctx.lineTo(p.x - headLen * Math.cos(angle - Math.PI/6), p.y - headLen * Math.sin(angle - Math.PI/6));
-  ctx.lineTo(p.x - headLen * Math.cos(angle + Math.PI/6), p.y - headLen * Math.sin(angle + Math.PI/6));
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.shadowBlur = 0;
-  ctx.beginPath();
-  ctx.arc(p.x, p.y, 8, 0, Math.PI*2);
-  ctx.fillStyle = color;
-  ctx.fill();
-  ctx.restore();
-}
-
-function getCSS(varName){
-  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-}
-
-function cross(a, b){ return a.x * b.y - a.y * b.x; }
-
-function updateReadout(){
-  const c = cross(vecA, vecB);
-  const resultEl = document.getElementById('resultValue');
-  resultEl.textContent = c.toFixed(2);
-
-  let color = getCSS('--neutral');
-  let verdict = "Les vecteurs sont à peu près perpendiculaires — le parallélogramme a une surface maximale.";
-  if (Math.abs(c) < 0.1){ color = getCSS('--neutral'); verdict = "Zéro (ou presque) : les vecteurs sont colinéaires — pas de parallélogramme."; }
-  else if (c > 0.1){ color = getCSS('--pos'); verdict = "Positif : B est à gauche de A (rotation antihoraire)."; }
-  else if (c < -0.1){ color = getCSS('--neg'); verdict = "Négatif : B est à droite de A (rotation horaire)."; }
-  resultEl.style.color = color;
-  document.getElementById('verdictText').textContent = verdict;
-
-  document.getElementById('formulaText').innerHTML =
-    `A × B = (<span class="va">${vecA.x.toFixed(1)}</span> × <span class="vb">${vecB.y.toFixed(1)}</span>) − (<span class="va">${vecA.y.toFixed(1)}</span> × <span class="vb">${vecB.x.toFixed(1)}</span>) = <b style="color:${color}">${c.toFixed(2)}</b>`;
-}
-
-function render(){
-  drawGrid();
-  drawParallelogram();
-  drawArrow(vecA, getCSS('--vec-a'), getCSS('--vec-a-glow'));
-  drawArrow(vecB, getCSS('--vec-b'), getCSS('--vec-b-glow'));
-  updateReadout();
-}
-
-function getPointerPos(e){
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
-}
-
-function hitTest(pos){
-  const pa = toScreen(vecA), pb = toScreen(vecB);
-  const da = Math.hypot(pos.x - pa.x, pos.y - pa.y);
-  const db = Math.hypot(pos.x - pb.x, pos.y - pb.y);
-  if (da < 20 && da <= db) return 'a';
-  if (db < 20) return 'b';
-  return null;
-}
-
-function startDrag(e){
-  const pos = getPointerPos(e);
-  dragging = hitTest(pos);
-  if (dragging) canvas.classList.add('dragging');
-}
-function moveDrag(e){
-  if (!dragging) return;
-  e.preventDefault();
-  const pos = getPointerPos(e);
-  const w = toWorld(pos.x, pos.y);
-  const clamped = { x: Math.max(-6, Math.min(6, w.x)), y: Math.max(-5, Math.min(5, w.y)) };
-  if (dragging === 'a') vecA = clamped; else vecB = clamped;
-  render();
-}
-function endDrag(){ dragging = null; canvas.classList.remove('dragging'); }
-
-canvas.addEventListener('mousedown', startDrag);
-window.addEventListener('mousemove', moveDrag);
-window.addEventListener('mouseup', endDrag);
-canvas.addEventListener('touchstart', startDrag, {passive:false});
-window.addEventListener('touchmove', moveDrag, {passive:false});
-window.addEventListener('touchend', endDrag);
-
-render();
+  monterModule(produitVectoriel, document.getElementById('module'))
 </script>
+
 </body>
 </html>
