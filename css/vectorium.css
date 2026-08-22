@@ -330,3 +330,137 @@ body {
   flex-direction: column;
   min-width: 0;
 }
+
+/* =============================================================================
+   Blocs de contenu d'une page de notion.
+   Ces classes sont COMMUNES à toutes les notions : elles vivent ici et pas
+   dans les pages, pour qu'une correction de style se fasse une seule fois.
+   ========================================================================== */
+
+/* --- Bloc « Pourquoi ça existe », placé avant le canvas -------------------- */
+.cours-intro,
+.comparaison,
+.use-cases {
+  background: var(--bg-panel);
+  border: 1px solid var(--grid-line);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+
+.bloc-titre {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pos);
+  margin: 0 0 16px;
+}
+
+.cours-texte {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-mid);
+  margin: 0 0 12px;
+}
+
+.cours-texte:last-child { margin-bottom: 0; }
+
+.code-inline {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--pos);
+}
+
+/* --- Comparaison formule / code ------------------------------------------- */
+.comparaison-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .comparaison-row { grid-template-columns: 1fr; }
+}
+
+.formula-box,
+.code-box {
+  background: var(--bg);
+  border: 1px solid var(--grid-line);
+  border-left: 3px solid var(--pos);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+
+.box-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-low);
+  margin-bottom: 8px;
+}
+
+.box-note { color: var(--text-low); }
+
+/* --- Cas d'usage et pièges ------------------------------------------------ */
+.use-case-item {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--grid-line);
+}
+
+.use-case-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.use-case-name {
+  font-weight: 700;
+  color: var(--text-hi);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.use-case-desc {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+/* --- Gabarit d'une page de notion ----------------------------------------
+   .stage centre la colonne de contenu. Une page de notion n'a besoin que de
+   ces trois classes pour son en-tête : .eyebrow, h1, .sub. */
+.stage {
+  width: 100%;
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.stage h1 {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.sub {
+  color: var(--text-mid);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 70ch;
+  margin: 0 0 32px;
+}
+
+/* Dans une page de notion, le module et les blocs partagent la largeur de
+   .stage : on neutralise la largeur maximale héritée de l'accueil. */
+.stage .module {
+  max-width: none;
+  margin-bottom: 32px;
+}

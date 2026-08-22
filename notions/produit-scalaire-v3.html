@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produit scalaire — Vectorium</title>
+  <meta name="description" content="Comprendre le produit scalaire en deplacant deux vecteurs a la souris ou au doigt.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="eyebrow">Notion 01 / produit scalaire</p>
+  <h1>Fais glisser les flèches.</h1>
+  <p class="sub">
+    Le produit scalaire, c'est l'outil mathématique pour savoir « dans quelle
+    mesure deux vecteurs pointent dans la même direction ». Tu l'utilises
+    partout : vérifier si un ennemi te voit, calculer l'éclairage d'une
+    surface, savoir si deux objets se rapprochent.
+  </p>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Pourquoi ça existe</h2>
+    <p class="cours-texte"><strong>La question :</strong> « A et B pointent-ils dans la même direction ? »</p>
+    <p class="cours-texte"><strong>Si tu calcules rien :</strong> tu ne sais pas. Tu peux regarder visuellement, mais tu ne peux pas l'utiliser dans du code.</p>
+    <p class="cours-texte"><strong>Si tu utilises le produit scalaire :</strong> tu as un nombre qui te dit exactement. Positif = même direction, négatif = directions opposées, zéro = perpendiculaires. Et tu peux l'utiliser dans ton code pour prendre des décisions.</p>
+    <p class="cours-texte">C'est <strong>LA formule</strong> qui unit les vecteurs à la géométrie — sans elle, tu ne peux pas faire de physique, de détection, d'éclairage.</p>
+  </section>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">glisse la pointe de A (cyan) ou de B (rose) — tactile aussi</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <section class="comparaison">
+    <h2 class="bloc-titre">La formule et le code, c'est la même chose</h2>
+    <div class="comparaison-row">
+      <div class="formula-box">
+        <div class="box-label">Formule math</div>
+        A · B = (ax × bx) + (ay × by)<br><br>
+        <span class="box-note">Multiplie les composantes, puis additionne.</span>
+      </div>
+      <div class="code-box">
+        <div class="box-label">Code Unity (C#)</div>
+        Vector3.Dot(A, B);<br><br>
+        <span class="box-note">Une fonction qui fait exactement ça pour toi.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="use-cases">
+    <h2 class="bloc-titre">Où on l'utilise (et les pièges)</h2>
+
+    <div class="use-case-item">
+      <div class="use-case-name">🎯 Détection : est-ce que A voit B ?</div>
+      <div class="use-case-desc">Un ennemi regarde dans la direction <span class="code-inline">forward</span>. Pour savoir s'il voit le joueur, tu calcules <span class="code-inline">Dot(forward, directionVersJoueur)</span>. Si c'est positif → il voit.</div>
+    </div>
+
+    <div class="use-case-item">
+      <div class="use-case-name">💡 Éclairage : combien de lumière touche cette surface ?</div>
+      <div class="use-case-desc">La lumière vient d'une direction. La surface a une normale. <span class="code-inline">Dot(lightDir, surfaceNormal)</span> = l'intensité. Plus le dot est positif, plus c'est éclairé.</div>
+    </div>
+
+    <div class="use-case-item">
+      <div class="use-case-name">🚨 Piège courant : oublier la normalisation</div>
+      <div class="use-case-desc">Si tes vecteurs ont des longueurs différentes, le résultat est trompeur. Normalise-les d'abord : <span class="code-inline">Dot(A.normalized, B.normalized)</span>. Sinon tu compares des pommes avec des oranges.</div>
+    </div>
+  </section>
+
+  <p class="foot">Le produit scalaire c'est la fondation. Maîtrise-le et le reste (matrices, rotations, physique) devient logique.</p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { produitScalaire } from '../js/notions/produit-scalaire.js'
+
+  monterModule(produitScalaire, document.getElementById('module'))
+</script>
+
+</body>
+</html>
