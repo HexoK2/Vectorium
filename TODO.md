@@ -11,52 +11,68 @@
 - Commit après chaque tâche cochée, avec un message qui dit ce qui a changé.
 - Si une tâche demande de modifier `js/moteur/` pour une raison propre à une
   notion, **arrête-toi et signale-le** : la frontière est mal placée.
+- Ne supprime jamais un dossier entier sans demander. Si une partie du code te
+  semble inutilisée, cherche d'abord ce qui l'a débranchée.
 
-Les règles de fond (stack, architecture, contrat d'une notion) sont dans
-`CLAUDE.md`. Lis-le d'abord.
-
----
-
-## Maintenant — mise en ligne (ticket 01, étape 3)
-
-- [ ] **Créer le dépôt Git local et le premier commit**
-  Terminé quand : `git log` affiche un commit, et `git status` est propre.
-  Attention : les fichiers `*.tmp` et `_git-*.bat` sont ignorés, vérifie qu'ils
-  ne sont pas entrés dans le commit.
-
-- [ ] **Pousser sur GitHub**
-  Dépôt public nommé `Vectorium`, créé **vide** (sans README, sinon le push est
-  refusé pour histoires divergentes).
-  Terminé quand : les fichiers sont visibles sur github.com.
-
-- [ ] **Activer GitHub Pages**
-  Settings → Pages → Deploy from a branch → `main` / `/ (root)`.
-  Terminé quand : `https://<pseudo>.github.io/Vectorium/` affiche l'accueil.
-
-- [ ] **Tester le site en ligne sur un vrai téléphone**
-  Pas l'émulateur mobile de Chrome — un vrai appareil tactile.
-  Terminé quand : les trois points sont vérifiés — l'accueil s'affiche, le lien
-  vers la notion marche, et on déplace les flèches au doigt **sans que la page
-  défile**.
-  Piège probable : la casse des chemins. Windows ne distingue pas
-  `js/Moteur/` de `js/moteur/`, GitHub Pages si.
+Les règles de fond (stack, architecture, contrat d'une notion, design) sont
+dans `CLAUDE.md`. Lis-le d'abord.
 
 ---
 
-## Finir le ticket 01
+## Déjà fait
 
-- [ ] **Compléter le README**
-  Ajouter l'URL du site en ligne en haut, et cocher « produit scalaire » dans
-  la feuille de route.
-  Terminé quand : quelqu'un qui arrive sur le dépôt comprend en 30 secondes ce
-  qu'est le projet et où le voir.
+- [x] Moteur générique : `repere.js`, `dessin.js`, `drag.js`, `module.js`
+- [x] Notion « produit scalaire » branchée sur le moteur
+- [x] Rendu visuel du prototype appliqué, style centralisé dans `vectorium.css`
+- [x] Dépôt Git, push, GitHub Pages, test sur téléphone
 
-- [ ] **Faire tester la notion par une personne à qui on n'explique rien**
-  Terminé quand : elle a compris toute seule qu'il faut attraper les pointes,
-  en moins de cinq secondes. Sinon, corriger le texte d'introduction — pas le
-  code.
-  Note ce qu'elle a dit dans `journal.md`, même si c'est désagréable : c'est le
-  genre de retour que le tuteur voudra voir.
+---
+
+## Maintenant — ce que le test sur téléphone a révélé
+
+Le site se manipule bien, mais il n'explique rien : on comprend ce qui bouge,
+pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
+
+- [ ] **Bloc « En clair » sous le canvas, sur la page du produit scalaire**
+  Trois courtes sections, dans cet ordre, sous la manipulation :
+  1. *À quoi ça sert dans un jeu* — l'exemple concret : savoir si un ennemi est
+     devant ou derrière le joueur, si le joueur regarde vers un objet, si une
+     surface fait face à la lumière. C'est cette section qui donne envie de
+     lire les deux autres, pas l'inverse.
+  2. *Ce que dit la formule* — `ax*bx + ay*by`, et pourquoi ce nombre mesure
+     « à quel point les deux vont dans la même direction ».
+  3. *L'erreur classique* — confondre le produit scalaire avec la distance, et
+     oublier de normaliser quand on veut seulement l'angle.
+  Chaque section : trois à cinq lignes maximum. Si ça déborde, c'est que le
+  contenu appartient à la page de cours.
+  Le style va dans `css/vectorium.css` sous des classes réutilisables — cette
+  mise en page devient le gabarit de toutes les notions.
+  Terminé quand : la page se lit de bout en bout sur un téléphone sans zoomer,
+  et quelqu'un qui n'a jamais fait de maths de jeu comprend à quoi ça sert.
+
+- [ ] **Page de cours `cours/produit-scalaire.html`**
+  Le texte long : d'où vient la formule, le lien avec le cosinus, la
+  normalisation, deux ou trois exemples de code Unity (`Vector3.Dot`).
+  Lien « Aller plus loin » depuis le bloc « En clair », et retour vers la
+  notion depuis le cours.
+  Même feuille de style, aucun `<style>` dans la page.
+  Terminé quand : la page existe, les deux liens fonctionnent dans les deux
+  sens, et elle se lit correctement en 390 px de large.
+  **Ne fais cette page que pour le produit scalaire pour l'instant.** Elle sert
+  de modèle ; les autres notions n'en auront que si le calendrier le permet.
+
+- [ ] **Page d'accueil en cartes, avec un aperçu dessiné par le moteur**
+  Chaque notion devient une carte : une vignette (canvas figé montrant la
+  notion dans une position parlante) + son titre + une phrase.
+  Cela demande une **extension générique du moteur** : une fonction qui monte
+  un module en mode aperçu — pas de drag, pas de panneau, pas de bouton, juste
+  le dessin. Par exemple `monterApercu(notion, element)` dans `module.js`, ou
+  une option `apercu: true` de `monterModule`. Le moteur ne doit toujours pas
+  savoir quelle notion il dessine.
+  Prévois le cas des notions pas encore écrites : carte grisée, sans vignette.
+  Terminé quand : l'accueil montre une vignette réelle du produit scalaire, les
+  cartes s'empilent proprement sur téléphone, et ajouter une notion à la liste
+  ne demande qu'une ligne.
 
 ---
 
@@ -67,46 +83,48 @@ Les règles de fond (stack, architecture, contrat d'une notion) sont dans
   c'est-à-dire le scalaire `ax*by − ay*bx`. Ne construis pas de canvas 3D.
   Ce que la notion doit faire comprendre :
   - sa valeur absolue est **l'aire du parallélogramme** formé par A et B —
-    donc dessine ce parallélogramme, c'est lui qui fait comprendre la notion ;
+    dessine ce parallélogramme, ce n'est pas une aide au dessin, c'est le
+    sujet lui-même ;
   - son **signe** donne l'orientation : positif si B est à gauche de A ;
-  - il s'annule quand A et B sont **colinéaires** (là où le produit scalaire,
-    lui, est maximal — le rapprochement mérite d'être écrit dans la page).
-  Mentionne dans le texte qu'en 3D le résultat est un vecteur perpendiculaire
-  aux deux autres, et que ce scalaire en est la composante z.
+  - il s'annule quand A et B sont **colinéaires**, là où le produit scalaire
+    est au contraire maximal.
+  Mentionne qu'en 3D le résultat est un vecteur perpendiculaire aux deux
+  autres, et que ce scalaire en est la composante z.
   Terminé quand : deux vecteurs colinéaires donnent 0.00, et A=(1,0) B=(0,1)
   donne exactement 1.00.
 
-- [ ] **Créer `notions/produit-vectoriel.html` et le lien depuis l'accueil**
-  Terminé quand : la page s'ouvre depuis l'accueil et se comporte comme celle
-  du produit scalaire, sans qu'un seul fichier de `js/moteur/` ait été modifié.
-  **C'est le test de l'architecture.** Si tu as dû toucher au moteur, dis-le.
+- [ ] **Créer `notions/produit-vectoriel.html` et son bloc « En clair »**
+  Copie le gabarit du produit scalaire. Pour l'usage en jeu : savoir de quel
+  côté tourner, calculer une normale, trier un ordre d'affichage.
+  Terminé quand : la page se comporte comme celle du produit scalaire **sans
+  qu'un seul fichier de `js/moteur/` ait été modifié**. C'est le test de
+  l'architecture — si tu as dû toucher au moteur, dis-le.
 
-- [ ] **Déployer et re-tester sur téléphone**
-  Terminé quand : la nouvelle notion est en ligne et manipulable au doigt.
+- [ ] **Ajouter la carte à l'accueil, déployer, tester sur téléphone**
 
 ---
 
 ## Ticket 03 — Interpolation linéaire (semaine du 26/08)
 
 - [ ] **Ajouter la gestion des curseurs au moteur**
-  L'interpolation a besoin d'un paramètre `t` entre 0 et 1, donc d'un curseur —
-  ce que le moteur ne sait pas encore faire.
-  C'est une extension **générique** et légitime : une notion déclare
-  `curseurs: [{ id, min, max, pas, defaut, label }]` et le moteur les fabrique
-  et les passe à `calculer` et `dessiner`. Le moteur ne doit toujours pas
-  savoir ce qu'est une interpolation.
+  L'interpolation a besoin d'un paramètre `t` entre 0 et 1, donc d'un curseur.
+  Extension **générique** et légitime : une notion déclare
+  `curseurs: [{ id, min, max, pas, defaut, label }]`, le moteur les fabrique et
+  les passe à `calculer` et `dessiner`. Le moteur ne sait toujours pas ce
+  qu'est une interpolation.
   Terminé quand : les deux notions existantes fonctionnent encore à
   l'identique, sans curseur déclaré.
 
-- [ ] **Écrire `js/notions/interpolation-lineaire.js` et sa page**
-  `lerp(A, B, t) = A + (B − A) × t`. Montrer le point mobile sur le segment,
-  et le fait que `t = 0` donne A, `t = 1` donne B, `t = 0.5` le milieu.
-  Faire le lien avec Unity : c'est `Vector3.Lerp`, et c'est ce qui sert à faire
-  suivre une caméra ou à adoucir un déplacement.
+- [ ] **Écrire `js/notions/interpolation-lineaire.js`, sa page et son bloc**
+  `lerp(A, B, t) = A + (B − A) × t`. Montrer le point mobile sur le segment ;
+  `t = 0` donne A, `t = 1` donne B, `t = 0.5` le milieu.
+  Usage en jeu : `Vector3.Lerp`, faire suivre une caméra, adoucir un
+  déplacement. Erreur classique : `Lerp` appelé chaque image avec le même `t`,
+  qui n'atteint jamais vraiment la cible.
   Terminé quand : `t = 0.5` place le point exactement au milieu, vérifié à
   l'œil sur la grille.
 
-- [ ] **Déployer et re-tester**
+- [ ] **Carte, déploiement, test téléphone**
 
 ---
 
@@ -118,17 +136,18 @@ Les règles de fond (stack, architecture, contrat d'une notion) sont dans
 
 - [ ] **Corriger ce que les tests ont révélé**, par ordre de gravité.
 
-- [ ] **Soigner la page d'accueil** : elle doit expliquer en une phrase à qui
-  s'adresse le site et pourquoi il existe.
+- [ ] **Pages de cours pour les autres notions** — seulement s'il reste du
+  temps après les corrections. Une notion sans page de cours reste utilisable :
+  ne sacrifie pas les corrections pour ça.
 
 - [ ] **Relire tout le code une dernière fois pour pouvoir l'expliquer.**
-  Parcours chaque fichier avec l'auteur. Chaque fois qu'il ne sait pas
-  réexpliquer un bloc, c'est un point à retravailler avant la présentation —
-  c'est la tâche la plus importante de la semaine.
+  Parcours chaque fichier avec l'auteur. Chaque bloc qu'il ne sait pas
+  réexpliquer est à retravailler avant la présentation — c'est la tâche la plus
+  importante de la semaine.
 
-- [ ] **Compléter `journal.md`** : le tableau estimé / réel doit être entier,
-  et la section « ce qui a été appris » doit contenir au moins trois constats
-  honnêtes, y compris une estimation ratée.
+- [ ] **Compléter `journal.md`** : le tableau estimé / réel entier, et au moins
+  trois constats honnêtes dans « ce qui a été appris », dont une estimation
+  ratée.
 
 - [ ] **GEL DU CODE — 07/09.** Après cette date, plus aucune fonctionnalité.
   Uniquement des corrections si quelque chose est cassé.

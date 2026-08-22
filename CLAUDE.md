@@ -22,6 +22,9 @@ notions suivantes doivent lui ressembler exactement** :
 - à droite, un panneau : le résultat en très gros, la formule décomposée avec
   les valeurs colorées aux couleurs des vecteurs, une phrase d'interprétation
   en français, puis les valeurs secondaires ;
+- sous le canvas, un bloc **« En clair »** en trois sections courtes : à quoi
+  ça sert dans un jeu, ce que dit la formule, l'erreur classique — puis un lien
+  « Aller plus loin » vers la page de cours de la notion si elle existe ;
 - en bas, une note qui rappelle le principe du site.
 
 Règles qui vont avec :
