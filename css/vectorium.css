@@ -19,6 +19,8 @@
   --pos:           #59d97a;
   --neg:           #ff5c5c;
   --neutral:       #d8dee8;
+  --interp:        #ffc107;
+  --interp-glow:   rgba(255, 193, 7, 0.35);
 
   /* Anciens noms compatibilité */
   --fond:          var(--bg);
@@ -174,6 +176,68 @@ body {
   color: var(--text-low);
   margin-top: 10px;
   letter-spacing: 0.02em;
+}
+
+/* --- Curseurs (déclarés par une notion, fabriqués par le moteur) --------- */
+.curseurs {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.curseur-ligne {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.curseur-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-low);
+  letter-spacing: 0.05em;
+  min-width: 24px;
+}
+
+.curseur-ligne input[type="range"] {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--grid-line);
+  outline: none;
+  -webkit-appearance: none;
+  accent-color: var(--interp);
+}
+
+.curseur-ligne input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--interp);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--interp-glow);
+}
+
+.curseur-ligne input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--interp);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 8px var(--interp-glow);
+}
+
+.curseur-valeur {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--interp);
+  font-weight: 700;
+  min-width: 40px;
+  text-align: right;
 }
 
 .panneau {

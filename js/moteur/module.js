@@ -5,13 +5,22 @@
    Une notion est un objet à quatre clés :
 
      points          les points manipulables, en coordonnées monde
-     calculer(pts)   maths pures — ni canvas ni DOM, donc testable seul
-     dessiner(d, pts, val)   n'appelle que les primitives de dessin.js
+     calculer(pts, curseurs)   maths pures — ni canvas ni DOM, donc testable
+                               seul ; curseurs optionnel
+     dessiner(d, pts, val, curseurs)   n'appelle que les primitives de
+                                       dessin.js ; curseurs optionnel
      lecture(val, pts)   les lignes de valeurs affichées à côté du canvas
                          pts optionnel pour afficher les composantes
 
+   Une cinquième clé optionnelle :
+
+     curseurs   [{ id, min, max, pas, defaut, label }] — des paramètres
+                numériques (ex. t d'une interpolation) que le moteur fabrique
+                en curseurs HTML et transmet à calculer() et dessiner(). Une
+                notion sans curseurs n'a rien à faire de plus.
+
    monterModule() ne sait rien d'autre. Ajouter une notion = écrire un fichier
-   qui exporte ces quatre clés. Aucun fichier de js/moteur/ n'est à modifier.
+   qui exporte ces clés. Aucun fichier de js/moteur/ n'est à modifier.
    ========================================================================== */
 
 import { creerRepere } from './repere.js'
@@ -30,6 +39,13 @@ export function monterModule(notion, racine) {
   // intact, ce qui permet de réinitialiser à tout moment — et évite qu'un
   // module en modifie un autre si un jour deux modules partagent une notion.
   const points = notion.points.map((p) => ({ ...p }))
+
+  // Même principe pour les curseurs : un objet { id: valeur }, initialisé à
+  // la valeur par défaut déclarée par la notion. Une notion sans curseurs a
+  // simplement un tableau vide — rien de plus à faire pour elle.
+  const curseursConfig = notion.curseurs || []
+  const curseurs = {}
+  curseursConfig.forEach((c) => { curseurs[c.id] = c.defaut })
 
   /* --- Rendu à la demande ---------------------------------------------------
      Le navigateur peut envoyer plusieurs pointermove par image affichée.
@@ -54,6 +70,62 @@ export function monterModule(notion, racine) {
   }
 
   const etatDrag = activerDrag(canvas, repere, { points, onChange: demanderRendu })
+
+  /* --- Les curseurs -----------------------------------------------------
+     Fabriqués uniquement si la notion en déclare. Le conteneur est cherché
+     dans la page (data-curseurs) ; s'il n'existe pas, on le crée et on
+     l'ajoute à la suite du canvas — une page qui n'a pas ce bloc n'a qu'à
+     ne pas s'en soucier.
+  --------------------------------------------------------------------------- */
+  const entreesCurseurs = {}
+
+  function decimalesDuPas(pas) {
+    const texte = String(pas)
+    const point = texte.indexOf('.')
+    return point === -1 ? 0 : texte.length - point - 1
+  }
+
+  if (curseursConfig.length) {
+    let conteneur = racine.querySelector('[data-curseurs]')
+    if (!conteneur) {
+      conteneur = document.createElement('div')
+      conteneur.className = 'curseurs'
+      const colonneScene = racine.querySelector('.colonne-scene') || racine
+      colonneScene.append(conteneur)
+    }
+
+    curseursConfig.forEach((c) => {
+      const decimales = decimalesDuPas(c.pas)
+
+      const ligne = document.createElement('div')
+      ligne.className = 'curseur-ligne'
+
+      const label = document.createElement('span')
+      label.className = 'curseur-label'
+      label.textContent = c.label
+
+      const input = document.createElement('input')
+      input.type = 'range'
+      input.min = c.min
+      input.max = c.max
+      input.step = c.pas
+      input.value = c.defaut
+
+      const valeur = document.createElement('span')
+      valeur.className = 'curseur-valeur'
+      valeur.textContent = c.defaut.toFixed(decimales)
+
+      input.addEventListener('input', () => {
+        curseurs[c.id] = parseFloat(input.value)
+        valeur.textContent = curseurs[c.id].toFixed(decimales)
+        demanderRendu()
+      })
+
+      ligne.append(label, input, valeur)
+      conteneur.append(ligne)
+      entreesCurseurs[c.id] = { input, valeur, decimales }
+    })
+  }
 
   /* --- Le panneau de valeurs ------------------------------------------------
      Structure générique pour afficher les résultats. Peut être soit un simple
@@ -173,10 +245,10 @@ export function monterModule(notion, racine) {
     repere.effacer()
     repere.dessinerGrille(notion.repere)
 
-    const valeurs = notion.calculer(points)
+    const valeurs = notion.calculer(points, curseurs)
 
     // La notion dessine ce qui lui est propre…
-    notion.dessiner(dessin, points, valeurs)
+    notion.dessiner(dessin, points, valeurs, curseurs)
 
     // …puis le moteur dessine les poignées, identiques pour toutes les notions.
     for (const p of points) {
@@ -209,6 +281,14 @@ export function monterModule(notion, racine) {
   if (boutonReinit) {
     boutonReinit.addEventListener('click', () => {
       notion.points.forEach((origine, i) => Object.assign(points[i], origine))
+
+      curseursConfig.forEach((c) => {
+        curseurs[c.id] = c.defaut
+        const entree = entreesCurseurs[c.id]
+        entree.input.value = c.defaut
+        entree.valeur.textContent = c.defaut.toFixed(entree.decimales)
+      })
+
       demanderRendu()
     })
   }

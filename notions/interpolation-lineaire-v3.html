@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interpolation linéaire — Vectorium</title>
+  <meta name="description" content="Comprendre l'interpolation lineaire en deplacant deux points et en jouant avec le curseur t.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="eyebrow">Notion 03 / interpolation linéaire</p>
+  <h1>Mélange deux points.</h1>
+  <p class="sub">
+    L'interpolation linéaire — ou lerp — c'est comment on fait bouger quelque
+    chose d'un point A à un point B en douceur. Tu vas voir ça 1000 fois en
+    game dev : caméra qui suit le joueur, objet qui se déplace, transition
+    d'une couleur à l'autre.
+  </p>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Pourquoi ça existe</h2>
+    <p class="cours-texte"><strong>Sans lerp :</strong> tu dis « va de A à B » et c'est instantané. Pas naturel.</p>
+    <p class="cours-texte"><strong>Avec lerp :</strong> tu dis « glisse de A à B au fur et à mesure ». L'objet se déplace vraiment, ça a l'air vivant.</p>
+    <p class="cours-texte">Le paramètre <span class="code-inline">t</span> contrôle la progression : <span class="code-inline">t = 0</span> = tu es à A, <span class="code-inline">t = 1</span> = tu es à B, <span class="code-inline">t = 0.5</span> = tu es au milieu.</p>
+  </section>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">glisse A (cyan) ou B (rose), puis ajuste t avec le curseur</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <section class="comparaison">
+    <h2 class="bloc-titre">La formule et le code, c'est la même chose</h2>
+    <div class="comparaison-row">
+      <div class="formula-box">
+        <div class="box-label">Formule math</div>
+        P = A + (B − A) × t<br><br>
+        <span class="box-note">Part de A, avance de t × la distance vers B.</span>
+      </div>
+      <div class="code-box">
+        <div class="box-label">Code Unity (C#)</div>
+        Vector3.Lerp(A, B, t);<br><br>
+        <span class="box-note">Même calcul, juste en code. Lerp = linear interpolation.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="use-cases">
+    <h2 class="bloc-titre">Où on l'utilise (et le piège)</h2>
+
+    <div class="use-case-item">
+      <div class="use-case-name">📷 Caméra qui suit le joueur</div>
+      <div class="use-case-desc">Chaque frame, tu avances t et tu recalcules la position. La caméra glisse au lieu de sauter directement sur le joueur.</div>
+    </div>
+
+    <div class="use-case-item">
+      <div class="use-case-name">🎨 Transition de couleur ou d'opacité</div>
+      <div class="use-case-desc">Un fondu, une barre de vie qui change de couleur : même formule, appliquée aux composantes d'une couleur plutôt qu'à une position.</div>
+    </div>
+
+    <div class="use-case-item">
+      <div class="use-case-name">🚨 Piège courant : oublier que t vient du temps</div>
+      <div class="use-case-desc">
+        Dans le canvas ci-dessus, tu bouges t à la main. En vrai, c'est le temps qui l'avance :
+        <div class="formula-box" style="margin-top:8px;">
+          t += Time.deltaTime * vitesse;<br>
+          position = Vector3.Lerp(depart, arrivee, t);
+        </div>
+        Si <span class="code-inline">vitesse = 1</span>, t passe de 0 à 1 en une seconde.
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">L'interpolation linéaire est le geste le plus utilisé du dev de jeu : dès que quelque chose doit changer progressivement, lerp est la première chose à essayer.</p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { interpolationLineaire } from '../js/notions/interpolation-lineaire.js'
+
+  monterModule(interpolationLineaire, document.getElementById('module'))
+</script>
+
+</body>
+</html>
