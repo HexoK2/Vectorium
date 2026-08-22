@@ -438,6 +438,50 @@ body {
   color: var(--pos);
 }
 
+/* --- Bloc « En clair », sous le canvas : trois sections courtes ----------- */
+.en-clair {
+  background: var(--bg-panel);
+  border: 1px solid var(--grid-line);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+
+.en-clair-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .en-clair-grid { grid-template-columns: 1fr; }
+}
+
+.en-clair-titre {
+  font-weight: 700;
+  color: var(--text-hi);
+  font-size: 13px;
+  margin: 0 0 6px;
+}
+
+.en-clair-texte {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-mid);
+  margin: 0;
+}
+
+.en-clair-lien {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--vec-a);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.en-clair-lien:hover { text-decoration: underline; }
+
 /* --- Comparaison formule / code ------------------------------------------- */
 .comparaison-row {
   display: grid;

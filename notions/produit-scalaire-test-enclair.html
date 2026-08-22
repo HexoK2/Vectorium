@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produit scalaire — Vectorium (test En clair)</title>
+  <meta name="description" content="Comprendre le produit scalaire en deplacant deux vecteurs a la souris ou au doigt.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="eyebrow">Notion 01 / produit scalaire</p>
+  <h1>Fais glisser les flèches.</h1>
+  <p class="sub">
+    Le produit scalaire, c'est l'outil mathématique pour savoir « dans quelle
+    mesure deux vecteurs pointent dans la même direction ». Tu l'utilises
+    partout : vérifier si un ennemi te voit, calculer l'éclairage d'une
+    surface, savoir si deux objets se rapprochent.
+  </p>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">glisse la pointe de A (cyan) ou de B (rose) — tactile aussi</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <section class="en-clair">
+    <h2 class="bloc-titre">En clair</h2>
+    <div class="en-clair-grid">
+      <div>
+        <h3 class="en-clair-titre">Dans un jeu</h3>
+        <p class="en-clair-texte">Un ennemi doit savoir si le joueur est devant lui. Un personnage doit savoir s'il regarde vers un objet. Une surface doit savoir si elle fait face à la lumière. Trois questions, un seul calcul.</p>
+      </div>
+      <div>
+        <h3 class="en-clair-titre">Ce que dit la formule</h3>
+        <p class="en-clair-texte"><span class="code-inline">ax×bx + ay×by</span> mesure à quel point A et B vont dans la même direction. Positif : même sens. Négatif : sens opposés. Zéro : perpendiculaires.</p>
+      </div>
+      <div>
+        <h3 class="en-clair-titre">L'erreur classique</h3>
+        <p class="en-clair-texte">Ce n'est pas une distance : deux vecteurs longs et alignés donnent un grand nombre même loin l'un de l'autre. Et si tu veux juste l'angle, normalise d'abord.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Le produit scalaire c'est la fondation. Maîtrise-le et le reste (matrices, rotations, physique) devient logique.</p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { produitScalaire } from '../js/notions/produit-scalaire.js'
+
+  monterModule(produitScalaire, document.getElementById('module'))
+</script>
+
+</body>
+</html>
