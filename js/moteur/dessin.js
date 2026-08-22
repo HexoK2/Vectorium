@@ -134,6 +134,32 @@ export function creerDessin(repere) {
     ctx.stroke()
   }
 
+  /* --- Parallélogramme --------------------------------------------------------
+     Dessine le parallélogramme défini par l'origine et deux vecteurs A et B.
+     Utile pour visualiser le produit vectoriel (l'aire du parallélogramme).
+  --------------------------------------------------------------------------- */
+  function parallelogramme(origine, a, c, b, { couleur = '#fff', epaisseur = 1 } = {}) {
+    const o = repere.versEcran(origine)
+    const pa = repere.versEcran(a)
+    const pc = repere.versEcran(c)
+    const pb = repere.versEcran(b)
+
+    ctx.fillStyle = couleur
+    ctx.beginPath()
+    ctx.moveTo(o.x, o.y)
+    ctx.lineTo(pa.x, pa.y)
+    ctx.lineTo(pc.x, pc.y)
+    ctx.lineTo(pb.x, pb.y)
+    ctx.closePath()
+    ctx.fill()
+
+    if (epaisseur) {
+      ctx.strokeStyle = couleur
+      ctx.lineWidth = epaisseur
+      ctx.stroke()
+    }
+  }
+
   /* --- Texte ---------------------------------------------------------------
      decalage est en pixels : une étiquette doit rester à la même distance
      visuelle de son point quelle que soit l'échelle.
@@ -154,5 +180,5 @@ export function creerDessin(repere) {
     ctx.fillText(contenu, e.x + decalage.x, e.y + decalage.y)
   }
 
-  return { fleche, segment, point, arc, texte, repere, ctx }
+  return { fleche, segment, point, arc, texte, parallelogramme, repere, ctx }
 }
