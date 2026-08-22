@@ -98,7 +98,7 @@ Un fichier de `js/notions/` exporte un objet à quatre clés :
 | `points` | les points manipulables, en coordonnées monde |
 | `calculer(pts)` | maths pures — ni canvas ni DOM, donc testable seul |
 | `dessiner(d, pts, val)` | n'appelle que les primitives de `dessin.js` |
-| `lecture(val)` | les lignes de valeurs affichées à côté du canvas |
+| `lecture(val, pts?)` | les lignes de valeurs affichées à côté du canvas ; `pts` optionnel pour afficher les composantes |
 
 Le moteur se charge du reste : dessiner les poignées, gérer le drag, le
 redimensionnement, le rendu coalescé par `requestAnimationFrame`.

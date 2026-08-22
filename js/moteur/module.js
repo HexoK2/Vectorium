@@ -7,7 +7,8 @@
      points          les points manipulables, en coordonnées monde
      calculer(pts)   maths pures — ni canvas ni DOM, donc testable seul
      dessiner(d, pts, val)   n'appelle que les primitives de dessin.js
-     lecture(val)    les lignes de valeurs affichées à côté du canvas
+     lecture(val, pts)   les lignes de valeurs affichées à côté du canvas
+                         pts optionnel pour afficher les composantes
 
    monterModule() ne sait rien d'autre. Ajouter une notion = écrire un fichier
    qui exporte ces quatre clés. Aucun fichier de js/moteur/ n'est à modifier.
