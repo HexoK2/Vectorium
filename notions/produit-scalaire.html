@@ -20,14 +20,6 @@
     surface, savoir si deux objets se rapprochent.
   </p>
 
-  <section class="cours-intro">
-    <h2 class="bloc-titre">Pourquoi ça existe</h2>
-    <p class="cours-texte"><strong>La question :</strong> « A et B pointent-ils dans la même direction ? »</p>
-    <p class="cours-texte"><strong>Si tu calcules rien :</strong> tu ne sais pas. Tu peux regarder visuellement, mais tu ne peux pas l'utiliser dans du code.</p>
-    <p class="cours-texte"><strong>Si tu utilises le produit scalaire :</strong> tu as un nombre qui te dit exactement. Positif = même direction, négatif = directions opposées, zéro = perpendiculaires. Et tu peux l'utiliser dans ton code pour prendre des décisions.</p>
-    <p class="cours-texte">C'est <strong>LA formule</strong> qui unit les vecteurs à la géométrie — sans elle, tu ne peux pas faire de physique, de détection, d'éclairage.</p>
-  </section>
-
   <main class="module" id="module">
     <div class="colonne-scene">
       <div class="scene"><canvas></canvas></div>
@@ -39,38 +31,21 @@
     </aside>
   </main>
 
-  <section class="comparaison">
-    <h2 class="bloc-titre">La formule et le code, c'est la même chose</h2>
-    <div class="comparaison-row">
-      <div class="formula-box">
-        <div class="box-label">Formule math</div>
-        A · B = (ax × bx) + (ay × by)<br><br>
-        <span class="box-note">Multiplie les composantes, puis additionne.</span>
+  <section class="en-clair">
+    <h2 class="bloc-titre">En clair</h2>
+    <div class="en-clair-grid">
+      <div>
+        <h3 class="en-clair-titre">Dans un jeu</h3>
+        <p class="en-clair-texte">Un ennemi doit savoir si le joueur est devant lui. Un personnage doit savoir s'il regarde vers un objet. Une surface doit savoir si elle fait face à la lumière. Trois questions, un seul calcul.</p>
       </div>
-      <div class="code-box">
-        <div class="box-label">Code Unity (C#)</div>
-        Vector3.Dot(A, B);<br><br>
-        <span class="box-note">Une fonction qui fait exactement ça pour toi.</span>
+      <div>
+        <h3 class="en-clair-titre">Ce que dit la formule</h3>
+        <p class="en-clair-texte"><span class="code-inline">ax×bx + ay×by</span> mesure à quel point A et B vont dans la même direction. Positif : même sens. Négatif : sens opposés. Zéro : perpendiculaires.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="use-cases">
-    <h2 class="bloc-titre">Où on l'utilise (et les pièges)</h2>
-
-    <div class="use-case-item">
-      <div class="use-case-name">🎯 Détection : est-ce que A voit B ?</div>
-      <div class="use-case-desc">Un ennemi regarde dans la direction <span class="code-inline">forward</span>. Pour savoir s'il voit le joueur, tu calcules <span class="code-inline">Dot(forward, directionVersJoueur)</span>. Si c'est positif → il voit.</div>
-    </div>
-
-    <div class="use-case-item">
-      <div class="use-case-name">💡 Éclairage : combien de lumière touche cette surface ?</div>
-      <div class="use-case-desc">La lumière vient d'une direction. La surface a une normale. <span class="code-inline">Dot(lightDir, surfaceNormal)</span> = l'intensité. Plus le dot est positif, plus c'est éclairé.</div>
-    </div>
-
-    <div class="use-case-item">
-      <div class="use-case-name">🚨 Piège courant : oublier la normalisation</div>
-      <div class="use-case-desc">Si tes vecteurs ont des longueurs différentes, le résultat est trompeur. Normalise-les d'abord : <span class="code-inline">Dot(A.normalized, B.normalized)</span>. Sinon tu compares des pommes avec des oranges.</div>
+      <div>
+        <h3 class="en-clair-titre">L'erreur classique</h3>
+        <p class="en-clair-texte">Ce n'est pas une distance : deux vecteurs longs et alignés donnent un grand nombre même loin l'un de l'autre. Et si tu veux juste l'angle, normalise d'abord.</p>
+      </div>
     </div>
   </section>
 
