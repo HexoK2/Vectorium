@@ -40,8 +40,11 @@ export const interpolationLineaire = {
   },
 
   dessiner(d, [a, b], val) {
-    // Le chemin parcouru : un pointillé entre les pointes de A et de B.
-    d.segment(a, b, { couleur: GRILLE, pointilles: [4, 4] })
+    // Le chemin parcouru : une ligne de construction, pas un fantôme — c'est
+    // la droite sur laquelle P se déplace réellement, ni vrai ni faux. Trait
+    // plein, couleur neutre du décor : jamais de pointillé, qui est réservé
+    // au fantôme.
+    d.segment(a, b, { couleur: GRILLE })
 
     // Le fantôme : position de départ si un point a bougé au-delà du seuil.
     for (const [actuel, depart, couleurFantome] of [
