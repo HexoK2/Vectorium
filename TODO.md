@@ -33,7 +33,7 @@ dans `CLAUDE.md`. Lis-le d'abord.
 Le site se manipule bien, mais il n'explique rien : on comprend ce qui bouge,
 pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
 
-- [ ] **Bloc « En clair » sous le canvas, sur la page du produit scalaire**
+- [x] **Bloc « En clair » sous le canvas, sur la page du produit scalaire**
   Trois courtes sections, dans cet ordre, sous la manipulation :
   1. *À quoi ça sert dans un jeu* — l'exemple concret : savoir si un ennemi est
      devant ou derrière le joueur, si le joueur regarde vers un objet, si une
