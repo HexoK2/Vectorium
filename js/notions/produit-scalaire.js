@@ -10,16 +10,24 @@
      lecture    ce qui s'affiche dans le panneau de droite
    ========================================================================== */
 
+import { POINTILLES_FANTOME, OPACITE_FANTOME } from './univers.js'
+
 // Couleurs d'identité des deux vecteurs. Elles ne changent jamais : c'est ce
 // qui permet de les distinguer. Seule la couleur du RÉSULTAT varie.
 const COULEUR_A = '#4fd1c5'
 const GLOW_A    = 'rgba(79, 209, 197, 0.35)'
+const FANTOME_A = `rgba(79, 209, 197, ${OPACITE_FANTOME})`
 const COULEUR_B = '#ff6b9d'
 const GLOW_B    = 'rgba(255, 107, 157, 0.35)'
+const FANTOME_B = `rgba(255, 107, 157, ${OPACITE_FANTOME})`
 
 const VERT  = '#59d97a'
 const ROUGE = '#ff5c5c'
 const GRIS  = '#d8dee8'
+
+// En dessous de ce déplacement, la différence est du bruit de manipulation,
+// pas une intention : on ne montre rien.
+const SEUIL_DEPLACEMENT = 0.05
 
 export const produitScalaire = {
   id: 'produit-scalaire',
@@ -63,9 +71,25 @@ export const produitScalaire = {
     return { dot, normeA, normeB, cos, angleDeg, couleur, verdict }
   },
 
-  /* --- 2) Le dessin. Rien d'autre que des primitives du moteur. ------------ */
+  /* --- 2) Le dessin. Rien d'autre que des primitives du moteur. ------------
+     Le fantôme : si un point a été déplacé au-delà du seuil, on trace un
+     trait pointillé vers sa position de départ. `this.points` est l'objet
+     d'origine de la notion — celui que le bouton Réinitialiser utilise —
+     jamais modifié par le moteur, donc toujours la vraie position de départ.
+  ------------------------------------------------------------------------- */
   dessiner(d, [a, b]) {
     const origine = { x: 0, y: 0 }
+
+    for (const [actuel, depart, couleurFantome] of [
+      [a, this.points[0], FANTOME_A],
+      [b, this.points[1], FANTOME_B],
+    ]) {
+      const deplacement = Math.hypot(actuel.x - depart.x, actuel.y - depart.y)
+      if (deplacement > SEUIL_DEPLACEMENT) {
+        d.segment(depart, actuel, { couleur: couleurFantome, pointilles: POINTILLES_FANTOME })
+      }
+    }
+
     d.fleche(origine, a, { couleur: COULEUR_A, glow: GLOW_A })
     d.fleche(origine, b, { couleur: COULEUR_B, glow: GLOW_B })
   },
