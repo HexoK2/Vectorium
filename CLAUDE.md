@@ -39,6 +39,12 @@ Règles qui vont avec :
   existent derrière les drapeaux `MONTRER_PROJECTION` et `MONTRER_ARC`, tous
   deux à `false`. Ce qui *est* la notion elle-même reste dessiné : pour le
   produit vectoriel, le parallélogramme n'est pas une aide, c'est le sujet.
+- **Deux familles visuelles, et seulement deux : `reel` et `fantome`.** Trait
+  plein + couleur saturée + halo + remplissage plein pour le réel ; trait
+  pointillé `[4, 5]` + même teinte à 0.30 d'opacité + jamais de halo + jamais
+  de remplissage plein pour le fantôme. Aucune couleur, ombre ou forme qui ne
+  soit ni l'un ni l'autre. Règle complète et ce qu'elle interdit dans
+  `docs/univers.md` — à lire avant de dessiner quoi que ce soit de nouveau.
 
 ## Contexte
 
