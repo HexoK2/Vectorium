@@ -95,19 +95,16 @@ body {
 .liste-notions li:has(a):hover { border-color: var(--vec-a); }
 .liste-notions a:hover { color: var(--vec-a); }
 
-.notion-a-venir {
-  color: var(--text-mid);
-}
-
-.notion-a-venir span {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-mid);
-  border: 1px solid var(--grid-line);
-  border-radius: 999px;
-  padding: 0.15rem 0.6rem;
-  white-space: nowrap;
+/* Carte fantôme : une notion pas encore écrite. Bordure pointillée,
+   couleur désaturée, jamais de halo, jamais de remplissage plein — le
+   système visuel suffit à dire « ce n'est pas encore là », pas besoin
+   d'étiquette « bientôt ». Règle complète dans docs/univers.md.
+   Sélecteur `li.notion-fantome` : il faut battre la spécificité de
+   `.liste-notions li` qui fixe déjà bordure et fond. */
+.liste-notions li.notion-fantome {
+  color: var(--text-low);
+  border-style: dashed;
+  background: transparent;
 }
 
 /* --- Page d'une notion --------------------------------------------------- */
