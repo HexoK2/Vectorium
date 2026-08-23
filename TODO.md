@@ -78,7 +78,7 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
 
 ## Ticket 02 — Produit vectoriel (semaine du 26/08)
 
-- [ ] **Écrire `js/notions/produit-vectoriel.js`**
+- [x] **Écrire `js/notions/produit-vectoriel.js`**
   Le moteur est en 2D : la notion traite donc le produit vectoriel **en 2D**,
   c'est-à-dire le scalaire `ax*by − ay*bx`. Ne construis pas de canvas 3D.
   Ce que la notion doit faire comprendre :
@@ -100,13 +100,13 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
   qu'un seul fichier de `js/moteur/` ait été modifié**. C'est le test de
   l'architecture — si tu as dû toucher au moteur, dis-le.
 
-- [ ] **Ajouter la carte à l'accueil, déployer, tester sur téléphone**
+- [x] **Ajouter la carte à l'accueil, déployer, tester sur téléphone**
 
 ---
 
 ## Ticket 03 — Interpolation linéaire (semaine du 26/08)
 
-- [ ] **Ajouter la gestion des curseurs au moteur**
+- [x] **Ajouter la gestion des curseurs au moteur**
   L'interpolation a besoin d'un paramètre `t` entre 0 et 1, donc d'un curseur.
   Extension **générique** et légitime : une notion déclare
   `curseurs: [{ id, min, max, pas, defaut, label }]`, le moteur les fabrique et
@@ -115,7 +115,7 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
   Terminé quand : les deux notions existantes fonctionnent encore à
   l'identique, sans curseur déclaré.
 
-- [ ] **Écrire `js/notions/interpolation-lineaire.js`, sa page et son bloc**
+- [x] **Écrire `js/notions/interpolation-lineaire.js`, sa page et son bloc**
   `lerp(A, B, t) = A + (B − A) × t`. Montrer le point mobile sur le segment ;
   `t = 0` donne A, `t = 1` donne B, `t = 0.5` le milieu.
   Usage en jeu : `Vector3.Lerp`, faire suivre une caméra, adoucir un
@@ -124,7 +124,7 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
   Terminé quand : `t = 0.5` place le point exactement au milieu, vérifié à
   l'œil sur la grille.
 
-- [ ] **Carte, déploiement, test téléphone**
+- [x] **Carte, déploiement, test téléphone**
 
 ---
 
