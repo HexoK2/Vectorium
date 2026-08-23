@@ -4,12 +4,20 @@
    Premier usage du cinquième champ optionnel du contrat : curseurs.
    ========================================================================== */
 
+import { POINTILLES_FANTOME, OPACITE_FANTOME } from './univers.js'
+
 const COULEUR_A = '#4fd1c5'
 const GLOW_A    = 'rgba(79, 209, 197, 0.35)'
+const FANTOME_A = `rgba(79, 209, 197, ${OPACITE_FANTOME})`
 const COULEUR_B = '#ff6b9d'
 const GLOW_B    = 'rgba(255, 107, 157, 0.35)'
+const FANTOME_B = `rgba(255, 107, 157, ${OPACITE_FANTOME})`
 const JAUNE     = '#ffc107'
 const GRILLE    = '#1c2432'
+
+// En dessous de ce déplacement, la différence est du bruit de manipulation,
+// pas une intention : on ne montre rien.
+const SEUIL_DEPLACEMENT = 0.05
 
 export const interpolationLineaire = {
   id: 'interpolation-lineaire',
@@ -34,6 +42,17 @@ export const interpolationLineaire = {
   dessiner(d, [a, b], val) {
     // Le chemin parcouru : un pointillé entre les pointes de A et de B.
     d.segment(a, b, { couleur: GRILLE, pointilles: [4, 4] })
+
+    // Le fantôme : position de départ si un point a bougé au-delà du seuil.
+    for (const [actuel, depart, couleurFantome] of [
+      [a, this.points[0], FANTOME_A],
+      [b, this.points[1], FANTOME_B],
+    ]) {
+      const deplacement = Math.hypot(actuel.x - depart.x, actuel.y - depart.y)
+      if (deplacement > SEUIL_DEPLACEMENT) {
+        d.segment(depart, actuel, { couleur: couleurFantome, pointilles: POINTILLES_FANTOME })
+      }
+    }
 
     // A et B restent des vecteurs depuis l'origine, comme les autres notions.
     const origine = { x: 0, y: 0 }

@@ -3,14 +3,22 @@
    Mesure l'aire du parallélogramme formé par deux vecteurs, avec signe.
    ========================================================================== */
 
+import { POINTILLES_FANTOME, OPACITE_FANTOME } from './univers.js'
+
 const COULEUR_A = '#4fd1c5'
 const GLOW_A    = 'rgba(79, 209, 197, 0.35)'
+const FANTOME_A = `rgba(79, 209, 197, ${OPACITE_FANTOME})`
 const COULEUR_B = '#ff6b9d'
 const GLOW_B    = 'rgba(255, 107, 157, 0.35)'
+const FANTOME_B = `rgba(255, 107, 157, ${OPACITE_FANTOME})`
 
 const VERT  = '#59d97a'
 const ROUGE = '#ff5c5c'
 const GRIS  = '#d8dee8'
+
+// En dessous de ce déplacement, la différence est du bruit de manipulation,
+// pas une intention : on ne montre rien.
+const SEUIL_DEPLACEMENT = 0.05
 
 export const produitVectoriel = {
   id: 'produit-vectoriel',
@@ -44,6 +52,17 @@ export const produitVectoriel = {
 
   dessiner(d, [a, b]) {
     const origine = { x: 0, y: 0 }
+
+    // Le fantôme : position de départ si un point a bougé au-delà du seuil.
+    for (const [actuel, depart, couleurFantome] of [
+      [a, this.points[0], FANTOME_A],
+      [b, this.points[1], FANTOME_B],
+    ]) {
+      const deplacement = Math.hypot(actuel.x - depart.x, actuel.y - depart.y)
+      if (deplacement > SEUIL_DEPLACEMENT) {
+        d.segment(depart, actuel, { couleur: couleurFantome, pointilles: POINTILLES_FANTOME })
+      }
+    }
 
     // Dessiner le parallélogramme (l'aire visuelle de la notion)
     const p3 = { x: a.x + b.x, y: a.y + b.y }
