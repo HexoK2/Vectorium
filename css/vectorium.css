@@ -261,7 +261,7 @@ body {
 
 .result-value {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 700;
   line-height: 1;
   transition: color 0.15s ease;
