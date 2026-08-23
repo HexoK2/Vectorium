@@ -50,7 +50,7 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
   Terminé quand : la page se lit de bout en bout sur un téléphone sans zoomer,
   et quelqu'un qui n'a jamais fait de maths de jeu comprend à quoi ça sert.
 
-- [ ] **Page de cours `cours/produit-scalaire.html`**
+- [x] **Page de cours `cours/produit-scalaire.html`**
   Le texte long : d'où vient la formule, le lien avec le cosinus, la
   normalisation, deux ou trois exemples de code Unity (`Vector3.Dot`).
   Lien « Aller plus loin » depuis le bloc « En clair », et retour vers la

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cours — Produit scalaire — Vectorium</title>
+  <meta name="description" content="D'où vient le produit scalaire, son lien avec le cosinus, pourquoi normaliser, et des exemples en Unity.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="fil"><a href="../notions/produit-scalaire.html">← Retour à la notion</a></p>
+  <p class="eyebrow">Cours / produit scalaire</p>
+  <h1>D'où vient le produit scalaire</h1>
+  <p class="sub">
+    Le bloc « En clair » de la notion te donne de quoi t'en servir tout de
+    suite. Cette page va plus loin : d'où vient la formule, pourquoi elle
+    marche, et comment on l'utilise vraiment dans un moteur de jeu.
+  </p>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">La projection</h2>
+    <p class="cours-texte">
+      Imagine que tu projettes A sur la direction de B — comme l'ombre de A
+      si la lumière tombait perpendiculairement à B. Cette ombre a une
+      longueur. Multiplie cette longueur par celle de B, et tu obtiens A · B.
+    </p>
+    <p class="cours-texte">
+      C'est pour ça que le produit scalaire capture « à quel point A va dans
+      la direction de B » : plus l'ombre est longue (A et B alignés), plus le
+      résultat est grand.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Le lien avec le cosinus</h2>
+    <p class="cours-texte">
+      La définition complète du produit scalaire est :
+    </p>
+    <div class="code-box">
+      <div class="box-label">Formule complète</div>
+      A · B = |A| × |B| × cos(θ)<br>
+      <span class="box-note">où θ est l'angle entre A et B, et |A|, |B| leurs longueurs.</span>
+    </div>
+    <p class="cours-texte">
+      La formule par composantes que tu vois dans le code —
+      <span class="code-inline">ax×bx + ay×by</span> — donne exactement le
+      même nombre, mais sans avoir besoin de connaître l'angle à l'avance.
+      Les deux formules sont mathématiquement identiques ; celle par
+      composantes est juste plus pratique à calculer.
+    </p>
+    <p class="cours-texte">
+      En isolant le cosinus dans la première formule —
+      <span class="code-inline">cos(θ) = (A · B) / (|A| × |B|)</span> — tu
+      retrouves l'angle avec <span class="code-inline">Math.acos</span>.
+      C'est exactement ce que fait la notion pour afficher l'angle entre A
+      et B.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Pourquoi normaliser</h2>
+    <p class="cours-texte">
+      Si tu veux seulement l'angle — pas l'intensité — il faut diviser
+      chaque vecteur par sa propre longueur avant de calculer le produit
+      scalaire. C'est la <strong>normalisation</strong> : un vecteur
+      normalisé a une longueur de 1.
+    </p>
+    <p class="cours-texte">
+      Sans ça, deux vecteurs très longs donnent un grand A · B même s'ils
+      sont presque perpendiculaires — la longueur pollue le résultat.
+      Une fois les deux vecteurs normalisés, A · B = cos(θ) directement :
+      un nombre entre -1 et 1, qui ne dépend plus que de l'angle.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">En Unity</h2>
+    <p class="cours-texte">Trois usages concrets :</p>
+    <div class="code-box">
+      <div class="box-label">Champ de vision d'un ennemi</div>
+      float alignement = Vector3.Dot(ennemi.forward, versJoueur.normalized);<br>
+      if (alignement &gt; 0.7f) { <span class="box-note">// le joueur est dans le cône de vision</span> }
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Calculer l'angle exact entre deux directions</div>
+      float cos = Vector3.Dot(a.normalized, b.normalized);<br>
+      float angleDeg = Mathf.Acos(cos) * Mathf.Rad2Deg;
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Le raccourci</div>
+      float angle = Vector3.Angle(a, b);<br>
+      <span class="box-note">Unity a déjà une fonction qui fait exactement ce calcul.</span>
+    </div>
+  </section>
+
+  <p class="fil"><a href="../notions/produit-scalaire.html">← Retour à la notion</a></p>
+
+</div>
+
+</body>
+</html>
