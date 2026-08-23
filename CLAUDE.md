@@ -39,12 +39,17 @@ Règles qui vont avec :
   existent derrière les drapeaux `MONTRER_PROJECTION` et `MONTRER_ARC`, tous
   deux à `false`. Ce qui *est* la notion elle-même reste dessiné : pour le
   produit vectoriel, le parallélogramme n'est pas une aide, c'est le sujet.
-- **Deux familles visuelles, et seulement deux : `reel` et `fantome`.** Trait
-  plein + couleur saturée + halo + remplissage plein pour le réel ; trait
-  pointillé `[4, 5]` + même teinte à 0.30 d'opacité + jamais de halo + jamais
-  de remplissage plein pour le fantôme. Aucune couleur, ombre ou forme qui ne
-  soit ni l'un ni l'autre. Règle complète et ce qu'elle interdit dans
-  `docs/univers.md` — à lire avant de dessiner quoi que ce soit de nouveau.
+- **Trois registres visuels, pas deux : le décor, `reel` et `fantome`.** Le
+  décor (grille, axes, lignes de construction) est en trait plein, couleur
+  neutre très atténuée, jamais de halo, jamais de pointillé — ce n'est ni vrai
+  ni faux, c'est la scène. Le réel est plein, saturé, avec halo et
+  remplissage plein. Le fantôme est pointillé `[4, 5]` (motif unique dans tout
+  le site), même teinte que son réel à 0.30 d'opacité, jamais de halo, jamais
+  de remplissage plein. **Le discriminant tient en une phrase : le pointillé
+  appartient au fantôme, exclusivement** — un trait plein mais atténué est du
+  décor, pas un fantôme. Aucune couleur, ombre ou forme qui ne soit ni l'un ni
+  l'autre. Règle complète et ce qu'elle interdit dans `docs/univers.md` — à
+  lire avant de dessiner quoi que ce soit de nouveau.
 
 ## Contexte
 
