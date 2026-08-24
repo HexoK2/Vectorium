@@ -36,3 +36,7 @@ Testeur : un proche, sans connaissances particulières dans le domaine.
 
 Incompréhension révélée : l'accueil montre les notions mais n'explique pas
 pourquoi le site existe ni ce qu'on en retire — à corriger sur `index.html`.
+
+Correction (uniformisation interpolation + texte d'intro sur l'accueil) :
+implémentation 2 minutes pour le texte d'intro — reste à voir si ça répond
+vraiment au retour une fois validé par le testeur, dans deux jours.
