@@ -20,14 +20,6 @@
     perpendiculaires, et savoir si quelque chose tourne horaire ou antihoraire.
   </p>
 
-  <section class="cours-intro">
-    <h2 class="bloc-titre">Pourquoi ça existe</h2>
-    <p class="cours-texte"><strong>La question :</strong> « Combien de surface deux vecteurs créent-ils ensemble, et dans quel sens ? »</p>
-    <p class="cours-texte">Le produit scalaire te dit s'ils pointent dans la même direction. Mais il ne te dit pas « combien de rotation » il y a entre eux. C'est là qu'intervient le produit vectoriel.</p>
-    <p class="cours-texte"><strong>Résultat positif :</strong> B est à gauche de A (rotation antihoraire). <strong>Résultat négatif :</strong> B est à droite de A (rotation horaire). <strong>Zéro :</strong> ils sont colinéaires (pas de rotation du tout).</p>
-    <p class="cours-texte">En 3D, c'est un vecteur perpendiculaire. En 2D (ce que tu vois ici), c'est juste le composant z de ce vecteur 3D.</p>
-  </section>
-
   <main class="module" id="module">
     <div class="colonne-scene">
       <div class="scene"><canvas></canvas></div>
@@ -39,38 +31,21 @@
     </aside>
   </main>
 
-  <section class="comparaison">
-    <h2 class="bloc-titre">La formule et le code, c'est la même chose</h2>
-    <div class="comparaison-row">
-      <div class="formula-box">
-        <div class="box-label">Formule math (2D)</div>
-        A × B = (ax × by) − (ay × bx)<br><br>
-        <span class="box-note">Croise-multiplie et soustrait.</span>
+  <section class="en-clair">
+    <h2 class="bloc-titre">En clair</h2>
+    <div class="en-clair-grid">
+      <div>
+        <h3 class="en-clair-titre">Dans un jeu</h3>
+        <p class="en-clair-texte">Savoir de quel côté tourner. Calculer une normale. Trier un ordre d'affichage. Trois besoins concrets, un seul calcul.</p>
       </div>
-      <div class="code-box">
-        <div class="box-label">Code Unity (3D)</div>
-        Vector3.Cross(A, B);<br><br>
-        <span class="box-note">En 3D, tu obtiens un vecteur. En 2D, c'est juste le .z.</span>
+      <div>
+        <h3 class="en-clair-titre">Ce que dit la formule</h3>
+        <p class="en-clair-texte"><span class="code-inline">ax×by − ay×bx</span> mesure l'aire orientée entre A et B. Positif : antihoraire. Négatif : horaire. Zéro : colinéaires.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="use-cases">
-    <h2 class="bloc-titre">Où on l'utilise (et les pièges)</h2>
-
-    <div class="use-case-item">
-      <div class="use-case-name">🔄 Rotation : dans quel sens tourne-t-on ?</div>
-      <div class="use-case-desc">Si <span class="code-inline">Cross(forward, targetDirection)</span> est positif, tu tournes à gauche. Négatif = tu tournes à droite. Zéro = pas besoin de tourner.</div>
-    </div>
-
-    <div class="use-case-item">
-      <div class="use-case-name">📐 Perpendiculaire : trouver un vecteur perpendiculaire</div>
-      <div class="use-case-desc">Le résultat du cross product (en 3D) est perpendiculaire aux deux vecteurs d'entrée. C'est super utile pour les rotations et l'orientation.</div>
-    </div>
-
-    <div class="use-case-item">
-      <div class="use-case-name">🚨 Piège : l'ordre compte</div>
-      <div class="use-case-desc"><span class="code-inline">Cross(A, B)</span> ≠ <span class="code-inline">Cross(B, A)</span>. Le résultat a le signe opposé. L'ordre compte ! C'est pas commutatif comme le dot product.</div>
+      <div>
+        <h3 class="en-clair-titre">L'erreur classique</h3>
+        <p class="en-clair-texte">L'ordre compte : <span class="code-inline">Cross(A, B) ≠ Cross(B, A)</span>. Contrairement au produit scalaire, inverser A et B inverse le signe du résultat.</p>
+      </div>
     </div>
   </section>
 

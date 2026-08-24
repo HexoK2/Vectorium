@@ -93,7 +93,7 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
   Terminé quand : deux vecteurs colinéaires donnent 0.00, et A=(1,0) B=(0,1)
   donne exactement 1.00.
 
-- [ ] **Créer `notions/produit-vectoriel.html` et son bloc « En clair »**
+- [x] **Créer `notions/produit-vectoriel.html` et son bloc « En clair »**
   Copie le gabarit du produit scalaire. Pour l'usage en jeu : savoir de quel
   côté tourner, calculer une normale, trier un ordre d'affichage.
   Terminé quand : la page se comporte comme celle du produit scalaire **sans
