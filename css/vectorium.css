@@ -72,6 +72,7 @@ body {
   margin: 0;
   padding: 0;
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 0.75rem;
 }
 
@@ -79,29 +80,62 @@ body {
   background: var(--bg-panel);
   border: 1px solid var(--grid-line);
   border-radius: var(--rayon);
-  padding: 1rem 1.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.liste-notions a {
-  color: var(--text-hi);
-  text-decoration: none;
-  font-weight: 600;
+  overflow: hidden;
 }
 
 .liste-notions li:has(a):hover { border-color: var(--vec-a); }
-.liste-notions a:hover { color: var(--vec-a); }
+
+/* Carte d'une notion prête : vignette dessinée par monterApercu(), titre,
+   phrase. Le lien enveloppe toute la carte. */
+.carte-notion a {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
+.apercu {
+  aspect-ratio: 4 / 3;
+  background: var(--bg);
+}
+
+.apercu canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.carte-texte {
+  padding: 1rem 1.25rem;
+}
+
+.carte-texte h2 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-hi);
+}
+
+.liste-notions a:hover .carte-texte h2 { color: var(--vec-a); }
+
+.carte-texte p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+}
 
 /* Carte fantôme : une notion pas encore écrite. Bordure pointillée,
-   couleur désaturée, jamais de halo, jamais de remplissage plein — le
-   système visuel suffit à dire « ce n'est pas encore là », pas besoin
-   d'étiquette « bientôt ». Règle complète dans docs/univers.md.
+   couleur désaturée, jamais de halo, jamais de remplissage plein, et pas de
+   vignette — le système visuel suffit à dire « ce n'est pas encore là »,
+   pas besoin d'étiquette « bientôt ». Règle complète dans docs/univers.md.
    Sélecteur `li.notion-fantome` : il faut battre la spécificité de
    `.liste-notions li` qui fixe déjà bordure et fond. */
 .liste-notions li.notion-fantome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  padding: 1rem 1.25rem;
   color: var(--text-low);
   border-style: dashed;
   background: transparent;

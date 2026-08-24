@@ -61,7 +61,7 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
   **Ne fais cette page que pour le produit scalaire pour l'instant.** Elle sert
   de modèle ; les autres notions n'en auront que si le calendrier le permet.
 
-- [ ] **Page d'accueil en cartes, avec un aperçu dessiné par le moteur**
+- [x] **Page d'accueil en cartes, avec un aperçu dessiné par le moteur**
   Chaque notion devient une carte : une vignette (canvas figé montrant la
   notion dans une position parlante) + son titre + une phrase.
   Cela demande une **extension générique du moteur** : une fonction qui monte

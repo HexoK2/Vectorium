@@ -21,6 +21,9 @@
 
    monterModule() ne sait rien d'autre. Ajouter une notion = écrire un fichier
    qui exporte ces clés. Aucun fichier de js/moteur/ n'est à modifier.
+
+   Ce fichier exporte aussi monterApercu() : la même notion, dessinée une
+   fois, sans drag ni panneau ni bouton — pour les vignettes de l'accueil.
    ========================================================================== */
 
 import { creerRepere } from './repere.js'
@@ -296,4 +299,38 @@ export function monterModule(notion, racine) {
   rendre()
 
   return { points, rendre: demanderRendu, repere }
+}
+
+/* =============================================================================
+   monterApercu() — la même notion, en mode vignette : pas de drag, pas de
+   panneau, pas de bouton, juste le dessin. Sert à afficher une carte sur
+   l'accueil sans dupliquer la logique de dessin de chaque notion.
+
+   Comme monterModule(), le moteur ne sait toujours pas ce qu'est un produit
+   scalaire — il redessine simplement une fois (et à chaque redimensionnement)
+   ce que notion.dessiner() lui donne.
+   ========================================================================== */
+export function monterApercu(notion, racine) {
+  const canvas = racine.querySelector('canvas')
+  const repere = creerRepere(canvas, notion.repere)
+  const dessin = creerDessin(repere)
+
+  const points = notion.points.map((p) => ({ ...p }))
+
+  const curseurs = {}
+  ;(notion.curseurs || []).forEach((c) => { curseurs[c.id] = c.defaut })
+
+  function rendre() {
+    repere.effacer()
+    repere.dessinerGrille(notion.repere)
+    const valeurs = notion.calculer(points, curseurs)
+    notion.dessiner(dessin, points, valeurs, curseurs)
+  }
+
+  new ResizeObserver(() => {
+    repere.redimensionner()
+    rendre()
+  }).observe(canvas)
+
+  rendre()
 }

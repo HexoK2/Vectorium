@@ -19,9 +19,33 @@
 
   <main>
     <ul class="liste-notions">
-      <li><a href="notions/produit-scalaire.html">Produit scalaire</a> <span>prêt</span></li>
-      <li><a href="notions/produit-vectoriel.html">Produit vectoriel</a> <span>prêt</span></li>
-      <li><a href="notions/interpolation-lineaire.html">Interpolation linéaire</a> <span>prêt</span></li>
+      <li class="carte-notion">
+        <a href="notions/produit-scalaire.html">
+          <div class="apercu"><canvas data-apercu="produit-scalaire"></canvas></div>
+          <div class="carte-texte">
+            <h2>Produit scalaire</h2>
+            <p>Est-ce que ces deux vecteurs vont dans la même direction ?</p>
+          </div>
+        </a>
+      </li>
+      <li class="carte-notion">
+        <a href="notions/produit-vectoriel.html">
+          <div class="apercu"><canvas data-apercu="produit-vectoriel"></canvas></div>
+          <div class="carte-texte">
+            <h2>Produit vectoriel</h2>
+            <p>Quelle surface, quel sens de rotation ?</p>
+          </div>
+        </a>
+      </li>
+      <li class="carte-notion">
+        <a href="notions/interpolation-lineaire.html">
+          <div class="apercu"><canvas data-apercu="interpolation-lineaire"></canvas></div>
+          <div class="carte-texte">
+            <h2>Interpolation linéaire</h2>
+            <p>Glisser d'un point à un autre, en douceur.</p>
+          </div>
+        </a>
+      </li>
       <li class="notion-fantome">Quaternions</li>
     </ul>
   </main>
@@ -29,6 +53,21 @@
   <footer class="pied">
     Projet étudiant — code source sur GitHub.
   </footer>
+
+  <script type="module">
+    import { monterApercu } from './js/moteur/module.js'
+    import { produitScalaire } from './js/notions/produit-scalaire.js'
+    import { produitVectoriel } from './js/notions/produit-vectoriel.js'
+    import { interpolationLineaire } from './js/notions/interpolation-lineaire.js'
+
+    // Une notion de plus = un import ci-dessus + une entrée ici.
+    const notions = [produitScalaire, produitVectoriel, interpolationLineaire]
+
+    document.querySelectorAll('[data-apercu]').forEach((canvas) => {
+      const notion = notions.find((n) => n.id === canvas.dataset.apercu)
+      if (notion) monterApercu(notion, canvas.closest('.apercu'))
+    })
+  </script>
 
 </body>
 </html>
