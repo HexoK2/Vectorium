@@ -26,3 +26,13 @@
 | Bloc « En clair » sous le canvas (produit scalaire) | 1 heure | 30 minutes | Testé d'abord sur une page à part, validé sur téléphone, puis appliqué à la vraie page ; ajustement de la taille du résultat principal (40px → 30px) au passage |
 | Page de cours `cours/produit-scalaire.html` | non estimé | — | À surveiller : plusieurs tâches de suite sans estimation, ça vide le tableau de son intérêt pour le tuteur |
 | Accueil en cartes + vignette (`monterApercu`) | non estimé | 30 minutes max | Testé sur téléphone : vignettes, clic, carte fantôme distincte |
+
+## Premier retour utilisateur (test informel, hors promo)
+
+Testeur : un proche, sans connaissances particulières dans le domaine.
+
+> « Pas mal du tout. Il faudrait ajouter un petit texte en intro qui explique
+> la motivation de ce site et ce que le lecteur en tirera. »
+
+Incompréhension révélée : l'accueil montre les notions mais n'explique pas
+pourquoi le site existe ni ce qu'on en retire — à corriger sur `index.html`.
