@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test — Matrices — Vectorium</title>
+  <meta name="description" content="Comprendre la rotation et la mise a l'echelle d'un vecteur avec deux curseurs.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="eyebrow">Test — notion 04 / matrices</p>
+  <h1>Fais tourner le vecteur.</h1>
+  <p class="sub">
+    Une matrice de transformation change un vecteur sans changer sa nature :
+    une rotation tourne sa direction, une échelle change sa longueur. Ici,
+    les deux à la fois — déplace A, puis joue avec les curseurs pour voir
+    A' bouger.
+  </p>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">glisse A (cyan) — A' (rose) suit avec la rotation et l'échelle</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <section class="en-clair">
+    <h2 class="bloc-titre">En clair</h2>
+    <div class="en-clair-grid">
+      <div>
+        <h3 class="en-clair-titre">Dans un jeu</h3>
+        <p class="en-clair-texte">Faire tourner un personnage vers sa cible. Orienter un projectile. Zoomer un sprite. Toujours la même opération : tourner et/ou redimensionner un vecteur.</p>
+      </div>
+      <div>
+        <h3 class="en-clair-titre">Ce que dit la formule</h3>
+        <p class="en-clair-texte">La rotation change la <strong>direction</strong> de A sans toucher sa longueur. L'échelle change sa <strong>longueur</strong> sans toucher sa direction. Les deux sont indépendantes.</p>
+      </div>
+      <div>
+        <h3 class="en-clair-titre">L'erreur classique</h3>
+        <p class="en-clair-texte">Confondre degrés et radians. <span class="code-inline">Math.cos</span>/<span class="code-inline">Math.sin</span> attendent des radians — un angle en degrés donne un résultat n'importe quoi si tu oublies de convertir.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Test — cette notion n'est pas encore reliée à l'accueil. Elle sert à valider l'idée avant de l'ajouter pour de vrai.</p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { matrices } from '../js/notions/matrices.js'
+
+  monterModule(matrices, document.getElementById('module'))
+</script>
+
+</body>
+</html>
