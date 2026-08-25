@@ -201,6 +201,12 @@ body {
   cursor: grabbing;
 }
 
+/* Scène de démonstration : juste une illustration animée, rien à attraper. */
+.scene.demo canvas {
+  touch-action: auto;
+  cursor: default;
+}
+
 .hint {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
