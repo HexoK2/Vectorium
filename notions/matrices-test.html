@@ -49,6 +49,34 @@
     </div>
   </section>
 
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Vidéo — voir la transformation autrement</h2>
+    <p class="cours-texte">
+      Une matrice, c'est ce qui arrive aux deux directions de base (x et y)
+      — chaque vecteur suit. C'est exactement la rotation et l'échelle que
+      tu manipules au-dessus, expliquées visuellement.
+    </p>
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/kYB8IZa5AuE"
+        title="Linear transformations and matrices — 3Blue1Brown"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <p class="video-credit">« Linear transformations and matrices », chapitre 3 de Essence of Linear Algebra, 3Blue1Brown (en anglais, sous-titres disponibles).</p>
+  </section>
+
+  <section class="comparaison">
+    <h2 class="bloc-titre">En Unity</h2>
+    <div class="code-box">
+      <div class="box-label">Tourner puis mettre à l'échelle un vecteur</div>
+      Vector3 tourne = Quaternion.Euler(0, 0, angleDegres) * direction;<br>
+      Vector3 resultat = tourne * facteurEchelle;<br><br>
+      <span class="box-note">Quaternion.Euler attend des degrés — contrairement à Math.Cos/Sin qui attendent des radians. C'est exactement l'erreur classique mentionnée plus haut.</span>
+    </div>
+  </section>
+
   <p class="foot">Test — cette notion n'est pas encore reliée à l'accueil. Elle sert à valider l'idée avant de l'ajouter pour de vrai.</p>
 
 </div>
