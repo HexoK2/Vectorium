@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cours — Produit vectoriel — Vectorium</title>
+  <meta name="description" content="D'où vient le produit vectoriel, son lien avec le sinus et l'aire, pourquoi le signe existe, et des exemples en Unity.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="fil"><a href="../notions/produit-vectoriel.html">← Retour à la notion</a></p>
+  <p class="eyebrow">Cours / produit vectoriel</p>
+  <h1>D'où vient le produit vectoriel</h1>
+  <p class="sub">
+    Le bloc « En clair » de la notion te donne de quoi t'en servir tout de
+    suite. Cette page va plus loin : le lien avec le sinus, pourquoi le
+    signe existe, et comment on l'utilise vraiment dans un moteur de jeu.
+  </p>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Le lien avec le sinus</h2>
+    <p class="cours-texte">
+      Comme le produit scalaire a sa définition complète avec le cosinus, le
+      produit vectoriel a la sienne avec le sinus :
+    </p>
+    <div class="code-box">
+      <div class="box-label">Formule complète</div>
+      A × B = |A| × |B| × sin(θ)<br>
+      <span class="box-note">où θ est l'angle orienté de A vers B, et |A|, |B| leurs longueurs.</span>
+    </div>
+    <p class="cours-texte">
+      La formule par composantes <span class="code-inline">ax×by − ay×bx</span>
+      donne exactement le même nombre, sans connaître l'angle à l'avance —
+      même relation qu'entre le produit scalaire et le cosinus.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Pourquoi le signe existe</h2>
+    <p class="cours-texte">
+      Le cosinus est symétrique : <span class="code-inline">cos(θ) = cos(−θ)</span>.
+      C'est pour ça que le produit scalaire ne peut pas te dire de quel côté
+      tourner — il ne fait pas la différence entre gauche et droite.
+    </p>
+    <p class="cours-texte">
+      Le sinus, lui, ne l'est pas : <span class="code-inline">sin(−θ) = −sin(θ)</span>.
+      Cette asymétrie est exactement ce qui capture le sens de rotation —
+      c'est elle qui fait que <span class="code-inline">Cross(A, B)</span>
+      et <span class="code-inline">Cross(B, A)</span> ont des signes opposés.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Le lien avec l'aire</h2>
+    <p class="cours-texte">
+      <span class="code-inline">|A × B|</span> est exactement l'aire du
+      parallélogramme formé par A et B — celui que dessine la notion. Diviser
+      par deux donne l'aire du triangle formé par les deux vecteurs.
+    </p>
+    <p class="cours-texte">
+      Cette propriété sert à tester si un point est à l'intérieur d'un
+      triangle : calcule le produit vectoriel entre chaque côté et la
+      direction vers le point — si les trois signes sont identiques, le
+      point est dedans.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">En Unity</h2>
+    <p class="cours-texte">Trois usages concrets :</p>
+    <div class="code-box">
+      <div class="box-label">Le produit vectoriel en 3D</div>
+      Vector3 normale = Vector3.Cross(a, b);<br>
+      <span class="box-note">Le résultat est un vecteur perpendiculaire aux deux entrées — utile pour l'éclairage ou l'orientation d'une surface.</span>
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Le test 2D « gauche ou droite »</div>
+      float cote = Vector3.Cross(a, b).z;<br>
+      if (cote &gt; 0) { <span class="box-note">// b est à gauche de a</span> }
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Le raccourci</div>
+      float angle = Vector2.SignedAngle(a, b);<br>
+      <span class="box-note">Unity utilise déjà le produit vectoriel en interne pour donner le signe de l'angle.</span>
+    </div>
+  </section>
+
+  <p class="fil"><a href="../notions/produit-vectoriel.html">← Retour à la notion</a></p>
+
+</div>
+
+</body>
+</html>

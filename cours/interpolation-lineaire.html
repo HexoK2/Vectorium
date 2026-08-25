@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cours — Interpolation linéaire — Vectorium</title>
+  <meta name="description" content="D'où vient lerp, le probleme du framerate variable, et des exemples en Unity.">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="fil"><a href="../notions/interpolation-lineaire.html">← Retour à la notion</a></p>
+  <p class="eyebrow">Cours / interpolation linéaire</p>
+  <h1>D'où vient lerp</h1>
+  <p class="sub">
+    Le bloc « En clair » de la notion te donne de quoi t'en servir tout de
+    suite. Cette page va plus loin : d'où vient la formule, pourquoi le
+    framerate casse tout si on l'ignore, et les alternatives à connaître.
+  </p>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">D'où vient la formule</h2>
+    <p class="cours-texte">
+      <span class="code-inline">P = A + (B − A) × t</span> peut aussi
+      s'écrire <span class="code-inline">P = (1 − t) × A + t × B</span> —
+      c'est la même formule, réarrangée. Sous cette forme, on voit que P est
+      une <strong>combinaison pondérée</strong> de A et B : les deux poids
+      <span class="code-inline">(1 − t)</span> et <span class="code-inline">t</span>
+      font toujours 1 au total.
+    </p>
+    <p class="cours-texte">
+      Quand <span class="code-inline">t</span> reste entre 0 et 1, P reste
+      sur le segment AB. En dehors — <span class="code-inline">t = 1.5</span>
+      par exemple — P sort du segment, du côté de B : c'est
+      l'<strong>extrapolation</strong>.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Le problème du framerate variable</h2>
+    <p class="cours-texte">
+      Si tu écris <span class="code-inline">t += vitesse</span> à chaque
+      frame sans plus de précaution, la vitesse réelle du déplacement dépend
+      du nombre de frames par seconde. Sur un PC à 144 fps, l'objet avance
+      144 fois par seconde ; sur un téléphone à 30 fps, seulement 30 fois —
+      le même code donne un mouvement presque 5 fois plus lent.
+    </p>
+    <p class="cours-texte">
+      <span class="code-inline">Time.deltaTime</span> — le temps écoulé
+      depuis la frame précédente — corrige ça : en multipliant la vitesse
+      par ce temps, le déplacement total sur une seconde reste le même quel
+      que soit le nombre de frames utilisées pour y arriver.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Lerp n'est pas la seule option</h2>
+    <p class="cours-texte">
+      <span class="code-inline">Mathf.Lerp</span> et
+      <span class="code-inline">Vector3.Lerp</span> bornent automatiquement
+      <span class="code-inline">t</span> entre 0 et 1 — impossible de
+      dépasser B, même avec un t supérieur à 1.
+      <span class="code-inline">Vector3.LerpUnclamped</span> autorise
+      l'extrapolation volontairement.
+    </p>
+    <p class="cours-texte">
+      Lerp avance à vitesse constante puis s'arrête net. Pour un mouvement
+      qui accélère puis ralentit en douceur, <span class="code-inline">Vector3.SmoothDamp</span>
+      est souvent un meilleur choix — même idée de base, mécanique différente.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">En Unity</h2>
+    <p class="cours-texte">Trois usages concrets :</p>
+    <div class="code-box">
+      <div class="box-label">Faire suivre une caméra en douceur</div>
+      transform.position = Vector3.Lerp(transform.position, cible, Time.deltaTime * vitesse);<br>
+      <span class="box-note">Rappelé à chaque frame — la caméra se rapproche un peu plus à chaque appel.</span>
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Un seul nombre plutôt qu'un vecteur</div>
+      float opacite = Mathf.Lerp(0f, 1f, t);<br>
+      <span class="box-note">La même formule marche pour un seul float — pas besoin d'un vecteur.</span>
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Interpoler une couleur</div>
+      spriteRenderer.color = Color.Lerp(rouge, vert, t);<br>
+      <span class="box-note">Chaque composante (r, g, b, a) est interpolée séparément, avec le même t.</span>
+    </div>
+  </section>
+
+  <p class="fil"><a href="../notions/interpolation-lineaire.html">← Retour à la notion</a></p>
+
+</div>
+
+</body>
+</html>
