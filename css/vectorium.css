@@ -609,3 +609,19 @@ body {
   max-width: none;
   margin-bottom: 32px;
 }
+
+/* Bandeau brouillon : une page de test qui ne doit pas être prise pour une
+   vraie notion si quelqu'un tombe dessus par accident. */
+.banniere-brouillon {
+  max-width: 880px;
+  margin: 0 auto 24px;
+  padding: 12px 16px;
+  background: rgba(255, 92, 92, 0.15);
+  border: 1px solid var(--neg);
+  border-radius: var(--rayon);
+  color: var(--neg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
