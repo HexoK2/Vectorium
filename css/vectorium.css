@@ -695,18 +695,39 @@ body {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-/* --- Le bouton hamburger, visible seulement en dessous du point de bascule --- */
-.menu-hamburger {
+/* --- La barre du haut, sur mobile seulement --- */
+.menu-barre-mobile {
   display: none;
   position: fixed;
-  top: 16px;
-  left: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--grid-line);
   z-index: 200;
-  width: 44px;
-  height: 44px;
+}
+
+.menu-barre-titre {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-hi);
+}
+
+/* Un vrai bouton dans la barre, pas flottant par-dessus le contenu — sinon
+   il masque le titre de la page sur mobile. */
+.menu-hamburger {
+  display: none;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   align-items: center;
   justify-content: center;
-  background: var(--bg-panel);
+  background: transparent;
   border: 1px solid var(--grid-line);
   border-radius: 8px;
   cursor: pointer;
@@ -840,9 +861,14 @@ body {
   z-index: 140;
 }
 
-/* --- En dessous du point de bascule : menu coulissant, hors écran par défaut --- */
+/* --- En dessous du point de bascule : barre du haut + menu coulissant --- */
 @media (max-width: 899px) {
+  .menu-barre-mobile { display: flex; }
   .menu-hamburger { display: flex; }
+
+  /* La barre est fixe et prend de la place : le contenu commence en dessous
+     au lieu de disparaître derrière. */
+  body { padding-top: 56px; }
 
   .menu-lateral {
     transform: translateX(-100%);
