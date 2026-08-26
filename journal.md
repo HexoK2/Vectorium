@@ -40,3 +40,15 @@ pourquoi le site existe ni ce qu'on en retire — à corriger sur `index.html`.
 Correction (uniformisation interpolation + texte d'intro sur l'accueil) :
 implémentation 2 minutes pour le texte d'intro — reste à voir si ça répond
 vraiment au retour une fois validé par le testeur, dans deux jours.
+
+## Exploration hors TODO — matrices, bloc erreur, animations concrètes
+
+Notion « matrices » (rotation + échelle) ajoutée en test, avec un bloc erreur
+interactif (curseur qui simule la confusion degrés/radians, résultat buggé
+affiché en fantôme) et une animation illustrant chaque notion officielle
+(balle+lerp, regard d'ennemi, cible en orbite) — pas encore fusionnées dans
+les vraies pages, en attente de validation.
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Pages de cours produit-vectoriel + interpolation-lineaire | non estimé | 1 heure | Faites en avance sur l'ordre du TODO, décision assumée |

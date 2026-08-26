@@ -136,9 +136,10 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
 
 - [ ] **Corriger ce que les tests ont révélé**, par ordre de gravité.
 
-- [ ] **Pages de cours pour les autres notions** — seulement s'il reste du
+- [x] **Pages de cours pour les autres notions** — seulement s'il reste du
   temps après les corrections. Une notion sans page de cours reste utilisable :
   ne sacrifie pas les corrections pour ça.
+  Faite en avance (avant les tests camarades) : décision assumée le 26/08.
 
 - [ ] **Relire tout le code une dernière fois pour pouvoir l'expliquer.**
   Parcours chaque fichier avec l'auteur. Chaque bloc qu'il ne sait pas
