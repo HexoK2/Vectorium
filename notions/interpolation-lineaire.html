@@ -57,8 +57,11 @@
 <script type="module">
   import { monterModule } from '../js/moteur/module.js'
   import { interpolationLineaire } from '../js/notions/interpolation-lineaire.js'
+  import { demarrerDemoChargement } from '../js/notions/demo-chargement.js'
 
-  monterModule(interpolationLineaire, document.getElementById('module'))
+  const module = document.getElementById('module')
+  const moteur = monterModule(interpolationLineaire, module)
+  demarrerDemoChargement(moteur, module.querySelector('canvas'))
 </script>
 
 </body>

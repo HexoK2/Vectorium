@@ -56,8 +56,11 @@
 <script type="module">
   import { monterModule } from '../js/moteur/module.js'
   import { produitVectoriel } from '../js/notions/produit-vectoriel.js'
+  import { demarrerDemoChargement } from '../js/notions/demo-chargement.js'
 
-  monterModule(produitVectoriel, document.getElementById('module'))
+  const module = document.getElementById('module')
+  const moteur = monterModule(produitVectoriel, module)
+  demarrerDemoChargement(moteur, module.querySelector('canvas'))
 </script>
 
 </body>

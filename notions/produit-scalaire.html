@@ -56,8 +56,11 @@
 <script type="module">
   import { monterModule } from '../js/moteur/module.js'
   import { produitScalaire } from '../js/notions/produit-scalaire.js'
+  import { demarrerDemoChargement } from '../js/notions/demo-chargement.js'
 
-  monterModule(produitScalaire, document.getElementById('module'))
+  const module = document.getElementById('module')
+  const moteur = monterModule(produitScalaire, module)
+  demarrerDemoChargement(moteur, module.querySelector('canvas'))
 </script>
 
 </body>
