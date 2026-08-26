@@ -34,9 +34,22 @@
   --largeur-max: 60rem;
 }
 
+/* Thème clair : change seulement le fond de page et le texte général.
+   --grid-line, --axis, --text-low et les couleurs des vecteurs ne changent
+   jamais — c'est ce qui permet au canvas de rester identique sans y toucher.
+   .module et .apercu verrouillent en plus --bg-panel/--text-mid/--text-hi
+   pour que le widget canvas+panneau reste toujours sombre, lui aussi. */
+:root[data-theme="light"] {
+  --bg:       #f4f5f7;
+  --bg-panel: #ffffff;
+  --text-hi:  #1a1f29;
+  --text-mid: #4a5160;
+}
+
 * { box-sizing: border-box; }
 
 body {
+  transition: background-color 0.2s ease, color 0.2s ease;
   margin: 0;
   padding: 2rem 1.25rem 4rem;
   background: var(--bg);
@@ -96,7 +109,9 @@ body {
 
 .apercu {
   aspect-ratio: 4 / 3;
-  background: var(--bg);
+  /* Toujours sombre, même en thème clair : les couleurs des vecteurs sont
+     pensées pour ce fond, et on ne touche pas au moteur pour les adapter. */
+  background: #0c1016;
 }
 
 .apercu canvas {
@@ -164,12 +179,19 @@ body {
 
 .fil a:hover { color: var(--vec-a); }
 
+/* Le widget de manipulation (canvas + panneau) reste toujours sombre, même
+   en thème clair : les couleurs des vecteurs et les halos sont pensés pour
+   ce fond, et on ne touche pas au moteur ni aux notions pour les adapter.
+   Comme .apercu, c'est un verrouillage volontaire, pas un oubli. */
 .module {
   max-width: var(--largeur-max);
   margin-inline: auto;
   display: grid;
   gap: 20px;
   grid-template-columns: 1fr;
+  --bg-panel: #121722;
+  --text-mid: #8b94a7;
+  --text-hi: #eef1f6;
 }
 
 /* Le panneau de valeurs passe à côté du canvas seulement s'il y a la place. */
@@ -649,4 +671,197 @@ body {
   font-size: 12px;
   color: var(--text-low);
   margin: 8px 0 0;
+}
+
+/* =============================================================================
+   Menu latéral — navigation, thème, soutien.
+   Générique à tout le site : n'a rien à voir avec une notion en particulier.
+   ========================================================================== */
+
+/* Transition douce sur les blocs qui changent de fond avec le thème, pour
+   éviter un changement sec. Le widget canvas+panneau (.module/.apercu) est
+   volontairement exclu : il est verrouillé sombre, rien n'y bouge. */
+.liste-notions li,
+.cours-intro,
+.comparaison,
+.use-cases,
+.en-clair,
+.code-box,
+.formula-box,
+.diagramme,
+.entete,
+.pied,
+.menu-lateral {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* --- Le bouton hamburger, visible seulement en dessous du point de bascule --- */
+.menu-hamburger {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--grid-line);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text-hi);
+  margin: 3px 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Les trois traits deviennent une croix quand le menu est ouvert. */
+.menu-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.menu-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+/* --- Le menu lui-même --- */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--grid-line);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  overflow-y: auto;
+  z-index: 150;
+}
+
+.menu-entete {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-hi);
+  margin-bottom: 20px;
+  padding: 0 8px;
+}
+
+.menu-liens {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-liens a {
+  display: block;
+  padding: 10px 8px;
+  border-radius: 6px;
+  color: var(--text-mid);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.menu-liens a:hover {
+  color: var(--text-hi);
+  background: var(--bg);
+}
+
+/* La notion affichée en ce moment : marquée en JS, pas recopiée par page. */
+.menu-liens a.actif {
+  color: var(--vec-a);
+  background: var(--bg);
+  font-weight: 600;
+}
+
+.menu-separateur {
+  border: none;
+  border-top: 1px solid var(--grid-line);
+  margin: 8px 0 16px;
+}
+
+.menu-theme {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 8px;
+  margin-bottom: 12px;
+  background: transparent;
+  border: 1px solid var(--grid-line);
+  border-radius: 6px;
+  color: var(--text-mid);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-theme:hover {
+  color: var(--text-hi);
+  border-color: var(--text-mid);
+}
+
+.menu-soutenir {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  background: transparent;
+  border: 1px solid var(--pos);
+  border-radius: 6px;
+  color: var(--pos);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.menu-soutenir:hover {
+  background: var(--pos);
+  color: var(--bg-panel);
+}
+
+/* --- Le fond qui referme le menu au clic, sur mobile seulement --- */
+.menu-fond {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 140;
+}
+
+/* --- En dessous du point de bascule : menu coulissant, hors écran par défaut --- */
+@media (max-width: 899px) {
+  .menu-hamburger { display: flex; }
+
+  .menu-lateral {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  .menu-lateral.ouvert {
+    transform: translateX(0);
+  }
+
+  .menu-lateral.ouvert ~ .menu-fond,
+  .menu-fond.visible {
+    display: block;
+  }
+}
+
+/* --- À partir du point de bascule : menu fixe, contenu décalé --- */
+@media (min-width: 900px) {
+  body {
+    margin-left: 250px;
+  }
 }

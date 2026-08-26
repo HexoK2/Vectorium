@@ -5,9 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Produit vectoriel — Vectorium</title>
   <meta name="description" content="Comprendre le produit vectoriel en deplacant deux vecteurs a la souris ou au doigt.">
+  <script>
+    try {
+      if (localStorage.getItem('vectorium-theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light')
+      }
+    } catch (erreur) {}
+  </script>
   <link rel="stylesheet" href="../css/vectorium.css">
 </head>
 <body>
+
+<button class="menu-hamburger" id="menu-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+  <span></span><span></span><span></span>
+</button>
+
+<nav class="menu-lateral" id="menu-lateral">
+  <div class="menu-entete">Vectorium</div>
+
+  <ul class="menu-liens">
+    <li><a href="../notions/produit-scalaire.html">Produit scalaire</a></li>
+    <li><a href="../notions/produit-vectoriel.html">Produit vectoriel</a></li>
+    <li><a href="../notions/interpolation-lineaire.html">Interpolation linéaire</a></li>
+  </ul>
+
+  <hr class="menu-separateur">
+
+  <button class="menu-theme" id="menu-theme" type="button" aria-label="Changer de thème">
+    <span class="menu-theme-icone">☀️</span>
+    <span class="menu-theme-texte">Clair</span>
+  </button>
+
+  <a class="menu-soutenir" href="#" target="_blank" rel="noopener">☕ Soutenir</a>
+</nav>
+
+<div class="menu-fond" id="menu-fond"></div>
 
 <div class="stage">
 
@@ -62,6 +94,8 @@
   const moteur = monterModule(produitVectoriel, module)
   demarrerDemoChargement(moteur, module.querySelector('canvas'))
 </script>
+
+<script type="module" src="../js/site/menu.js"></script>
 
 </body>
 </html>
