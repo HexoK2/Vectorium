@@ -60,6 +60,27 @@
       parallélogramme formé par A et B — celui que dessine la notion. Diviser
       par deux donne l'aire du triangle formé par les deux vecteurs.
     </p>
+
+    <div class="diagramme">
+      <svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg">
+        <!-- Réel : le parallélogramme, c'est le sujet, pas une aide au dessin -->
+        <polygon points="60,170 140,80 310,60 230,150" fill="rgba(100, 150, 200, 0.2)" stroke="rgba(100, 150, 200, 0.4)" stroke-width="1" />
+
+        <!-- Vecteur A -->
+        <line x1="60" y1="170" x2="140" y2="80" stroke="var(--vec-a)" stroke-width="3" stroke-linecap="round" />
+        <polygon points="140,80 136.5,93.0 127.5,85.0" fill="var(--vec-a)" />
+        <text x="118" y="72" font-size="15" font-weight="700" fill="var(--vec-a)">A</text>
+
+        <!-- Vecteur B -->
+        <line x1="60" y1="170" x2="230" y2="150" stroke="var(--vec-b)" stroke-width="3" stroke-linecap="round" />
+        <polygon points="230,150 218.8,157.4 217.4,145.4" fill="var(--vec-b)" />
+        <text x="235" y="160" font-size="15" font-weight="700" fill="var(--vec-b)">B</text>
+
+        <text x="185" y="118" font-size="13" fill="var(--text-hi)" text-anchor="middle">aire = |A × B|</text>
+      </svg>
+      <p class="diagramme-legende">La surface entière du parallélogramme, pas juste sa moitié (ça, c'est le triangle).</p>
+    </div>
+
     <p class="cours-texte">
       Cette propriété sert à tester si un point est à l'intérieur d'un
       triangle : calcule le produit vectoriel entre chaque côté et la

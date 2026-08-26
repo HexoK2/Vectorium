@@ -27,6 +27,37 @@
       si la lumière tombait perpendiculairement à B. Cette ombre a une
       longueur. Multiplie cette longueur par celle de B, et tu obtiens A · B.
     </p>
+
+    <div class="diagramme">
+      <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg">
+        <!-- Décor : la ligne perpendiculaire qui montre comment l'ombre tombe -->
+        <line x1="125" y1="64" x2="125" y2="170" stroke="var(--axis)" stroke-width="1.5" />
+        <polyline points="121,166 121,170 125,170" fill="none" stroke="var(--axis)" stroke-width="1.5" />
+
+        <!-- L'angle entre A et B -->
+        <polyline points="78,170 77.05,162.75 74.25,156 69.8,150.2 66.1,147.1"
+                  fill="none" stroke="var(--text-low)" stroke-width="1.5" />
+        <text x="86" y="158" font-size="13" fill="var(--text-low)">θ</text>
+
+        <!-- Vecteur B -->
+        <line x1="50" y1="170" x2="270" y2="170" stroke="var(--vec-b)" stroke-width="3" stroke-linecap="round" />
+        <polygon points="270,170 258,164 258,176" fill="var(--vec-b)" />
+        <text x="272" y="175" font-size="15" font-weight="700" fill="var(--vec-b)">B</text>
+
+        <!-- Vecteur A -->
+        <line x1="50" y1="170" x2="125" y2="64" stroke="var(--vec-a)" stroke-width="3" stroke-linecap="round" />
+        <polygon points="125,64 123.0,77.2 113.2,70.4" fill="var(--vec-a)" />
+        <text x="130" y="60" font-size="15" font-weight="700" fill="var(--vec-a)">A</text>
+
+        <!-- Réel : la projection, la longueur qui compte -->
+        <line x1="50" y1="180" x2="125" y2="180" stroke="var(--pos)" stroke-width="3" stroke-linecap="round" />
+        <line x1="50" y1="176" x2="50" y2="184" stroke="var(--pos)" stroke-width="1.5" />
+        <line x1="125" y1="176" x2="125" y2="184" stroke="var(--pos)" stroke-width="1.5" />
+        <text x="87" y="200" font-size="11" fill="var(--pos)" text-anchor="middle">ombre de A sur B</text>
+      </svg>
+      <p class="diagramme-legende">Plus A pointe vers B, plus son ombre sur B s'allonge — et plus A · B grandit.</p>
+    </div>
+
     <p class="cours-texte">
       C'est pour ça que le produit scalaire capture « à quel point A va dans
       la direction de B » : plus l'ombre est longue (A et B alignés), plus le

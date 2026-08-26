@@ -625,3 +625,28 @@ body {
   font-weight: 700;
   text-align: center;
 }
+
+/* Schéma statique sur une page de cours : un SVG fixe pour donner une image
+   à un texte abstrait. Pas interactif — la manipulation reste sur la page
+   de la notion. */
+.diagramme {
+  max-width: 320px;
+  margin: 16px auto;
+  background: var(--bg);
+  border: 1px solid var(--grid-line);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.diagramme svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.diagramme-legende {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-low);
+  margin: 8px 0 0;
+}
