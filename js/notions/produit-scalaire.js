@@ -60,15 +60,18 @@ export const produitScalaire = {
     // valeur absolue, l'information utile est « ni l'un ni l'autre ».
     let couleur = GRIS
     let verdict = 'Perpendiculaires — les vecteurs ne pointent ni dans la même direction ni en sens opposé.'
+    let label = 'perpendiculaire'
     if (dot > 0.6) {
       couleur = VERT
       verdict = 'Positif : les deux vecteurs pointent globalement dans la même direction — A voit dans la direction de B.'
+      label = 'même sens'
     } else if (dot < -0.6) {
       couleur = ROUGE
       verdict = 'Négatif : les deux vecteurs pointent en sens opposés — ils regardent dos à dos.'
+      label = 'sens opposé'
     }
 
-    return { dot, normeA, normeB, cos, angleDeg, couleur, verdict }
+    return { dot, normeA, normeB, cos, angleDeg, couleur, verdict, label }
   },
 
   /* --- 2) Le dessin. Rien d'autre que des primitives du moteur. ------------
@@ -77,7 +80,7 @@ export const produitScalaire = {
      d'origine de la notion — celui que le bouton Réinitialiser utilise —
      jamais modifié par le moteur, donc toujours la vraie position de départ.
   ------------------------------------------------------------------------- */
-  dessiner(d, [a, b]) {
+  dessiner(d, [a, b], val) {
     const origine = { x: 0, y: 0 }
 
     for (const [actuel, depart, couleurFantome] of [
@@ -89,6 +92,23 @@ export const produitScalaire = {
         d.segment(depart, actuel, { couleur: couleurFantome, pointilles: POINTILLES_FANTOME })
       }
     }
+
+    // Repère visuel en plus du chiffre : un arc coloré entre A et B, avec un
+    // mot court. Sert à qui n'a pas encore appris à lire une formule.
+    const angleA = Math.atan2(a.y, a.x)
+    const angleB = Math.atan2(b.y, b.x)
+    const diff = Math.atan2(Math.sin(angleB - angleA), Math.cos(angleB - angleA))
+    const RAYON_ARC = 32
+    d.arc(origine, RAYON_ARC, angleA, angleA + diff, { couleur: val.couleur, epaisseur: 2.5 })
+
+    const bissectrice = angleA + diff / 2
+    const distanceLabel = RAYON_ARC + 16
+    d.texte(origine, val.label, {
+      couleur: val.couleur,
+      taille: 12,
+      gras: true,
+      decalage: { x: Math.cos(bissectrice) * distanceLabel, y: -Math.sin(bissectrice) * distanceLabel },
+    })
 
     d.fleche(origine, a, { couleur: COULEUR_A, glow: GLOW_A })
     d.fleche(origine, b, { couleur: COULEUR_B, glow: GLOW_B })

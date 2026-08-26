@@ -36,21 +36,25 @@ export const produitVectoriel = {
 
     let couleur = GRIS
     let verdict = 'Perpendiculaires — surface maximale.'
+    let label = 'colinéaires'
     if (Math.abs(cross) < 0.1) {
       couleur = GRIS
       verdict = 'Zéro (ou presque) : colinéaires — pas de surface, pas de rotation.'
+      label = 'colinéaires'
     } else if (cross > 0.1) {
       couleur = VERT
       verdict = 'Positif : B est à gauche de A (rotation antihoraire).'
+      label = 'antihoraire'
     } else if (cross < -0.1) {
       couleur = ROUGE
       verdict = 'Négatif : B est à droite de A (rotation horaire).'
+      label = 'horaire'
     }
 
-    return { cross, couleur, verdict }
+    return { cross, couleur, verdict, label }
   },
 
-  dessiner(d, [a, b]) {
+  dessiner(d, [a, b], val) {
     const origine = { x: 0, y: 0 }
 
     // Le fantôme : position de départ si un point a bougé au-delà du seuil.
@@ -67,6 +71,23 @@ export const produitVectoriel = {
     // Dessiner le parallélogramme (l'aire visuelle de la notion)
     const p3 = { x: a.x + b.x, y: a.y + b.y }
     d.parallelogramme(origine, a, p3, b, { couleur: 'rgba(100, 150, 200, 0.2)' })
+
+    // Repère visuel en plus du chiffre : un arc coloré qui balaie de A vers
+    // B, dans le sens réel de la rotation, avec un mot court.
+    const angleA = Math.atan2(a.y, a.x)
+    const angleB = Math.atan2(b.y, b.x)
+    const diff = Math.atan2(Math.sin(angleB - angleA), Math.cos(angleB - angleA))
+    const RAYON_ARC = 32
+    d.arc(origine, RAYON_ARC, angleA, angleA + diff, { couleur: val.couleur, epaisseur: 2.5 })
+
+    const bissectrice = angleA + diff / 2
+    const distanceLabel = RAYON_ARC + 16
+    d.texte(origine, val.label, {
+      couleur: val.couleur,
+      taille: 12,
+      gras: true,
+      decalage: { x: Math.cos(bissectrice) * distanceLabel, y: -Math.sin(bissectrice) * distanceLabel },
+    })
 
     // Puis les vecteurs par-dessus
     d.fleche(origine, a, { couleur: COULEUR_A, glow: GLOW_A })
