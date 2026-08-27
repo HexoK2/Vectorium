@@ -22,6 +22,14 @@
   --interp:        #ffc107;
   --interp-glow:   rgba(255, 193, 7, 0.35);
 
+  /* Variantes réservées au TEXTE hors du widget canvas+panneau (verrouillé
+     sombre par ailleurs). --pos et --vec-a sont pensées pour un fond sombre
+     et tombent sous le seuil WCAG AA (4.5:1) sur un fond clair — ces deux-là
+     sont ce que le thème clair peut assombrir sans toucher aux couleurs des
+     vecteurs eux-mêmes. Par défaut (sombre) elles valent exactement l'original. */
+  --pos-texte:     var(--pos);
+  --vec-a-texte:   var(--vec-a);
+
   /* Anciens noms compatibilité */
   --fond:          var(--bg);
   --fond-panneau:  var(--bg-panel);
@@ -38,12 +46,16 @@
    --grid-line, --axis, --text-low et les couleurs des vecteurs ne changent
    jamais — c'est ce qui permet au canvas de rester identique sans y toucher.
    .module et .apercu verrouillent en plus --bg-panel/--text-mid/--text-hi
-   pour que le widget canvas+panneau reste toujours sombre, lui aussi. */
+   pour que le widget canvas+panneau reste toujours sombre, lui aussi.
+   --pos-texte/--vec-a-texte s'assombrissent pour rester lisibles (AA) sur
+   les nouveaux fonds clairs — --pos/--vec-a eux-mêmes ne bougent pas. */
 :root[data-theme="light"] {
-  --bg:       #f4f5f7;
-  --bg-panel: #ffffff;
-  --text-hi:  #1a1f29;
-  --text-mid: #4a5160;
+  --bg:          #f4f5f7;
+  --bg-panel:    #ffffff;
+  --text-hi:     #1a1f29;
+  --text-mid:    #4a5160;
+  --pos-texte:   #1a7a43;
+  --vec-a-texte: #0d7a70;
 }
 
 * { box-sizing: border-box; }
@@ -96,7 +108,7 @@ body {
   overflow: hidden;
 }
 
-.liste-notions li:has(a):hover { border-color: var(--vec-a); }
+.liste-notions li:has(a):hover { border-color: var(--vec-a-texte); }
 
 /* Carte d'une notion prête : vignette dessinée par monterApercu(), titre,
    phrase. Le lien enveloppe toute la carte. */
@@ -131,7 +143,7 @@ body {
   color: var(--text-hi);
 }
 
-.liste-notions a:hover .carte-texte h2 { color: var(--vec-a); }
+.liste-notions a:hover .carte-texte h2 { color: var(--vec-a-texte); }
 
 .carte-texte p {
   margin: 0;
@@ -177,7 +189,7 @@ body {
   text-decoration: none;
 }
 
-.fil a:hover { color: var(--vec-a); }
+.fil a:hover { color: var(--vec-a-texte); }
 
 /* Le widget de manipulation (canvas + panneau) reste toujours sombre, même
    en thème clair : les couleurs des vecteurs et les halos sont pensés pour
@@ -476,7 +488,7 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--pos);
+  color: var(--pos-texte);
   margin: 0 0 16px;
 }
 
@@ -494,7 +506,7 @@ body {
   background: var(--bg);
   padding: 2px 6px;
   border-radius: 4px;
-  color: var(--pos);
+  color: var(--pos-texte);
 }
 
 /* --- Bloc « En clair », sous le canvas : trois sections courtes ----------- */
@@ -534,7 +546,7 @@ body {
   display: inline-block;
   margin-top: 16px;
   font-size: 13px;
-  color: var(--vec-a);
+  color: var(--vec-a-texte);
   text-decoration: none;
   font-weight: 600;
 }
@@ -556,7 +568,7 @@ body {
 .code-box {
   background: var(--bg);
   border: 1px solid var(--grid-line);
-  border-left: 3px solid var(--pos);
+  border-left: 3px solid var(--pos-texte);
   border-radius: 8px;
   padding: 14px;
   font-family: 'JetBrains Mono', monospace;
@@ -798,7 +810,7 @@ body {
 
 /* La notion affichée en ce moment : marquée en JS, pas recopiée par page. */
 .menu-liens a.actif {
-  color: var(--vec-a);
+  color: var(--vec-a-texte);
   background: var(--bg);
   font-weight: 600;
 }
@@ -838,9 +850,9 @@ body {
   gap: 6px;
   padding: 10px 8px;
   background: transparent;
-  border: 1px solid var(--pos);
+  border: 1px solid var(--pos-texte);
   border-radius: 6px;
-  color: var(--pos);
+  color: var(--pos-texte);
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
@@ -849,7 +861,9 @@ body {
 
 .menu-soutenir:hover {
   background: var(--pos);
-  color: var(--bg-panel);
+  /* Texte toujours sombre ici, peu importe le thème : sur un vert aussi vif,
+     un texte clair (--bg-panel en thème clair) n'est jamais assez contrasté. */
+  color: #0c1016;
 }
 
 /* --- Le fond qui referme le menu au clic, sur mobile seulement --- */
