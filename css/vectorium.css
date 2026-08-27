@@ -42,20 +42,21 @@
   --largeur-max: 60rem;
 }
 
-/* Thème clair : change seulement le fond de page et le texte général.
-   --grid-line, --axis, --text-low et les couleurs des vecteurs ne changent
-   jamais — c'est ce qui permet au canvas de rester identique sans y toucher.
-   .module et .apercu verrouillent en plus --bg-panel/--text-mid/--text-hi
-   pour que le widget canvas+panneau reste toujours sombre, lui aussi.
-   --pos-texte/--vec-a-texte s'assombrissent pour rester lisibles (AA) sur
-   les nouveaux fonds clairs — --pos/--vec-a eux-mêmes ne bougent pas. */
+/* Thème clair : toutes les couleurs s'adaptent au mode clair.
+   Palette beige warm chaleureuse pour partout : fond, texte, grille, canvas.
+   Les couleurs des vecteurs (cyan, rose, vert, or) restent identiques pour
+   rester reconnaissables — elles restent visibles sur le fond clair.
+   --pos-texte/--vec-a-texte s'assombrissent pour rester lisibles (AA). */
 :root[data-theme="light"] {
-  --bg:          #c9ccd1;
-  --bg-panel:    #d6d9dd;
-  --text-hi:     #1a1f29;
-  --text-mid:    #4a5160;
-  --pos-texte:   #0f5c2f;
-  --vec-a-texte: #075a52;
+  --bg:          #ead9c3;
+  --bg-panel:    #f0e5d9;
+  --grid-line:   #e8dcc8;
+  --axis:        #d4c4b0;
+  --text-low:    #bfb4a4;
+  --text-hi:     #2d2620;
+  --text-mid:    #6b6560;
+  --pos-texte:   #1a7a46;
+  --vec-a-texte: #0d6b62;
 }
 
 * { box-sizing: border-box; }
@@ -121,9 +122,7 @@ body {
 
 .apercu {
   aspect-ratio: 4 / 3;
-  /* Toujours sombre, même en thème clair : les couleurs des vecteurs sont
-     pensées pour ce fond, et on ne touche pas au moteur pour les adapter. */
-  background: #0c1016;
+  background: var(--bg-panel);
 }
 
 .apercu canvas {
@@ -191,20 +190,13 @@ body {
 
 .fil a:hover { color: var(--vec-a-texte); }
 
-/* Le widget de manipulation (canvas + panneau) reste toujours sombre, même
-   en thème clair : les couleurs des vecteurs et les halos sont pensés pour
-   ce fond, et on ne touche pas au moteur ni aux notions pour les adapter.
-   Comme .apercu, c'est un verrouillage volontaire, pas un oubli. */
+/* Le widget de manipulation (canvas + panneau) suit maintenant le thème clair. */
 .module {
   max-width: var(--largeur-max);
   margin-inline: auto;
   display: grid;
   gap: 20px;
   grid-template-columns: 1fr;
-  --bg: #0c1016;
-  --bg-panel: #121722;
-  --text-mid: #8b94a7;
-  --text-hi: #eef1f6;
 }
 
 /* Le panneau de valeurs passe à côté du canvas seulement s'il y a la place. */

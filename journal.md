@@ -52,3 +52,11 @@ les vraies pages, en attente de validation.
 | Tâche | Estimé | Réel | Notes |
 |-------|--------|------|-------|
 | Pages de cours produit-vectoriel + interpolation-lineaire | non estimé | 1 heure | Faites en avance sur l'ordre du TODO, décision assumée |
+
+## Revue Cowork (27/08) — Suite : finition thème clair
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Réviser palette mode clair (beige warm cohérent avec téléphone) | — | 45 min | Changement gris-bleu → beige warm pour cohérence visuelle page/canvas |
+| Adapter canvas interactifs au thème clair (+ grille/axes) | — | 15 min | Retrait du verrouillage sombre `.module`/`.apercu`, redéclaration des variables en mode clair |
+| **Total ajusté thème clair** | — | 1 heure | Palette stable, testée sur accueil + 3 notions |
