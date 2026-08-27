@@ -93,6 +93,7 @@ js/moteur/     GÉNÉRIQUE — ne connaît aucune notion
   module.js    monterModule(notion, element) — le contrat
 
 js/notions/    SPÉCIFIQUE — un fichier par notion
+js/site/       chrome du site (menu, thème) — ne connaît ni le moteur ni les notions
 notions/       une page HTML par notion
 ```
 
