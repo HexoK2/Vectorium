@@ -201,6 +201,7 @@ body {
   display: grid;
   gap: 20px;
   grid-template-columns: 1fr;
+  --bg: #0c1016;
   --bg-panel: #121722;
   --text-mid: #8b94a7;
   --text-hi: #eef1f6;
