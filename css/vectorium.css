@@ -50,12 +50,12 @@
    --pos-texte/--vec-a-texte s'assombrissent pour rester lisibles (AA) sur
    les nouveaux fonds clairs — --pos/--vec-a eux-mêmes ne bougent pas. */
 :root[data-theme="light"] {
-  --bg:          #f4f5f7;
-  --bg-panel:    #ffffff;
+  --bg:          #e6e8eb;
+  --bg-panel:    #f0f1f4;
   --text-hi:     #1a1f29;
   --text-mid:    #4a5160;
-  --pos-texte:   #1a7a43;
-  --vec-a-texte: #0d7a70;
+  --pos-texte:   #156b3a;
+  --vec-a-texte: #0b6d64;
 }
 
 * { box-sizing: border-box; }
