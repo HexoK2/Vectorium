@@ -43,16 +43,16 @@
 }
 
 /* Thème clair : toutes les couleurs s'adaptent au mode clair.
-   Palette beige warm chaleureuse pour partout : fond, texte, grille, canvas.
+   Palette beige très clair, quasi blanc avec légère teinte, lisible et doux.
    Les couleurs des vecteurs (cyan, rose, vert, or) restent identiques pour
    rester reconnaissables — elles restent visibles sur le fond clair.
    --pos-texte/--vec-a-texte s'assombrissent pour rester lisibles (AA). */
 :root[data-theme="light"] {
-  --bg:          #ead9c3;
-  --bg-panel:    #f0e5d9;
-  --grid-line:   #e8dcc8;
-  --axis:        #d4c4b0;
-  --text-low:    #bfb4a4;
+  --bg:          #f5f3f0;
+  --bg-panel:    #faf8f6;
+  --grid-line:   #ede9e5;
+  --axis:        #d8d0c8;
+  --text-low:    #b8b0a8;
   --text-hi:     #2d2620;
   --text-mid:    #6b6560;
   --pos-texte:   #1a7a46;
