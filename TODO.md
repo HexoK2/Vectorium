@@ -167,6 +167,24 @@ avant lui — à garder tracé ici pour que la liste reflète l'état du projet.
 
 ---
 
+## Ticket 04 — Finaliser et intégrer la notion Matrices
+
+- [ ] **Reprendre `notions/matrices-test.html` sur le vrai gabarit**
+  Retirer la bannière brouillon, ajouter le menu latéral comme les 3 autres
+  pages, harmoniser l'en-tête (« NOTION 04 / MATRICES »). Le contenu (bloc
+  « En clair », comparaison Unity) existe déjà dans le brouillon, à réutiliser
+  tel quel sauf si problème détecté.
+  Terminé quand : la page se comporte comme les 3 autres, et angle = 90°,
+  échelle = 1 donne bien un A' perpendiculaire à A (vérifié à l'œil sur la
+  grille).
+
+- [ ] **Ajouter la carte à l'accueil, déployer, tester sur téléphone.**
+
+- [ ] **Page de cours `cours/matrices.html`** — seulement si le temps le
+  permet, comme pour produit-vectoriel et interpolation-lineaire.
+
+---
+
 ## Semaine du 02/09 — consolidation
 
 - [ ] **Faire tester le site par deux ou trois camarades de promo**
@@ -208,6 +226,6 @@ Ne commence pas ce bonus tant qu'une seule case au-dessus est décochée.
 
 ## À mentionner en démo, à ne PAS construire maintenant
 
-- D'autres notions : matrices, courbes de Bézier, raycasting.
+- D'autres notions : courbes de Bézier, raycasting.
 - Un coach adaptatif basé sur l'API Claude, qui expliquerait la notion
   différemment selon les erreurs de chacun.
