@@ -128,11 +128,53 @@ pas pourquoi ça compte. C'est la priorité, avant d'ajouter d'autres notions.
 
 ---
 
+## Hors ticket — menu latéral et thème clair/sombre (26-28/08)
+
+Travail réel fait en dehors de l'ordre du TODO, comme les pages de cours
+avant lui — à garder tracé ici pour que la liste reflète l'état du projet.
+
+- [x] **Menu latéral** (navigation entre les 3 notions, bascule thème
+  clair/sombre, lien Soutenir), dans `js/site/menu.js` — nouveau dossier, ni
+  moteur ni notion, justifié par un commentaire dans le fichier. Présent et
+  cohérent sur les 7 pages (accueil, 3 notions, 3 cours) : mêmes liens, mêmes
+  chemins relatifs, lien actif détecté correctement par `pathname`.
+
+- [x] **Revue + test réel du site en ligne (28/08, Cowork)** — bascule de
+  thème, affichage mobile 375px, console navigateur : aucune erreur, aucun
+  bug trouvé sur ces points. Le canvas reste bien verrouillé sombre en thème
+  clair sur le site déployé, comme prévu par `docs/univers.md`.
+
+- [ ] **Contraste du thème clair — bug confirmé à l'écran, pas encore corrigé
+  en ligne.** `--pos` (vert) et `--vec-a` (turquoise), utilisés comme couleur
+  de texte hors du widget canvas verrouillé, n'ont pas de variante adaptée au
+  fond clair. Contraste mesuré ≈ 1,8:1 (minimum WCAG AA : 4,5:1). Visible à
+  l'œil sur `https://hexok2.github.io/Vectorium/notions/produit-scalaire.html`
+  en thème clair : le titre « EN CLAIR » et le lien « Aller plus loin → » se
+  distinguent à peine du fond. Éléments touchés : `.bloc-titre`,
+  `.code-inline`, `.en-clair-lien`, `.menu-liens a.actif`, `.menu-soutenir`.
+
+- [x] **Palette claire revisitée : beige warm cohérent partout, canvas adapté
+  au thème clair** (28/08) — Changement gris-bleu → beige warm pour harmonie
+  visuelle. Retrait du verrouillage sombre de `.module`/`.apercu` : désormais
+  les canvas interactifs suivent le thème clair. Grille et axes redéclarés
+  pour chaque thème. Testé visuel OK sur accueil + 3 notions.
+
+- [x] **Documenter `js/site/` dans `CLAUDE.md`**, section Architecture — elle
+  ne mentionne encore que `js/moteur/` et `js/notions/`.
+
+- Lien « Soutenir » (`href="#"`) : décision assumée, pas un bug — en attente
+  d'un choix de plateforme (fiabilité Stripe/IBAN à revoir).
+
+---
+
 ## Semaine du 02/09 — consolidation
 
 - [ ] **Faire tester le site par deux ou trois camarades de promo**
   Note chaque incompréhension dans `journal.md`. Ne corrige rien pendant le
   test, observe.
+  *En cours* : premier retour reçu — comprend le mécanisme et trouve le
+  visuel réussi, mais ne comprend toujours pas pourquoi on utilise le
+  produit scalaire ni à quoi ça sert, malgré le bloc « En clair ».
 
 - [ ] **Corriger ce que les tests ont révélé**, par ordre de gravité.
 
