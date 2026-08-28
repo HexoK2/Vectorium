@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Produit vectoriel — Vectorium</title>
-  <meta name="description" content="Comprendre le produit vectoriel en deplacant deux vecteurs a la souris ou au doigt.">
+  <title>Matrices — Vectorium</title>
+  <meta name="description" content="Comprendre la rotation et la mise à l'échelle d'un vecteur avec deux curseurs.">
   <script>
     try {
       if (localStorage.getItem('vectorium-theme') === 'light') {
@@ -47,18 +47,19 @@
 
 <div class="stage">
 
-  <p class="eyebrow">Notion 02 / produit vectoriel</p>
-  <h1>Fais glisser les flèches.</h1>
+  <p class="eyebrow">Notion 04 / matrices</p>
+  <h1>Fais tourner le vecteur.</h1>
   <p class="sub">
-    De quel côté un personnage doit-il tourner pour faire face à sa cible ?
-    Est-ce que quelque chose tourne dans le sens horaire ou antihoraire ? Ce
-    calcul répond aux deux : le produit vectoriel (en 2D).
+    Une matrice de transformation change un vecteur sans changer sa nature :
+    une rotation tourne sa direction, une échelle change sa longueur. Ici,
+    les deux à la fois — déplace A, puis joue avec les curseurs pour voir
+    A' bouger.
   </p>
 
   <main class="module" id="module">
     <div class="colonne-scene">
       <div class="scene"><canvas></canvas></div>
-      <p class="hint">glisse A ou B — le parallélogramme montre la surface</p>
+      <p class="hint">glisse A (cyan) — A' (rose) suit avec la rotation et l'échelle</p>
     </div>
     <aside class="panneau">
       <div data-panneau></div>
@@ -71,31 +72,40 @@
     <div class="en-clair-grid">
       <div>
         <h3 class="en-clair-titre">Dans un jeu</h3>
-        <p class="en-clair-texte">Savoir de quel côté tourner. Calculer une normale. Trier un ordre d'affichage. Trois besoins concrets, un seul calcul.</p>
+        <p class="en-clair-texte">Faire tourner un personnage vers sa cible. Orienter un projectile. Zoomer un sprite. Toujours la même opération : tourner et/ou redimensionner un vecteur.</p>
       </div>
       <div>
         <h3 class="en-clair-titre">Ce que dit la formule</h3>
-        <p class="en-clair-texte">Comme visser ou dévisser une vis — le sens de rotation change tout : <span class="code-inline">ax×by − ay×bx</span> mesure l'aire orientée entre A et B. Positif : antihoraire. Négatif : horaire. Zéro : colinéaires.</p>
+        <p class="en-clair-texte">La rotation change la <strong>direction</strong> de A sans toucher sa longueur. L'échelle change sa <strong>longueur</strong> sans toucher sa direction. Les deux sont indépendantes.</p>
       </div>
       <div>
         <h3 class="en-clair-titre">L'erreur classique</h3>
-        <p class="en-clair-texte">L'ordre compte : <span class="code-inline">Cross(A, B) ≠ Cross(B, A)</span>. Contrairement au produit scalaire, inverser A et B inverse le signe du résultat.</p>
+        <p class="en-clair-texte">Confondre degrés et radians. <span class="code-inline">Math.cos</span>/<span class="code-inline">Math.sin</span> attendent des radians — un angle en degrés donne un résultat n'importe quoi si tu oublies de convertir.</p>
       </div>
     </div>
-    <a class="en-clair-lien" href="../cours/produit-vectoriel.html">Aller plus loin →</a>
   </section>
 
-  <p class="foot">Le produit vectoriel et le scalaire se complètent : l'un te dit la direction, l'autre te dit la rotation.</p>
+  <section class="comparaison">
+    <h2 class="bloc-titre">En Unity</h2>
+    <div class="code-box">
+      <div class="box-label">Tourner puis mettre à l'échelle un vecteur</div>
+      Vector3 tourne = Quaternion.Euler(0, 0, angleDegres) * direction;<br>
+      Vector3 resultat = tourne * facteurEchelle;<br><br>
+      <span class="box-note">Quaternion.Euler attend des degrés — contrairement à Math.Cos/Sin qui attendent des radians. C'est exactement l'erreur classique mentionnée plus haut.</span>
+    </div>
+  </section>
+
+  <p class="foot">Les matrices transforment l'espace sans perdre sa structure. C'est comment les jeux bougent, tournent et redimensionnent tout.</p>
 
 </div>
 
 <script type="module">
   import { monterModule } from '../js/moteur/module.js'
-  import { produitVectoriel } from '../js/notions/produit-vectoriel.js'
+  import { matrices } from '../js/notions/matrices.js'
   import { demarrerDemoChargement } from '../js/notions/demo-chargement.js'
 
   const module = document.getElementById('module')
-  const moteur = monterModule(produitVectoriel, module)
+  const moteur = monterModule(matrices, module)
   demarrerDemoChargement(moteur, module.querySelector('canvas'))
 </script>
 
