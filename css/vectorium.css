@@ -29,6 +29,7 @@
      vecteurs eux-mêmes. Par défaut (sombre) elles valent exactement l'original. */
   --pos-texte:     var(--pos);
   --vec-a-texte:   var(--vec-a);
+  --neutral-texte: var(--neutral);
 
   /* Anciens noms compatibilité */
   --fond:          var(--bg);
@@ -55,8 +56,9 @@
   --text-low:    #b8b0a8;
   --text-hi:     #2d2620;
   --text-mid:    #6b6560;
-  --pos-texte:   #1a7a46;
-  --vec-a-texte: #0d6b62;
+  --pos-texte:     #1a7a46;
+  --vec-a-texte:   #0d6b62;
+  --neutral-texte: #6b6560;
 }
 
 * { box-sizing: border-box; }

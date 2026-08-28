@@ -156,7 +156,7 @@ export function monterModule(notion, racine) {
       // Mise à jour : changement juste les valeurs
       if (readout.result) {
         elements.resultValue.textContent = readout.result.value
-        elements.resultValue.style.color = readout.result.color || 'var(--neutral)'
+        elements.resultValue.style.color = readout.result.color || 'var(--neutral-texte)'
       }
       if (readout.formula) {
         elements.formula.innerHTML = readout.formula
@@ -179,7 +179,7 @@ export function monterModule(notion, racine) {
         resultValue.className = 'result-value'
         resultValue.id = 'resultValue'
         resultValue.textContent = readout.result.value
-        resultValue.style.color = readout.result.color || 'var(--neutral)'
+        resultValue.style.color = readout.result.color || 'var(--neutral-texte)'
         resultDiv.append(resultLabel, resultValue)
         panneau.append(resultDiv)
         elements.resultValue = resultValue
