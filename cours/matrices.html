@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cours — Matrices — Vectorium</title>
+  <meta name="description" content="D'où vient la rotation, le piège degrés/radians, et pourquoi les moteurs de jeu combinent tout en une matrice.">
+  <script>
+    try {
+      if (localStorage.getItem('vectorium-theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light')
+      }
+    } catch (erreur) {}
+  </script>
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<header class="menu-barre-mobile">
+  <button class="menu-hamburger" id="menu-hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <span class="menu-barre-titre">Vectorium</span>
+</header>
+
+<nav class="menu-lateral" id="menu-lateral">
+  <div class="menu-entete">Vectorium</div>
+
+  <ul class="menu-liens">
+    <li><a href="../notions/produit-scalaire.html">Produit scalaire</a></li>
+    <li><a href="../notions/produit-vectoriel.html">Produit vectoriel</a></li>
+    <li><a href="../notions/interpolation-lineaire.html">Interpolation linéaire</a></li>
+    <li><a href="../notions/matrices.html">Matrices</a></li>
+  </ul>
+
+  <hr class="menu-separateur">
+
+  <button class="menu-theme" id="menu-theme" type="button" aria-label="Changer de thème">
+    <span class="menu-theme-icone">☀️</span>
+    <span class="menu-theme-texte">Clair</span>
+  </button>
+
+  <a class="menu-soutenir" href="#" target="_blank" rel="noopener">☕ Soutenir</a>
+</nav>
+
+<div class="menu-fond" id="menu-fond"></div>
+
+<div class="stage">
+
+  <p class="fil"><a href="../notions/matrices.html">← Retour à la notion</a></p>
+  <p class="eyebrow">Cours / matrices</p>
+  <h1>D'où vient la rotation</h1>
+  <p class="sub">
+    Le bloc « En clair » de la notion te donne de quoi t'en servir tout de
+    suite. Cette page va plus loin : d'où vient la formule de rotation, le
+    piège classique degrés/radians, et pourquoi un moteur de jeu combine tout
+    ça en une seule matrice.
+  </p>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Comment une matrice fait tourner un vecteur</h2>
+    <p class="cours-texte">
+      Une rotation d'angle θ envoie A = (ax, ay) vers un nouveau point :
+    </p>
+    <div class="code-box">
+      <div class="box-label">Rotation d'angle θ</div>
+      bx = ax × cos(θ) − ay × sin(θ)<br>
+      by = ax × sin(θ) + ay × cos(θ)
+    </div>
+    <p class="cours-texte">
+      Ces deux lignes <strong>sont</strong> la matrice de rotation — souvent
+      écrite comme un tableau 2×2 — appliquée à A. Une matrice n'est qu'une
+      façon compacte de noter « voici comment recalculer chaque coordonnée ».
+    </p>
+
+    <div class="diagramme">
+      <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Décor : la direction de départ, à 0°, comme référence -->
+        <line x1="70" y1="165" x2="250" y2="165" stroke="var(--axis)" stroke-width="1.5" />
+
+        <!-- L'arc qui montre l'angle balayé -->
+        <path d="M 114,165 A 44,44 0 0,0 95.2,129" fill="none" stroke="var(--text-low)" stroke-width="1.5" />
+        <text x="108" y="140" font-size="13" fill="var(--text-low)">θ</text>
+
+        <!-- Vecteur A, avant rotation -->
+        <line x1="70" y1="165" x2="230" y2="165" stroke="var(--vec-a)" stroke-width="3" stroke-linecap="round" />
+        <polygon points="230,165 218,159 218,171" fill="var(--vec-a)" />
+        <text x="234" y="170" font-size="15" font-weight="700" fill="var(--vec-a)">A</text>
+
+        <!-- Vecteur A', après rotation -->
+        <line x1="70" y1="165" x2="162" y2="34" stroke="var(--vec-b)" stroke-width="3" stroke-linecap="round" />
+        <polygon points="162,34 168,47.5 154.7,44.7" fill="var(--vec-b)" />
+        <text x="168" y="28" font-size="15" font-weight="700" fill="var(--vec-b)">A'</text>
+      </svg>
+      <p class="diagramme-legende">A et A' ont la même longueur — seule la direction a changé.</p>
+    </div>
+
+    <p class="cours-texte">
+      La longueur de A ne change pas dans cette étape : une rotation seule ne
+      peut jamais rendre un vecteur plus long ou plus court, elle ne fait que
+      tourner sa direction.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Le piège classique : degrés contre radians</h2>
+    <p class="cours-texte">
+      <span class="code-inline">Math.cos</span> et
+      <span class="code-inline">Math.sin</span> — comme la plupart des
+      fonctions trigonométriques en programmation — attendent un angle en
+      <strong>radians</strong>, pas en degrés. Un tour complet fait 2π
+      radians (environ 6.28), pas 360.
+    </p>
+    <div class="code-box">
+      <div class="box-label">Convertir degrés → radians</div>
+      radians = degres × Math.PI / 180
+    </div>
+    <p class="cours-texte">
+      Oublier cette conversion ne fait planter rien : le code compile et
+      tourne, mais donne un résultat qui n'a plus rien à voir avec l'angle
+      demandé. C'est exactement ce que montre le curseur « simuler le bug »
+      sur la notion — le fantôme, c'est ce que donnerait le calcul si le
+      degré était traité comme un radian directement.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">Pourquoi une matrice plutôt que cos/sin à la main</h2>
+    <p class="cours-texte">
+      Sur la notion, l'ordre est rotation puis échelle. Inverser l'ordre —
+      échelle puis rotation — donnerait le même résultat pour une échelle
+      uniforme (même facteur sur x et y), mais pas pour une échelle
+      différente en x et en y : les transformations ne commutent pas en
+      général, l'ordre dans lequel on les applique compte.
+    </p>
+    <p class="cours-texte">
+      L'intérêt d'écrire ça sous forme de matrice plutôt que d'enchaîner des
+      calculs à la main, c'est qu'on peut combiner plusieurs transformations
+      (rotation, échelle, déplacement) en une seule matrice, appliquée une
+      fois par sommet — exactement ce qu'un moteur de jeu fait des milliers
+      de fois à chaque frame.
+    </p>
+  </section>
+
+  <section class="cours-intro">
+    <h2 class="bloc-titre">En Unity</h2>
+    <p class="cours-texte">Trois usages concrets :</p>
+    <div class="code-box">
+      <div class="box-label">Tourner un vecteur</div>
+      Quaternion rotation = Quaternion.Euler(0, 0, angleDegres);<br>
+      Vector3 tourne = rotation * direction;<br>
+      <span class="box-note">Quaternion.Euler attend des degrés — Unity convertit en interne, contrairement à Math.Cos/Sin qui attendent des radians directement.</span>
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Mettre à l'échelle</div>
+      transform.localScale = new Vector3(echelleX, echelleY, 1f);<br>
+      <span class="box-note">Une échelle non uniforme (echelleX différent de echelleY) déforme la forme — un cercle devient une ellipse.</span>
+    </div>
+    <p class="cours-texte">&nbsp;</p>
+    <div class="code-box">
+      <div class="box-label">Tout combiner en une matrice</div>
+      Matrix4x4 matrice = Matrix4x4.TRS(position, rotation, echelle);<br>
+      <span class="box-note">TRS = Translation, Rotation, Scale — Unity construit la matrice combinée en une fois, dans cet ordre précis.</span>
+    </div>
+  </section>
+
+  <p class="fil"><a href="../notions/matrices.html">← Retour à la notion</a></p>
+
+</div>
+
+<script type="module" src="../js/site/menu.js"></script>
+
+</body>
+</html>
