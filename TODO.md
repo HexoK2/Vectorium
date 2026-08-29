@@ -144,14 +144,13 @@ avant lui — à garder tracé ici pour que la liste reflète l'état du projet.
   bug trouvé sur ces points. Le canvas reste bien verrouillé sombre en thème
   clair sur le site déployé, comme prévu par `docs/univers.md`.
 
-- [ ] **Contraste du thème clair — bug confirmé à l'écran, pas encore corrigé
-  en ligne.** `--pos` (vert) et `--vec-a` (turquoise), utilisés comme couleur
-  de texte hors du widget canvas verrouillé, n'ont pas de variante adaptée au
-  fond clair. Contraste mesuré ≈ 1,8:1 (minimum WCAG AA : 4,5:1). Visible à
-  l'œil sur `https://hexok2.github.io/Vectorium/notions/produit-scalaire.html`
-  en thème clair : le titre « EN CLAIR » et le lien « Aller plus loin → » se
-  distinguent à peine du fond. Éléments touchés : `.bloc-titre`,
-  `.code-inline`, `.en-clair-lien`, `.menu-liens a.actif`, `.menu-soutenir`.
+- [x] **Contraste du thème clair corrigé et en ligne.** `.bloc-titre`,
+  `.code-inline`, `.en-clair-lien`, `.menu-liens a.actif`, `.menu-soutenir`
+  utilisent désormais `--pos-texte`/`--vec-a-texte` (variantes adaptées au
+  fond clair) au lieu de `--pos`/`--vec-a` directement. Vérifié dans
+  `css/vectorium.css`. Au passage (28-29/08), bug similaire trouvé et
+  corrigé sur `--neutral` (résultat proche de 0, cas « perpendiculaire ») :
+  ajout de `--neutral-texte` sur le même principe.
 
 - [x] **Palette claire revisitée : beige warm cohérent partout, canvas adapté
   au thème clair** (28/08) — Changement gris-bleu → beige warm pour harmonie
@@ -169,19 +168,38 @@ avant lui — à garder tracé ici pour que la liste reflète l'état du projet.
 
 ## Ticket 04 — Finaliser et intégrer la notion Matrices
 
-- [ ] **Reprendre `notions/matrices-test.html` sur le vrai gabarit**
-  Retirer la bannière brouillon, ajouter le menu latéral comme les 3 autres
-  pages, harmoniser l'en-tête (« NOTION 04 / MATRICES »). Le contenu (bloc
-  « En clair », comparaison Unity) existe déjà dans le brouillon, à réutiliser
-  tel quel sauf si problème détecté.
-  Terminé quand : la page se comporte comme les 3 autres, et angle = 90°,
-  échelle = 1 donne bien un A' perpendiculaire à A (vérifié à l'œil sur la
-  grille).
+- [x] **Reprendre `notions/matrices-test.html` sur le vrai gabarit** (28/08)
+  Bannière brouillon retirée, menu latéral ajouté (avec les 3 autres pages
+  mises à jour pour pointer vers Matrices), en-tête harmonisé
+  (« NOTION 04 / MATRICES »). `notions/matrices-test.html` supprimé.
+  Testé : angle = 90°, échelle = 1 donne bien un A' perpendiculaire à A.
 
-- [ ] **Ajouter la carte à l'accueil, déployer, tester sur téléphone.**
+- [x] **Ajouter la carte à l'accueil, déployer, tester sur téléphone.** (28/08)
+  Carte + aperçu ajoutés à `index.html`, déployé sur GitHub Pages.
 
 - [ ] **Page de cours `cours/matrices.html`** — seulement si le temps le
   permet, comme pour produit-vectoriel et interpolation-lineaire.
+
+---
+
+## Ticket 05 — Verdicts concrets sur produit scalaire et produit vectoriel
+
+Constat (retour Cowork, 29/08) : le texte d'accroche et le bloc « En clair »
+posent un scénario concret, mais le verdict affiché en direct pendant la
+manipulation restait abstrait — l'utilisateur devait traduire lui-même ce
+qu'il voyait vers le « pourquoi ça sert ».
+
+- [x] **`js/notions/produit-scalaire.js`** — 3 verdicts réécrits (positif /
+  négatif / perpendiculaire) autour du scénario de l'ennemi qui repère.
+  Vérifié : verdict + couleur changent en direct pendant le drag.
+
+- [x] **`js/notions/produit-vectoriel.js`** — 3 verdicts réécrits
+  (antihoraire / horaire / colinéaires) autour du scénario « de quel côté
+  tourner pour faire face à la cible ».
+
+- [ ] **Tester sur téléphone** avant de merger.
+  PR ouverte : https://github.com/HexoK2/Vectorium/pull/1 (pas encore
+  mergée dans `main`).
 
 ---
 
