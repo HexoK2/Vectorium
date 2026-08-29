@@ -204,13 +204,46 @@ qu'il voyait vers le « pourquoi ça sert ».
 
 ---
 
-## v1 terminée (29/08)
+## v1 terminée (29/08) — récapitulatif pour validation Cowork
 
-Les tickets 01 à 05 sont tous complétés et déployés : 4 notions (produit
-scalaire, produit vectoriel, interpolation linéaire, matrices), chacune avec
-sa page de cours, menu latéral, thème clair/sombre. Le travail à venir
-(nouvelles notions, etc.) se fait sur une branche `v2` pour garder `main`
-comme référence stable de la v1.
+Les tickets 01 à 05 sont tous complétés, testés et déployés sur `main`
+(https://hexok2.github.io/Vectorium/). Le travail à venir (nouvelles
+notions, etc.) se fait désormais sur une branche `v2`, pour garder `main`
+comme référence stable de cette v1.
+
+**Les 4 notions, chacune avec :**
+
+| Notion | Page notion | Bloc « En clair » | Page de cours | Vérifié |
+|---|---|---|---|---|
+| Produit scalaire | ✅ | ✅ | ✅ `cours/produit-scalaire.html` | ✅ |
+| Produit vectoriel | ✅ | ✅ | ✅ `cours/produit-vectoriel.html` | ✅ |
+| Interpolation linéaire | ✅ | ✅ | ✅ `cours/interpolation-lineaire.html` | ✅ |
+| Matrices | ✅ | ✅ | ✅ `cours/matrices.html` | ✅ |
+
+**Chrome du site :**
+
+- [x] Menu latéral (navigation, thème clair/sombre, lien Soutenir) — cohérent
+  sur les 8 pages (accueil, 4 notions, 4 cours)
+- [x] Thème clair/sombre persisté (`localStorage`), palette claire beige
+  cohérente avec le canvas, contraste WCAG AA vérifié
+- [x] Verdicts en direct (produit scalaire, produit vectoriel) reformulés
+  autour d'un scénario concret plutôt qu'une description abstraite du vecteur
+
+**Architecture :**
+
+- [x] Frontière `js/moteur/` (générique) / `js/notions/` (spécifique)
+  respectée — aucun fichier du moteur ne mentionne une notion en particulier
+- [x] `js/site/` (menu, thème) documenté dans `CLAUDE.md`
+
+**Assumé, pas un manque :**
+
+- Lien « Soutenir » (`href="#"`) — en attente d'un choix de plateforme
+  (Stripe/IBAN)
+
+**Hors scope v1** (voir « Semaine du 02/09 » ci-dessous) : test par des
+camarades de promo, relecture du code avec l'auteur, `journal.md` complet,
+gel du code. Ces étapes suivent la validation de la v1, elles n'en font pas
+partie.
 
 ---
 
