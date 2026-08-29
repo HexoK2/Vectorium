@@ -60,3 +60,27 @@ les vraies pages, en attente de validation.
 | Réviser palette mode clair (beige warm cohérent avec téléphone) | — | 45 min | Changement gris-bleu → beige warm pour cohérence visuelle page/canvas |
 | Adapter canvas interactifs au thème clair (+ grille/axes) | — | 15 min | Retrait du verrouillage sombre `.module`/`.apercu`, redéclaration des variables en mode clair |
 | **Total ajusté thème clair** | — | 1 heure | Palette stable, testée sur accueil + 3 notions |
+
+## Ticket 04 — Finaliser et intégrer la notion Matrices (28-29/08)
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Reprendre `matrices-test.html` sur le vrai gabarit | 50 minutes | non capturé | Session déviée par un faux bug (le mode nuit du navigateur recolorait la page, pris pour un bug de thème) avant de revenir à la tâche — le compteur n'a pas été repris derrière |
+| Page de cours `cours/matrices.html` | non estimé | non capturé | Faite dans la foulée du merge de la PR verdicts, pas de chrono posé avant de commencer |
+
+À surveiller (même remarque que le 26/08) : plusieurs tâches de suite sans
+temps réel capturé. La cause cette fois est différente — pas un oubli, mais
+des interruptions (débogage cache navigateur, allers-retours sur la palette
+claire) qui ont rendu le chrono peu significatif une fois la tâche reprise.
+
+## Ticket 05 — Verdicts concrets produit scalaire / produit vectoriel (29/08)
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Réécriture des 6 verdicts + vérification + PR + merge | non estimé | non capturé | Ticket transmis par Cowork avec les 3 phrases du produit scalaire déjà rédigées ; seules celles du produit vectoriel ont demandé une proposition avant application |
+
+## Ticket 06 — README à jour (29/08)
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Feuille de route, Structure, Ajouter une notion, vérif liens | non estimé | non capturé | Contrat de notion repris tel quel depuis `CLAUDE.md`, pas réécrit ; commande locale corrigée (`python3` → `python`, cassait sur Windows) |
