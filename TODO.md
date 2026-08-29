@@ -177,8 +177,11 @@ avant lui — à garder tracé ici pour que la liste reflète l'état du projet.
 - [x] **Ajouter la carte à l'accueil, déployer, tester sur téléphone.** (28/08)
   Carte + aperçu ajoutés à `index.html`, déployé sur GitHub Pages.
 
-- [ ] **Page de cours `cours/matrices.html`** — seulement si le temps le
-  permet, comme pour produit-vectoriel et interpolation-lineaire.
+- [x] **Page de cours `cours/matrices.html`** (29/08) — rotation (formule +
+  diagramme SVG), piège degrés/radians, pourquoi une matrice plutôt que
+  cos/sin à la main, 3 exemples Unity. Lien « Aller plus loin » ajouté sur
+  la notion. Au passage : menu latéral synchronisé (lien Matrices) sur les
+  3 autres pages de cours, qui avaient encore l'ancien menu à 3 liens.
 
 ---
 
@@ -197,9 +200,17 @@ qu'il voyait vers le « pourquoi ça sert ».
   (antihoraire / horaire / colinéaires) autour du scénario « de quel côté
   tourner pour faire face à la cible ».
 
-- [ ] **Tester sur téléphone** avant de merger.
-  PR ouverte : https://github.com/HexoK2/Vectorium/pull/1 (pas encore
-  mergée dans `main`).
+- [x] **Testé, PR mergée** (29/08) — https://github.com/HexoK2/Vectorium/pull/1
+
+---
+
+## v1 terminée (29/08)
+
+Les tickets 01 à 05 sont tous complétés et déployés : 4 notions (produit
+scalaire, produit vectoriel, interpolation linéaire, matrices), chacune avec
+sa page de cours, menu latéral, thème clair/sombre. Le travail à venir
+(nouvelles notions, etc.) se fait sur une branche `v2` pour garder `main`
+comme référence stable de la v1.
 
 ---
 
