@@ -39,15 +39,15 @@ export const produitVectoriel = {
     let label = 'colinéaires'
     if (Math.abs(cross) < 0.1) {
       couleur = GRIS
-      verdict = 'Zéro (ou presque) : colinéaires — pas de surface, pas de rotation.'
+      verdict = 'Colinéaires : tu es déjà aligné avec la cible — droit devant toi, ou pile derrière.'
       label = 'colinéaires'
     } else if (cross > 0.1) {
       couleur = VERT
-      verdict = 'Positif : B est à gauche de A (rotation antihoraire).'
+      verdict = 'Antihoraire : la cible est à ta gauche — tourne dans ce sens pour lui faire face.'
       label = 'antihoraire'
     } else if (cross < -0.1) {
       couleur = ROUGE
-      verdict = 'Négatif : B est à droite de A (rotation horaire).'
+      verdict = 'Horaire : la cible est à ta droite — tourne dans ce sens pour lui faire face.'
       label = 'horaire'
     }
 
