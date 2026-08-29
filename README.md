@@ -24,7 +24,7 @@ fonctionne pas** : le navigateur bloque les imports en `file://`. Il faut un
 serveur local.
 
 ```bash
-python3 -m http.server
+python -m http.server
 ```
 
 Puis ouvrir <http://localhost:8000>.
@@ -36,25 +36,51 @@ Aucune dépendance, aucune étape de build : HTML/CSS/JS vanilla.
 ```
 vectorium/
 ├── index.html                  # accueil : la liste des notions
-├── notions/                    # une page HTML par notion
 ├── css/vectorium.css           # palette, typographie, styles partagés
-└── reference/                  # démonstrations de design
+├── js/
+│   ├── moteur/                 # générique — ne connaît aucune notion
+│   │   ├── repere.js           # canvas net, conversions monde <-> écran, grille
+│   │   ├── dessin.js           # primitives : flèche, segment, point, arc, texte
+│   │   ├── drag.js             # Pointer Events (souris + tactile)
+│   │   └── module.js           # monterModule(notion, element) — le contrat
+│   ├── notions/                # spécifique — un fichier par notion
+│   └── site/                   # chrome du site (menu, thème) — ne connaît ni le moteur ni les notions
+├── notions/                    # une page HTML par notion
+├── cours/                      # une page de cours par notion, pour approfondir
+└── reference/                  # le prototype d'origine — le rendu visuel de référence
 ```
+
+**Règle vérifiable :** aucun fichier de `js/moteur/` ne doit mentionner une
+notion en particulier. Si ajouter une notion demande de modifier le moteur,
+la frontière est mal placée.
 
 ## Ajouter une notion
 
-1. Créer `notions/ma-notion.html` sur le modèle de `notions/produit-scalaire.html`.
-2. La page contient un `<script type="module">` qui définit la logique et le rendu.
-3. Ajouter le lien dans `index.html`.
+1. Écrire `js/notions/ma-notion.js`, qui exporte un objet à quatre clés :
 
-Chaque notion est autonome : pas de dépendance externe, pas de build, HTML/CSS/JS vanilla.
+   | clé | rôle |
+   |---|---|
+   | `points` | les points manipulables, en coordonnées monde |
+   | `calculer(pts)` | maths pures — ni canvas ni DOM, donc testable seule |
+   | `dessiner(d, pts, val)` | n'appelle que les primitives de `dessin.js` |
+   | `lecture(val, pts?)` | les lignes de valeurs affichées à côté du canvas |
+
+2. Créer `notions/ma-notion.html` sur le modèle d'une notion existante (par
+   exemple `notions/produit-scalaire.html`).
+3. Ajouter la carte à `index.html`.
+
+Le moteur (`js/moteur/`) se charge du reste : dessiner les poignées, gérer le
+drag, le redimensionnement, le rendu coalescé par `requestAnimationFrame`.
 
 ## Feuille de route
 
 - [x] Produit scalaire
-- [ ] Produit vectoriel
-- [ ] Interpolation linéaire
-- [ ] Premiers pas sur les quaternions
+- [x] Produit vectoriel
+- [x] Interpolation linéaire
+- [x] Matrices
+
+D'autres notions (quaternions, courbes de Bézier…) sont un horizon v2, pas une
+prochaine étape immédiate.
 
 ## Licence
 
