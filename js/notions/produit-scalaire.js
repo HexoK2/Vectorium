@@ -59,15 +59,15 @@ export const produitScalaire = {
     // Les seuils viennent de l'usage, pas des maths : en dessous de 0.6 en
     // valeur absolue, l'information utile est « ni l'un ni l'autre ».
     let couleur = GRIS
-    let verdict = 'Perpendiculaires — les vecteurs ne pointent ni dans la même direction ni en sens opposé.'
+    let verdict = 'Perpendiculaires : pile à la limite de son champ de vision — un pas de plus dans un sens ou l\'autre, et il te repère ou te perd.'
     let label = 'perpendiculaire'
     if (dot > 0.6) {
       couleur = VERT
-      verdict = 'Positif : les deux vecteurs pointent globalement dans la même direction — A voit dans la direction de B.'
+      verdict = 'Positif : il regarde dans ta direction — il te voit.'
       label = 'même sens'
     } else if (dot < -0.6) {
       couleur = ROUGE
-      verdict = 'Négatif : les deux vecteurs pointent en sens opposés — ils regardent dos à dos.'
+      verdict = 'Négatif : il te tourne le dos — hors de son champ de vision.'
       label = 'sens opposé'
     }
 
