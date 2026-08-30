@@ -101,3 +101,9 @@ branche `v2` dédiée, `main` gelée comme référence de la v1.
 | Tâche | Estimé | Réel | Notes |
 |-------|--------|------|-------|
 | `sprite()` générique + saut-test.js + saut-test.html | 20 min | 20 min | Ajout de primitive `sprite()` à dessin.js (réutilise `rectangle()` en interne). Grille du personnage 10×15 par code, pas d'image. Physique : position = vitesse × t + gravité × t² / 2. Deux sliders HTML (Force, Gravité). Commit 6549372. Note : sprite() n'a pas pu être testé en exécution à cause d'un cache ES6 modules persistant du navigateur — code correct sur disque, tester en fenêtre privée. |
+
+### Notion complète « Analyse de mécanique : Le saut »
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| Correctifs prototype + bloc « En clair » + page cours + menu + accueil | 45 min | 45 min | Corrections du prototype : inversion du sprite (y-axis orienté correctement), ralentissement de l'animation (÷100 ms), curseurs relus à chaque frame (sans `.valeur`), squash-and-stretch via scaleY sinusoïdal. Création de : mecaniques/saut.html (bloc 3 colonnes), cours/saut.html (formule + moteurs + pièges), ajout à index.html (menu + carte + aperçu). Commits b24d5e7, 87797d3. |
