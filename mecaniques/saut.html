@@ -12,6 +12,125 @@
     } catch (erreur) {}
   </script>
   <link rel="stylesheet" href="../css/vectorium.css">
+  <style>
+    .scene-saut {
+      background: var(--fond-scene);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .boule-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .boule {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle at 30% 30%, #ff9d4d, #ff6b35);
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: none;
+    }
+
+    .oeil {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #000;
+      border-radius: 50%;
+    }
+
+    .oeil-gauche {
+      top: 15px;
+      left: 12px;
+    }
+
+    .oeil-droit {
+      top: 15px;
+      right: 12px;
+    }
+
+    .sol {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--text-mid);
+      opacity: 0.3;
+    }
+
+    .controles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .slider-group label {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    .slider-group input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .slider-value {
+      font-size: 0.85rem;
+      color: var(--text-hi);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 4px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      color: var(--text-hi);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 0.25rem;
+    }
+  </style>
 </head>
 <body>
 
@@ -48,70 +167,206 @@
 <div class="stage">
 
   <p class="eyebrow">NOTION 05 / MÉCANIQUE</p>
-  <h1>Analyse de mécanique : Le saut</h1>
+  <h1>Regarde Mario sauter. C'est une parabole parfaite.</h1>
   <p class="sub">
-    Un saut, c'est l'addition de deux vecteurs : une vélocité initiale (vers le haut) et la gravité (constante vers le bas).
-    Ajuste les curseurs pour explorer comment force initiale et gravité façonnent la trajectoire.
+    Chaque saut dans un jeu vidéo suit la même loi physique : une vélocité initiale,
+    puis la gravité qui reprend. C'est pas magique. C'est juste une addition de vecteurs.
   </p>
 
-  <main class="module" id="module">
-    <div class="colonne-scene">
-      <div class="scene"><canvas></canvas></div>
-      <p class="hint">Utilise les curseurs du panneau pour explorer</p>
+  <h2 style="margin-top: 2rem;">Voir en action</h2>
+  <div style="aspect-ratio: 16/9; margin: 1rem 0; background: #000; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/3tKHvFnrYiY?start=0&end=10" title="Saut classique" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px;"></iframe>
+  </div>
+
+  <h2>Explorer</h2>
+  <p>Ajuste la vitesse et l'angle. La boule se déplace selon la physique réelle d'un saut.</p>
+
+  <div class="scene-saut">
+    <div class="sol"></div>
+    <div class="boule-container">
+      <div class="boule" id="boule">
+        <div class="oeil oeil-gauche"></div>
+        <div class="oeil oeil-droit"></div>
+      </div>
     </div>
-    <aside class="panneau">
-      <div data-panneau></div>
-      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
-    </aside>
-  </main>
+  </div>
+
+  <div class="controles">
+    <div class="slider-group">
+      <label for="vitesse">Vitesse initiale</label>
+      <input type="range" id="vitesse" min="5" max="30" value="15" step="0.5">
+      <div class="slider-value"><span id="vitesse-value">15</span> unités/s</div>
+    </div>
+    <div class="slider-group">
+      <label for="angle">Angle de décollage</label>
+      <input type="range" id="angle" min="0" max="90" value="45" step="1">
+      <div class="slider-value"><span id="angle-value">45</span>°</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Hauteur max</div>
+      <div class="stat-value" id="hauteur-max">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Temps de vol</div>
+      <div class="stat-value" id="temps-vol">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Portée</div>
+      <div class="stat-value" id="portee">—</div>
+    </div>
+  </div>
 
   <div class="en-clair">
     <div class="en-clair-colonne">
       <h3>Dans un jeu</h3>
       <p>
-        Simuler un saut réaliste, c'est toujours additionner une vélocité initiale
-        et l'effet constant de la gravité. Plus la force initiale est grande, plus
-        le personnage monte. Plus la gravité est forte, plus vite il retombe.
+        Le joueur appuie sur « saut ». Tu appliques une vélocité initiale (vers le haut).
+        Puis chaque frame, la gravité s'ajoute. Le personnage monte, ralentit, puis retombe
+        de plus en plus vite. C'est prévisible, c'est satisfaisant.
       </p>
     </div>
     <div class="en-clair-colonne">
       <h3>Ce que dit la formule</h3>
       <p>
-        <code class="code-inline">hauteur(t) = v₀ × t − ½ × g × t²</code>
+        <code class="code-inline">hauteur(t) = v₀·sin(θ)·t − ½·g·t²</code>
       </p>
       <p>
-        Le premier terme (<code class="code-inline">v₀ × t</code>) est la montée.
-        Le second (<code class="code-inline">−½ × g × t²</code>) la ramène au sol.
-        L'addition des deux donne la position réelle.
+        Le premier terme monte, le second redescend. Leur somme : une parabole.
+        Plus la vitesse est haute, plus tu montes. Plus l'angle approche 45°, plus
+        tu vas loin horizontalement.
       </p>
     </div>
     <div class="en-clair-colonne">
       <h3>L'erreur classique</h3>
       <p>
-        Oublier que la gravité s'accumule. Un saut qui ignore la gravité
-        monte indéfiniment. Un saut qui l'ignore à moitié retombe trop
-        lentement. La courbe réelle est une parabole, pas une ligne.
+        Utiliser <code class="code-inline">Lerp</code> pour un saut. Lerp est linéaire :
+        montée constante, descente constante. Mais un vrai saut c'est une parabole :
+        montée douce, descente qui s'accélère. Utilise la formule ci-dessus.
       </p>
     </div>
   </div>
 
   <p class="foot">
-    <a href="../cours/saut.html" class="en-clair-lien">Aller plus loin</a> — Le saut dans les moteurs de jeu.
+    <a href="../cours/saut.html" class="en-clair-lien">Aller plus loin</a> — La physique complète du saut.
   </p>
 
 </div>
 
-<script type="module">
-  import { monterModule } from '../js/moteur/module.js'
-  import { sautTest, lancerSautBoucle } from '../js/notions/saut.js'
-
-  const module = document.getElementById('module')
-  const moteur = monterModule(sautTest, module)
-
-  lancerSautBoucle(moteur)
-</script>
-
 <script type="module" src="../js/site/menu.js"></script>
+
+<script>
+  const boule = document.getElementById('boule')
+  const vitesseInput = document.getElementById('vitesse')
+  const angleInput = document.getElementById('angle')
+  const vitesseValue = document.getElementById('vitesse-value')
+  const angleValue = document.getElementById('angle-value')
+  const hauteurMaxEl = document.getElementById('hauteur-max')
+  const tempsVolEl = document.getElementById('temps-vol')
+  const porteeEl = document.getElementById('portee')
+
+  const scene = document.querySelector('.scene-saut')
+  const sceneHeight = 300 - 50 // hauteur moins la boule
+  const sceneWidth = scene.offsetWidth
+
+  const gravite = 9.8
+
+  let animationActive = false
+  let startTime = 0
+
+  function updateStats() {
+    const v0 = parseFloat(vitesseInput.value)
+    const angle = parseFloat(angleInput.value) * Math.PI / 180
+
+    const v0y = v0 * Math.sin(angle)
+    const v0x = v0 * Math.cos(angle)
+
+    const heightMax = (v0y * v0y) / (2 * gravite)
+    const tFlight = (2 * v0y) / gravite
+    const range = v0x * tFlight
+
+    hauteurMaxEl.textContent = heightMax.toFixed(2) + 'm'
+    tempsVolEl.textContent = tFlight.toFixed(2) + 's'
+    porteeEl.textContent = range.toFixed(2) + 'm'
+  }
+
+  function animate(currentTime) {
+    if (!animationActive) return
+
+    if (startTime === 0) startTime = currentTime
+    const t = (currentTime - startTime) / 1000 // en secondes
+
+    const v0 = parseFloat(vitesseInput.value)
+    const angle = parseFloat(angleInput.value) * Math.PI / 180
+
+    const v0y = v0 * Math.sin(angle)
+    const v0x = v0 * Math.cos(angle)
+
+    const tFlight = (2 * v0y) / gravite
+
+    if (t > tFlight) {
+      // Animation terminée
+      animationActive = false
+      boule.style.bottom = '0px'
+      boule.style.left = '50%'
+      boule.style.transform = 'translateX(-50%) rotateZ(0deg)'
+      startTime = 0
+      // Relancer après un court délai
+      setTimeout(() => {
+        startTime = 0
+        animationActive = true
+        requestAnimationFrame(animate)
+      }, 1000)
+      return
+    }
+
+    // Position
+    const y = v0y * t - 0.5 * gravite * t * t
+    const x = v0x * t
+    const heightPercent = (y / (v0y * v0y / (2 * gravite))) * 100
+    const bottomPixels = Math.max(0, (heightPercent / 100) * sceneHeight)
+
+    boule.style.bottom = bottomPixels + 'px'
+    boule.style.left = (50 + (x / (v0x * tFlight)) * 50) + '%'
+
+    // Rotation selon l'angle
+    const rotation = (t / tFlight) * 360 * 2 // 2 rotations pendant le vol
+    boule.style.transform = `translateX(-50%) rotateZ(${rotation}deg)`
+
+    requestAnimationFrame(animate)
+  }
+
+  function startAnimation() {
+    if (!animationActive) {
+      animationActive = true
+      startTime = 0
+      requestAnimationFrame(animate)
+    }
+  }
+
+  vitesseInput.addEventListener('input', () => {
+    vitesseValue.textContent = vitesseInput.value
+    updateStats()
+  })
+
+  angleInput.addEventListener('input', () => {
+    angleValue.textContent = angleInput.value
+    updateStats()
+  })
+
+  scene.addEventListener('click', startAnimation)
+  boule.addEventListener('click', (e) => {
+    e.stopPropagation()
+    startAnimation()
+  })
+
+  // Initialiser
+  updateStats()
+  // Démarrer l'animation au chargement
+  setTimeout(() => startAnimation(), 500)
+</script>
 
 </body>
 </html>
