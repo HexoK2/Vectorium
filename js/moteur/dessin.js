@@ -161,6 +161,47 @@ export function creerDessin(repere) {
     }
   }
 
+  /* --- Rectangle -------------------------------------------------------------
+     Centré sur `centre`. largeur/hauteur en unités MONDE (comme parallelogramme
+     ci-dessus) : c'est une grandeur de la scène — un personnage, un obstacle —
+     pas une décoration d'interface, donc elle doit grossir avec le zoom.
+  --------------------------------------------------------------------------- */
+  function rectangle(centre, largeur, hauteur, { couleur = '#fff', remplir = true, epaisseur = 2 } = {}) {
+    const c = repere.versEcran(centre)
+    const l = largeur * repere.echelle
+    const h = hauteur * repere.echelle
+
+    if (remplir) {
+      ctx.fillStyle = couleur
+      ctx.fillRect(c.x - l / 2, c.y - h / 2, l, h)
+    } else {
+      ctx.strokeStyle = couleur
+      ctx.lineWidth = epaisseur
+      ctx.strokeRect(c.x - l / 2, c.y - h / 2, l, h)
+    }
+  }
+
+  /* --- Cercle ------------------------------------------------------------
+     Même logique : rayon en unités MONDE, pas en pixels — contrairement au
+     rayon décoratif de point() ci-dessus, qui doit rester une taille d'écran
+     constante quel que soit le zoom.
+  --------------------------------------------------------------------------- */
+  function cercle(centre, rayon, { couleur = '#fff', remplir = true, epaisseur = 2 } = {}) {
+    const c = repere.versEcran(centre)
+    const r = rayon * repere.echelle
+
+    ctx.beginPath()
+    ctx.arc(c.x, c.y, r, 0, Math.PI * 2)
+    if (remplir) {
+      ctx.fillStyle = couleur
+      ctx.fill()
+    } else {
+      ctx.strokeStyle = couleur
+      ctx.lineWidth = epaisseur
+      ctx.stroke()
+    }
+  }
+
   /* --- Texte ---------------------------------------------------------------
      decalage est en pixels : une étiquette doit rester à la même distance
      visuelle de son point quelle que soit l'échelle.
@@ -181,5 +222,32 @@ export function creerDessin(repere) {
     ctx.fillText(contenu, e.x + decalage.x, e.y + decalage.y)
   }
 
-  return { fleche, segment, point, arc, texte, parallelogramme, repere, ctx }
+  /* --- Sprite ----------------------------------------------------------------
+     Dessine une grille 2D (tableau de chaînes). Chaque caractère non-vide
+     (selon la palette) est une case pleine, dessinée comme un rectangle.
+     taillePixel en unités MONDE — l'échelle du zoom affecte la taille des
+     cases, comme pour un vecteur.
+  --------------------------------------------------------------------------- */
+  function sprite(origine, grille, { taillePixel = 1, palette = {} } = {}) {
+    let y = 0
+    for (const ligne of grille) {
+      let x = 0
+      for (const char of ligne) {
+        if (char !== '.' && palette[char]) {
+          const caseX = origine.x + x * taillePixel
+          const caseY = origine.y + y * taillePixel
+          rectangle(
+            { x: caseX + taillePixel / 2, y: caseY + taillePixel / 2 },
+            taillePixel,
+            taillePixel,
+            { couleur: palette[char], remplir: true }
+          )
+        }
+        x++
+      }
+      y++
+    }
+  }
+
+  return { fleche, segment, point, arc, texte, parallelogramme, rectangle, cercle, sprite, repere, ctx }
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test — Saut (addition de vecteurs) — Vectorium</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/vectorium.css">
+  <style>
+    .sliders-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 0.5rem;
+    }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .slider-row label {
+      min-width: 120px;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+    .slider-row input[type="range"] {
+      flex: 1;
+    }
+    .slider-row span {
+      min-width: 50px;
+      text-align: right;
+      color: var(--text-hi);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="banniere-brouillon">🚧 Test — pas encore une vraie notion, sert à vérifier l'addition de vecteurs (vitesse + gravité) sur un personnage pixel art.</div>
+
+<div class="stage">
+
+  <p class="eyebrow">Prototype — addition de vecteurs</p>
+  <h1>Addition de vecteurs : saut</h1>
+  <p class="sub">
+    Un saut, c'est juste vitesse initiale + gravité, répétés dans le temps.
+    Cyan = vélocité Y (vers le haut au moment du saut),
+    rouge = gravité (toujours vers le bas),
+    jaune = résultante.
+  </p>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">Glisse les sliders pour changer la force du saut et la gravité</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <div class="sliders-container">
+    <div class="slider-row">
+      <label for="force">Force du saut :</label>
+      <input type="range" id="force" min="0" max="500" step="10" value="100">
+      <span id="force-value">100</span>
+    </div>
+    <div class="slider-row">
+      <label for="gravite">Gravité :</label>
+      <input type="range" id="gravite" min="0" max="50" step="0.5" value="9.8">
+      <span id="gravite-value">9.8</span>
+    </div>
+  </div>
+
+  <p class="foot">Test — cette page n'est pas reliée à l'accueil.</p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { sautTest } from '../js/notions/saut-test.js'
+  import { demarrerAnimation } from '../js/notions/animation.js'
+
+  const module = document.getElementById('module')
+  const moteur = monterModule(sautTest, module)
+
+  // Sliders
+  const forceInput = document.getElementById('force')
+  const graviteInput = document.getElementById('gravite')
+  const forceValue = document.getElementById('force-value')
+  const graviteValue = document.getElementById('gravite-value')
+
+  forceInput.addEventListener('input', () => {
+    forceValue.textContent = forceInput.value
+    moteur.rendre()
+  })
+
+  graviteInput.addEventListener('input', () => {
+    graviteValue.textContent = parseFloat(graviteInput.value).toFixed(1)
+    moteur.rendre()
+  })
+
+  // Rendre une première fois
+  moteur.rendre()
+</script>
+
+</body>
+</html>
