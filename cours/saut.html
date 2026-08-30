@@ -48,67 +48,88 @@
 <div class="stage">
 
   <p class="eyebrow">COURS — LE SAUT</p>
-  <h1>Le saut dans les moteurs de jeu</h1>
+  <h1>Le saut dans les jeux vidéo</h1>
 
-  <h2>La formule du mouvement</h2>
+  <h2>Pourquoi ça compte</h2>
   <p>
-    Un saut suit toujours la même équation du mouvement uniformément accéléré :
+    Dans <strong>Mario</strong>, <strong>Sonic</strong>, <strong>Celeste</strong> — tous les jeux 2D ont un saut.
+    Ce n'est pas du hasard : c'est pas magique, c'est de la physique. Un saut, c'est toujours la même formule,
+    la même addition de deux vecteurs. Comprendre ça, c'est comprendre comment 90% des jeux de plateforme
+    gouvernent le personnage.
   </p>
-  <p>
-    <code class="code-inline">hauteur(t) = v₀ × t − ½ × g × t²</code>
+
+  <h2>Voir en action</h2>
+  <p>Voici le classique : un saut dans un vrai jeu.</p>
+  <div style="aspect-ratio: 16/9; margin: 2rem 0; background: #000; display: flex; align-items: center; justify-content: center;">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/3tKHvFnrYiY?start=0&end=10" title="Saut classique" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <p style="font-size: 0.9rem; color: var(--text-mid);">
+    Crédit vidéo — gameplay original du jeu
   </p>
+
+  <h2>L'explorer</h2>
   <p>
-    Où :
+    Reviens à la <a href="../mecaniques/saut.html" class="en-clair-lien">notion interactive</a> et ajuste les curseurs.
+    Tu vas voir en temps réel comment la vélocité initiale et la gravité modèlent la parabole du saut.
+  </p>
+
+  <h2>C'est quoi la formule</h2>
+  <p>
+    <code class="code-inline">position(t) = départ + vélocité × t − ½ × gravité × t²</code>
   </p>
   <ul>
-    <li><code class="code-inline">v₀</code> est la vélocité initiale (vers le haut, en unités/seconde)</li>
-    <li><code class="code-inline">g</code> est l'accélération due à la gravité (vers le bas)</li>
-    <li><code class="code-inline">t</code> est le temps écoulé depuis le décollage (en secondes)</li>
+    <li>
+      <code class="code-inline">vélocité × t</code> — sans gravité, le perso monterait indéfiniment.
+      C'est la partie « remontée ».
+    </li>
+    <li>
+      <code class="code-inline">−½ × gravité × t²</code> — la gravité s'accumule.
+      Chaque fraction de seconde, elle te ramène un peu plus vers le sol.
+      Le carré <code class="code-inline">t²</code> fait que ça accélère : d'abord lent, puis très vite.
+    </li>
+    <li>
+      Leur addition donne une <strong>parabole</strong> — montée douce, descente de plus en plus rapide.
+    </li>
   </ul>
 
-  <h2>Pourquoi cette forme ?</h2>
-  <p>
-    Le premier terme, <code class="code-inline">v₀ × t</code>, est la position qu'on aurait
-    sans gravité : une ligne droite vers le haut. Le second terme,
-    <code class="code-inline">−½ × g × t²</code>, est l'effet croissant de la gravité :
-    elle s'accumule au fil du temps. Leur somme produit la parabole classique du saut.
-  </p>
+  <h2>Pourquoi dans un jeu</h2>
+  <ul>
+    <li>
+      <strong>Sensation de contrôle.</strong> Le joueur appuie sur « saut »,
+      tu appliques une vélocité initiale une seule fois. Puis la gravité reprend.
+      C'est prévisible, c'est satisfaisant.
+    </li>
+    <li>
+      <strong>Calcul très simple.</strong> Rien de cher : une multiplication, une addition, un carré.
+      Ça tourne à 60fps sur du hardware faible.
+    </li>
+    <li>
+      <strong>Erreur classique : utiliser <code class="code-inline">Lerp</code>.</strong>
+      <code class="code-inline">Vector3.Lerp(debut, fin, t)</code> ne marche pas pour les sauts.
+      Lerp est linéaire : le perso monterait à la même vitesse qu'il redescendrait.
+      Mais un vrai saut, c'est une parabole. Utilise la formule ci-dessus à la place.
+    </li>
+  </ul>
 
-  <h2>Dans les moteurs</h2>
+  <h2>Code dans les moteurs</h2>
   <p>
     <strong>Unity :</strong>
   </p>
-  <pre><code class="code-block">Vector3 position = startPos + velocity * t - 0.5f * gravity * t * t;</code></pre>
+  <pre><code class="code-block">float hauteur = velociteInitiale * t - 0.5f * gravite * t * t;
+position.y = depart.y + hauteur;</code></pre>
   <p>
     <strong>Godot :</strong>
   </p>
-  <pre><code class="code-block">var position = start_pos + velocity * t - 0.5 * gravity * t * t</code></pre>
+  <pre><code class="code-block">var hauteur = vitesse_initiale * t - 0.5 * gravite * t * t
+position.y = depart.y + hauteur</code></pre>
   <p>
     <strong>Unreal (C++) :</strong>
   </p>
-  <pre><code class="code-block">FVector position = startPos + velocity * time - 0.5f * gravity * time * time;</code></pre>
-
-  <h2>Pièges classiques</h2>
-  <ul>
-    <li>
-      <strong>Oublier le carré sur le terme de gravité.</strong>
-      <code class="code-inline">−g × t</code> au lieu de <code class="code-inline">−½ × g × t²</code>
-      fait retomber le personnage trop lentement.
-    </li>
-    <li>
-      <strong>Confondre les unités.</strong>
-      Si <code class="code-inline">t</code> est en millisecondes et <code class="code-inline">g</code>
-      en mètres/seconde², les résultats seront absurdes. Toujours convertir.
-    </li>
-    <li>
-      <strong>Laisser la gravité augmenter sans limite.</strong>
-      Vérifier que <code class="code-inline">hauteur ≥ 0</code> pour éviter que
-      le personnage s'enfonce sous le sol.
-    </li>
-  </ul>
+  <pre><code class="code-block">float hauteur = velociteInitiale * t - 0.5f * gravite * t * t;
+position.Z = depart.Z + hauteur;</code></pre>
 
   <p>
-    <a href="../mecaniques/saut.html" class="en-clair-lien">← Retour à la notion</a>
+    <a href="../mecaniques/saut.html" class="en-clair-lien">← Retour à la notion interactive</a>
   </p>
 
 </div>
