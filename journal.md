@@ -84,3 +84,14 @@ claire) qui ont rendu le chrono peu significatif une fois la tâche reprise.
 | Tâche | Estimé | Réel | Notes |
 |-------|--------|------|-------|
 | Feuille de route, Structure, Ajouter une notion, vérif liens | non estimé | non capturé | Contrat de notion repris tel quel depuis `CLAUDE.md`, pas réécrit ; commande locale corrigée (`python3` → `python`, cassait sur Windows) |
+
+## v2 — nouvelle direction (29/08)
+
+Retour de Cowork : la v1 n'a pas convaincu. Reprise du travail sur une
+branche `v2` dédiée, `main` gelée comme référence de la v1.
+
+### Ticket v2-01 — Animation générique déclenchée par interaction
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| `js/notions/animation.js` + page de test + vérification | non estimé | non capturé | Généralise la boucle `requestAnimationFrame` de `demo-chargement.js` ; raisonnement (signature, sémantique de `t`, condition d'arrêt) validé avec l'auteur avant d'écrire le code |

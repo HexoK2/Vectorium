@@ -247,7 +247,41 @@ partie.
 
 ---
 
-## Semaine du 02/09 — consolidation
+## v2 (29/08 → ) — nouvelle direction, branche `v2`
+
+Le retour de Cowork sur la v1 n'a pas convaincu. Travail repris sur une
+branche `v2` dédiée, `main` reste la référence stable de la v1 en attendant
+la suite.
+
+### Ticket v2-01 — Capacité générique d'animation déclenchée par interaction
+
+Contexte : ajouter des notions avec du mouvement dans le temps (ex. un saut
+avec squash-and-stretch) demandait un pattern générique. `demo-chargement.js`
+avait déjà résolu ce problème pour un cas précis (animation automatique au
+chargement) ; il fallait en extraire la partie générique.
+
+- [x] **`js/notions/animation.js`** — `demarrerAnimation(handle, etape,
+  { duree, condition })` généralise la boucle `requestAnimationFrame` de
+  `demo-chargement.js`. `t` passé à `etape(t)` est le temps écoulé en
+  millisecondes, non normalisé — pour rester utilisable même quand la durée
+  n'est pas connue à l'avance (arrêt par `condition` plutôt que par `duree`
+  fixe).
+- [x] **Vérifié : aucun fichier de `js/moteur/` modifié** (`git status
+  --porcelain js/moteur/` vide).
+- [x] **`notions/animation-test.html`** — page de test isolée (pas une
+  vraie notion), rejoue exactement l'animation de `demo-chargement.js`
+  (même sin/cos, même durée, même amplitude) au clic sur un bouton via ce
+  nouvel helper. Testé : le clic relance l'animation, un second clic
+  pendant l'animation l'interrompt proprement avant d'en relancer une,
+  aucune erreur console.
+
+Terminé quand : le clic relance l'animation, aucun fichier de `js/moteur/`
+n'est modifié, et le pattern est réutilisable pour n'importe quelle future
+notion animée. **Les trois conditions sont vérifiées.**
+
+---
+
+## Semaine du 02/09 — consolidation (plan v1, à revoir)
 
 - [ ] **Faire tester le site par deux ou trois camarades de promo**
   Note chaque incompréhension dans `journal.md`. Ne corrige rien pendant le
