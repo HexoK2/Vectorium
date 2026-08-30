@@ -5,6 +5,13 @@
 
 import { demarrerAnimation } from './animation.js'
 
+export let etatSaut = {
+  hauteur: 0,
+  forceInitiale: 100,
+  gravite: 9.8,
+  scaleY: 1
+}
+
 // Grille du personnage — 10 colonnes × 15 lignes
 const PERSONNAGE_DEBOUT = [
   "...####...",
@@ -41,8 +48,13 @@ export const sautTest = {
 
   repere: { echelle: 42, graduations: false },
 
+  curseurs: [
+    { id: 'forceInitiale', min: 0, max: 500, pas: 10, defaut: 100, label: 'Force du saut' },
+    { id: 'gravite', min: 0, max: 50, pas: 0.5, defaut: 9.8, label: 'Gravité' },
+  ],
+
   points: [
-    { id: 'start', x: 0, y: 0, couleur: '#fff', fixe: true },  // Le personnage part toujours du même endroit
+    { id: 'start', x: 0, y: 0, couleur: '#fff', fixe: true },
   ],
 
   calculer(points, curseurs) {
@@ -78,27 +90,66 @@ export const sautTest = {
   },
 
   dessiner(d, points, val, curseurs) {
-    const origine = { x: 0, y: 0 }
+    // Mettre à jour l'état avec les curseurs actuels
+    etatSaut.forceInitiale = curseurs.forceInitiale || 100
+    etatSaut.gravite = curseurs.gravite || 9.8
+
     const { xMin, xMax } = d.repere.bornes()
 
     // Le sol
     d.segment({ x: xMin, y: 0 }, { x: xMax, y: 0 }, { couleur: COULEUR_SOL, epaisseur: 2 })
 
-    // Les trois vecteurs (normalisés visuellement pour tenir à l'écran)
-    const scale = 0.02
-    d.fleche(origine, { x: val.velY.x, y: val.velY.y * scale }, { couleur: COULEUR_VEL_Y })
-    d.fleche(origine, { x: val.grav.x, y: val.grav.y * scale }, { couleur: COULEUR_GRAV })
-    d.fleche(origine, { x: val.res.x, y: val.res.y * scale }, { couleur: COULEUR_RES })
+    // Position actuelle du personnage (avec hauteur du saut)
+    const positionActuelle = { x: 0, y: etatSaut.hauteur }
 
-    // Le personnage à l'origine (sol)
-    d.sprite(origine, PERSONNAGE_DEBOUT, { taillePixel: 0.15, palette: PALETTE_PERSONNAGE })
+    // Les trois vecteurs (échelle augmentée pour être visibles)
+    const scale = 0.1
+    d.fleche(positionActuelle, { x: val.velY.x, y: val.velY.y * scale }, { couleur: COULEUR_VEL_Y })
+    d.fleche(positionActuelle, { x: val.grav.x, y: val.grav.y * scale }, { couleur: COULEUR_GRAV })
+    d.fleche(positionActuelle, { x: val.res.x, y: val.res.y * scale }, { couleur: COULEUR_RES })
+
+    // Le personnage (avec squash-and-stretch)
+    d.sprite(positionActuelle, PERSONNAGE_DEBOUT, { taillePixel: 0.15, palette: PALETTE_PERSONNAGE, scaleY: etatSaut.scaleY })
   },
 
   lecture(val) {
     return {
       result: { label: 'Hauteur =', value: '0.00', color: '#fff' },
       formula: `v = ${val.velociteY.toFixed(1)}, g = ${val.gravite.toFixed(1)}`,
-      verdict: `Vélocité Y (cyan) + Gravité (rouge) = Résultante (jaune). Le saut se déclenche au clic.`,
+      verdict: `Vélocité Y (cyan) + Gravité (rouge) = Résultante (jaune). Animation en boucle.`,
     }
   },
+}
+
+export function lancerSautBoucle(moteur) {
+  let lastForce = 100
+  let lastGravite = 9.8
+
+  function etape(t) {
+    const forceInitiale = etatSaut.forceInitiale
+    const gravite = etatSaut.gravite
+
+    if (forceInitiale !== lastForce || gravite !== lastGravite) {
+      console.log(`Curseurs mis à jour : Force=${forceInitiale}, Gravité=${gravite}`)
+      lastForce = forceInitiale
+      lastGravite = gravite
+    }
+
+    const velociteY = forceInitiale / 50
+    const gNorm = gravite / 50
+    const tAtterrissage = (2 * velociteY) / gNorm
+
+    const tLocal = (t / 100) % (tAtterrissage || 1000)
+    const y = velociteY * tLocal - 0.5 * gNorm * tLocal * tLocal
+    etatSaut.hauteur = Math.max(0, y)
+
+    // Squash-and-stretch : compressé au début/fin, étiré au sommet
+    const progression = tLocal / (tAtterrissage || 1)
+    const scaleY = 0.8 + 0.4 * Math.sin(progression * Math.PI)
+    etatSaut.scaleY = scaleY
+
+    moteur.rendre()
+  }
+
+  demarrerAnimation(moteur, etape, { condition: () => false })
 }

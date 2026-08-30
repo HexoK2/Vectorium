@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analyse de mécanique : Le saut — Vectorium</title>
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="eyebrow">NOTION 05 / MÉCANIQUE</p>
+  <h1>Analyse de mécanique : Le saut</h1>
+  <p class="sub">
+    Un saut, c'est l'addition de deux vecteurs : une vélocité initiale (vers le haut) et la gravité (constante vers le bas).
+    Ajuste les curseurs pour explorer comment force initiale et gravité façonnent la trajectoire.
+  </p>
+
+  <main class="module" id="module">
+    <div class="colonne-scene">
+      <div class="scene"><canvas></canvas></div>
+      <p class="hint">Utilise les curseurs du panneau pour explorer</p>
+    </div>
+    <aside class="panneau">
+      <div data-panneau></div>
+      <button type="button" class="bouton" data-reinitialiser>Réinitialiser</button>
+    </aside>
+  </main>
+
+  <div class="en-clair">
+    <div class="en-clair-colonne">
+      <h3>Dans un jeu</h3>
+      <p>
+        Simuler un saut réaliste, c'est toujours additionner une vélocité initiale
+        et l'effet constant de la gravité. Plus la force initiale est grande, plus
+        le personnage monte. Plus la gravité est forte, plus vite il retombe.
+      </p>
+    </div>
+    <div class="en-clair-colonne">
+      <h3>Ce que dit la formule</h3>
+      <p>
+        <code class="code-inline">hauteur(t) = v₀ × t − ½ × g × t²</code>
+      </p>
+      <p>
+        Le premier terme (<code class="code-inline">v₀ × t</code>) est la montée.
+        Le second (<code class="code-inline">−½ × g × t²</code>) la ramène au sol.
+        L'addition des deux donne la position réelle.
+      </p>
+    </div>
+    <div class="en-clair-colonne">
+      <h3>L'erreur classique</h3>
+      <p>
+        Oublier que la gravité s'accumule. Un saut qui ignore la gravité
+        monte indéfiniment. Un saut qui l'ignore à moitié retombe trop
+        lentement. La courbe réelle est une parabole, pas une ligne.
+      </p>
+    </div>
+  </div>
+
+  <p class="foot">
+    <a href="../cours/saut.html" class="en-clair-lien">Aller plus loin</a> — Le saut dans les moteurs de jeu.
+  </p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { sautTest, lancerSautBoucle } from '../js/notions/saut.js'
+
+  const module = document.getElementById('module')
+  const moteur = monterModule(sautTest, module)
+
+  lancerSautBoucle(moteur)
+</script>
+
+</body>
+</html>

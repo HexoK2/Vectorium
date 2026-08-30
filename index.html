@@ -33,6 +33,7 @@
       <li><a href="notions/produit-vectoriel.html">Produit vectoriel</a></li>
       <li><a href="notions/interpolation-lineaire.html">Interpolation linéaire</a></li>
       <li><a href="notions/matrices.html">Matrices</a></li>
+      <li><a href="mecaniques/saut.html">Saut</a></li>
     </ul>
 
     <hr class="menu-separateur">
@@ -100,6 +101,15 @@
           </div>
         </a>
       </li>
+      <li class="carte-notion">
+        <a href="mecaniques/saut.html">
+          <div class="apercu"><canvas data-apercu="saut"></canvas></div>
+          <div class="carte-texte">
+            <h2>Saut</h2>
+            <p>Addition de vecteurs : vélocité initiale + gravité.</p>
+          </div>
+        </a>
+      </li>
       <li class="notion-fantome">Quaternions</li>
     </ul>
   </main>
@@ -114,9 +124,10 @@
     import { produitVectoriel } from './js/notions/produit-vectoriel.js'
     import { interpolationLineaire } from './js/notions/interpolation-lineaire.js'
     import { matrices } from './js/notions/matrices.js'
+    import { sautTest } from './js/notions/saut.js'
 
     // Une notion de plus = un import ci-dessus + une entrée ici.
-    const notions = [produitScalaire, produitVectoriel, interpolationLineaire, matrices]
+    const notions = [produitScalaire, produitVectoriel, interpolationLineaire, matrices, sautTest]
 
     document.querySelectorAll('[data-apercu]').forEach((canvas) => {
       const notion = notions.find((n) => n.id === canvas.dataset.apercu)

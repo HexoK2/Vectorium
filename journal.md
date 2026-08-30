@@ -95,3 +95,9 @@ branche `v2` dédiée, `main` gelée comme référence de la v1.
 | Tâche | Estimé | Réel | Notes |
 |-------|--------|------|-------|
 | `js/notions/animation.js` + page de test + vérification | non estimé | non capturé | Généralise la boucle `requestAnimationFrame` de `demo-chargement.js` ; raisonnement (signature, sémantique de `t`, condition d'arrêt) validé avec l'auteur avant d'écrire le code |
+
+### Prototype notion saut — personnage pixel art par code, addition de vecteurs
+
+| Tâche | Estimé | Réel | Notes |
+|-------|--------|------|-------|
+| `sprite()` générique + saut-test.js + saut-test.html | 20 min | 20 min | Ajout de primitive `sprite()` à dessin.js (réutilise `rectangle()` en interne). Grille du personnage 10×15 par code, pas d'image. Physique : position = vitesse × t + gravité × t² / 2. Deux sliders HTML (Force, Gravité). Commit 6549372. Note : sprite() n'a pas pu être testé en exécution à cause d'un cache ES6 modules persistant du navigateur — code correct sur disque, tester en fenêtre privée. |

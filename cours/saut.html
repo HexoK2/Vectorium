@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cours : Le saut — Vectorium</title>
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <p class="eyebrow">COURS — LE SAUT</p>
+  <h1>Le saut dans les moteurs de jeu</h1>
+
+  <h2>La formule du mouvement</h2>
+  <p>
+    Un saut suit toujours la même équation du mouvement uniformément accéléré :
+  </p>
+  <p>
+    <code class="code-inline">hauteur(t) = v₀ × t − ½ × g × t²</code>
+  </p>
+  <p>
+    Où :
+  </p>
+  <ul>
+    <li><code class="code-inline">v₀</code> est la vélocité initiale (vers le haut, en unités/seconde)</li>
+    <li><code class="code-inline">g</code> est l'accélération due à la gravité (vers le bas)</li>
+    <li><code class="code-inline">t</code> est le temps écoulé depuis le décollage (en secondes)</li>
+  </ul>
+
+  <h2>Pourquoi cette forme ?</h2>
+  <p>
+    Le premier terme, <code class="code-inline">v₀ × t</code>, est la position qu'on aurait
+    sans gravité : une ligne droite vers le haut. Le second terme,
+    <code class="code-inline">−½ × g × t²</code>, est l'effet croissant de la gravité :
+    elle s'accumule au fil du temps. Leur somme produit la parabole classique du saut.
+  </p>
+
+  <h2>Dans les moteurs</h2>
+  <p>
+    <strong>Unity :</strong>
+  </p>
+  <pre><code class="code-block">Vector3 position = startPos + velocity * t - 0.5f * gravity * t * t;</code></pre>
+  <p>
+    <strong>Godot :</strong>
+  </p>
+  <pre><code class="code-block">var position = start_pos + velocity * t - 0.5 * gravity * t * t</code></pre>
+  <p>
+    <strong>Unreal (C++) :</strong>
+  </p>
+  <pre><code class="code-block">FVector position = startPos + velocity * time - 0.5f * gravity * time * time;</code></pre>
+
+  <h2>Pièges classiques</h2>
+  <ul>
+    <li>
+      <strong>Oublier le carré sur le terme de gravité.</strong>
+      <code class="code-inline">−g × t</code> au lieu de <code class="code-inline">−½ × g × t²</code>
+      fait retomber le personnage trop lentement.
+    </li>
+    <li>
+      <strong>Confondre les unités.</strong>
+      Si <code class="code-inline">t</code> est en millisecondes et <code class="code-inline">g</code>
+      en mètres/seconde², les résultats seront absurdes. Toujours convertir.
+    </li>
+    <li>
+      <strong>Laisser la gravité augmenter sans limite.</strong>
+      Vérifier que <code class="code-inline">hauteur ≥ 0</code> pour éviter que
+      le personnage s'enfonce sous le sol.
+    </li>
+  </ul>
+
+  <p>
+    <a href="../mecaniques/saut.html" class="en-clair-lien">← Retour à la notion</a>
+  </p>
+
+</div>
+
+</body>
+</html>

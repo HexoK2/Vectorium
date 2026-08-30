@@ -227,19 +227,20 @@ export function creerDessin(repere) {
      (selon la palette) est une case pleine, dessinée comme un rectangle.
      taillePixel en unités MONDE — l'échelle du zoom affecte la taille des
      cases, comme pour un vecteur.
+     scaleX / scaleY : facteurs d'échelle horizontaux/verticaux (1 = normal).
   --------------------------------------------------------------------------- */
-  function sprite(origine, grille, { taillePixel = 1, palette = {} } = {}) {
+  function sprite(origine, grille, { taillePixel = 1, palette = {}, scaleX = 1, scaleY = 1 } = {}) {
     let y = 0
     for (const ligne of grille) {
       let x = 0
       for (const char of ligne) {
         if (char !== '.' && palette[char]) {
-          const caseX = origine.x + x * taillePixel
-          const caseY = origine.y + y * taillePixel
+          const caseX = origine.x + x * taillePixel * scaleX
+          const caseY = origine.y - y * taillePixel * scaleY
           rectangle(
-            { x: caseX + taillePixel / 2, y: caseY + taillePixel / 2 },
-            taillePixel,
-            taillePixel,
+            { x: caseX + taillePixel * scaleX / 2, y: caseY - taillePixel * scaleY / 2 },
+            taillePixel * scaleX,
+            taillePixel * scaleY,
             { couleur: palette[char], remplir: true }
           )
         }
