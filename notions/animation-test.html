@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test — Animation générique — Vectorium</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/vectorium.css">
+</head>
+<body>
+
+<div class="banniere-brouillon">🚧 Test — pas une vraie notion, sert à vérifier le mécanisme d'animation générique.</div>
+
+<div class="stage">
+
+  <p class="eyebrow">Test — animation.js</p>
+  <h1>Rejouer une animation au clic.</h1>
+  <p class="sub">
+    Le point rejoue exactement l'animation de <code class="code-inline">demo-chargement.js</code>
+    (même sin/cos, même durée, même amplitude), mais déclenchée par le
+    bouton plutôt qu'au chargement — via <code class="code-inline">demarrerAnimation()</code>.
+  </p>
+
+  <main class="module" id="module">
+    <div class="scene"><canvas></canvas></div>
+  </main>
+
+  <button type="button" class="bouton" id="rejouer">Rejouer l'animation</button>
+
+  <p class="foot">Test — cette page n'est pas reliée à l'accueil.</p>
+
+</div>
+
+<script type="module">
+  import { monterModule } from '../js/moteur/module.js'
+  import { demarrerAnimation } from '../js/notions/animation.js'
+
+  // Notion minimale : rien à calculer, rien à dessiner soi-même — le moteur
+  // dessine déjà la poignée du point automatiquement. Sert seulement de
+  // support pour obtenir un handle { points, rendre } valide.
+  const notionTest = {
+    id: 'animation-test',
+    titre: 'Test animation',
+    repere: { echelle: 42, graduations: false },
+    points: [{ id: 'a', x: 2.4, y: 0, couleur: '#4fd1c5' }],
+    calculer() { return {} },
+    dessiner() {},
+    lecture() { return {} },
+  }
+
+  const module = document.getElementById('module')
+  const handle = monterModule(notionTest, module)
+
+  // Reprend exactement les mêmes valeurs que demo-chargement.js.
+  const point = handle.points[0]
+  const rayon = Math.hypot(point.x, point.y)
+  const angleDepart = Math.atan2(point.y, point.x)
+  const amplitude = (50 * Math.PI) / 180
+  const duree = 3500
+
+  function etape(t) {
+    const progression = Math.min(t / duree, 1)
+    const decalage = Math.sin(progression * Math.PI * 2) * amplitude
+    const angle = angleDepart + decalage
+    point.x = Math.cos(angle) * rayon
+    point.y = Math.sin(angle) * rayon
+  }
+
+  let animationActive = null
+
+  document.getElementById('rejouer').addEventListener('click', () => {
+    if (animationActive) animationActive.arreter()
+    point.x = rayon * Math.cos(angleDepart)
+    point.y = rayon * Math.sin(angleDepart)
+    handle.rendre()
+    animationActive = demarrerAnimation(handle, etape, { duree })
+  })
+</script>
+
+</body>
+</html>
