@@ -204,9 +204,12 @@
     </div>
   </div>
 
-  <div style="text-align: center; margin: 1.5rem 0;">
-    <button id="btn-sauter" type="button" class="bouton" style="min-width: 200px;">
-      Sauter (comme Mario)
+  <div style="display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
+    <button id="btn-vertical" type="button" class="bouton">
+      Sauter vertical (90°)
+    </button>
+    <button id="btn-parabole" type="button" class="bouton">
+      Sauter en parabole (45°)
     </button>
   </div>
 
@@ -272,7 +275,8 @@
   const hauteurMaxEl = document.getElementById('hauteur-max')
   const tempsVolEl = document.getElementById('temps-vol')
   const porteeEl = document.getElementById('portee')
-  const btnSauter = document.getElementById('btn-sauter')
+  const btnVertical = document.getElementById('btn-vertical')
+  const btnParabole = document.getElementById('btn-parabole')
 
   const scene = document.querySelector('.scene-saut')
   const sceneHeight = 300 - 50 // hauteur moins la boule
@@ -363,9 +367,16 @@
     updateStats()
   })
 
-  function marioSaute() {
+  function sautVertical() {
     angleInput.value = 90
     angleValue.textContent = '90'
+    updateStats()
+    startAnimation()
+  }
+
+  function sautParabole() {
+    angleInput.value = 45
+    angleValue.textContent = '45'
     updateStats()
     startAnimation()
   }
@@ -375,11 +386,12 @@
     e.stopPropagation()
     startAnimation()
   })
-  btnSauter.addEventListener('click', marioSaute)
+  btnVertical.addEventListener('click', sautVertical)
+  btnParabole.addEventListener('click', sautParabole)
 
   // Initialiser
   updateStats()
-  // Démarrer l'animation au chargement avec Mario par défaut
+  // Démarrer l'animation au chargement avec saut vertical
   angleInput.value = 90
   angleValue.textContent = '90'
   updateStats()
