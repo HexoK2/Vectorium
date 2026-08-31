@@ -204,6 +204,12 @@
     </div>
   </div>
 
+  <div style="text-align: center; margin: 1.5rem 0;">
+    <button id="btn-sauter" type="button" class="bouton" style="min-width: 200px;">
+      Sauter (comme Mario)
+    </button>
+  </div>
+
   <div class="stats">
     <div class="stat">
       <div class="stat-label">Hauteur max</div>
@@ -266,6 +272,7 @@
   const hauteurMaxEl = document.getElementById('hauteur-max')
   const tempsVolEl = document.getElementById('temps-vol')
   const porteeEl = document.getElementById('portee')
+  const btnSauter = document.getElementById('btn-sauter')
 
   const scene = document.querySelector('.scene-saut')
   const sceneHeight = 300 - 50 // hauteur moins la boule
@@ -356,15 +363,26 @@
     updateStats()
   })
 
+  function marioSaute() {
+    angleInput.value = 90
+    angleValue.textContent = '90'
+    updateStats()
+    startAnimation()
+  }
+
   scene.addEventListener('click', startAnimation)
   boule.addEventListener('click', (e) => {
     e.stopPropagation()
     startAnimation()
   })
+  btnSauter.addEventListener('click', marioSaute)
 
   // Initialiser
   updateStats()
-  // Démarrer l'animation au chargement
+  // Démarrer l'animation au chargement avec Mario par défaut
+  angleInput.value = 90
+  angleValue.textContent = '90'
+  updateStats()
   setTimeout(() => startAnimation(), 500)
 </script>
 
