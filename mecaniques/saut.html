@@ -350,11 +350,11 @@
   }
 
   function startAnimation() {
-    if (!animationActive) {
-      animationActive = true
-      startTime = 0
-      requestAnimationFrame(animate)
-    }
+    // Arrêter l'animation en cours et relancer
+    animationActive = false
+    startTime = 0
+    animationActive = true
+    requestAnimationFrame(animate)
   }
 
   vitesseInput.addEventListener('input', () => {
